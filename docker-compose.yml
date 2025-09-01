@@ -1,0 +1,42 @@
+services:
+  ros-container:
+    image: ${IMAGE_TAG_FULL}
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
+    restart: "no"
+    networks:
+      ctrlx_bridge:
+      ctrlx_macvtap:
+        ipv4_address: ${CONTAINER_MACVLAN_IP}
+    
+    # x11 forwarding
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+    
+    # allow container to be interactive
+    stdin_open: true
+    tty: true
+    # keep container running
+    command: tail -f /dev/null
+
+networks:
+  # to access host network, probably not needed on deployment
+  ctrlx_bridge:
+    name: ${CONTAINER_NAME}-bridge
+    driver: bridge
+
+  ctrlx_macvtap:
+    driver: macvlan
+    name: ${CONTAINER_NAME}-macvtap
+    driver_opts:
+      # host must create 192.168.28.x connection to see ctrlx UI and allow
+      # the docker container to tap into the ROS network
+      parent: ${HOST_NETWORK_INTERFACE}
+    ipam:
+      config:
+        - subnet: 192.168.28.0/24
+          #gateway: 192.168.28.1 no gateway, we only talk to this subnet

@@ -12,19 +12,13 @@ You only need to do this the very first time you set up a computer.
 
 2. ### Configure Network:
   
-  Set a static IP address on your machine within the `192.168.28.x` subnet (e.g., `192.168.28.10`), with a netmask of `255.255.255.0.`
+  Set a static IP address on your machine within the `192.168.28.x` subnet (e.g., `192.168.28.201`), with a netmask of `255.255.255.0.`
 
-  Verify you can ping the ctrlX controller at its IP address.
+  *Note: `ROS_STATIC_PEERS` is configured so the IPs our ROS setup sees are `192.168.28.201` and `192.168.28.202`. One should be assigned to b-controlled-box, and another to commissioning container.*
 
 3. ### Configure the Environment:
 
-  The repo contains a `.env` file which must be configured for the container to properly run.
-
-  - `HOST_NETWORK_INTERFACE`: Network interface name on which you've connected to `b-controlled box`
-    - via `ip addr` command, e.g. `enp0s8`
-  - `DOCKER_IMAGE_API_KEY`: API key we've provided for the container repository
-  - `CONTAINER_MACVLAN_IP`: static IP the container will have. 
-    - take care to set it to `192.168.28.x` subnet!
+  The repo contains a `.env` file which must be configured for the container to properly run. Rename `commission.env.example` to `commission.env` and adjust your host pc variables
 
 3. ### Make scripts executable:
 
@@ -49,8 +43,12 @@ When accessing the container, the ros environment will automatically be sourced.
 
 - ### Verify network:
 
-Inside the container, run a quick ping to make sure it can see the `b-controlled box` device
+Inside the container, run a quick test to make sure it can see the `b-controlled box` device in the ROS network
 
+```
+ros2 topic list
+```
+If not, ping the device to exclude host-networking errors:
 ```
 ping 192.168.28.202
 ```
@@ -64,6 +62,3 @@ In there, refer to `LAUNCH.md` for commands on launching the scenario.
 - ### Stop the container: `stop.sh`
 
 When you are finished, run this command from **host machine** terminal.
-
-INSTRUCTIONS.md
-Prikaz stavke INSTRUCTIONS.md.

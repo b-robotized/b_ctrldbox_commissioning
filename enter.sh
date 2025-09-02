@@ -2,12 +2,14 @@
 set -e
 
 # Some validation
-if [ ! -f .env ]; then
-    echo "ERROR: Configuration file '.env' not found."
-    echo "Please copy '.env.example' to '.env' and fill in your details."
-    exit 1
+if ls *.env 1> /dev/null 2>&1; then
+  ENV_FILE=$(find *.env)
+  source <(grep -v '^#' $ENV_FILE)
+else
+  echo "ERROR: Configuration file '*.env' not found."
+  echo "Please copy 'commissioning.env.example' to '*.env' and fill in your details."
+  exit 1
 fi
-export $(grep -v '^#' .env | xargs)
 
 echo "Entering shell in container: ${CONTAINER_NAME}..."
 

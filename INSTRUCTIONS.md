@@ -7,6 +7,7 @@ Welcome! This guide will walk you through setting up and running the ROS 2 envir
 You only need to do this the very first time you set up a computer.
 
 1. ### Clone this repository
+
   ... and `cd` into it. It contains all the necessary config files to run all the robot variants we support
 
 2. ### Configure Network:
@@ -40,7 +41,7 @@ These are the commands for using the container
 
 - ### Start the container: `start.sh`
 
-Upon first start, the container will be downloaded from our container repository.
+Upon first start, the container will be downloaded from our container repository. **It will require a login into our container registry!**
 
 - ### Access the container shell: `enter.sh`
 

@@ -15,8 +15,8 @@ The following table presents the tested versions of b»Controlled Box with commu
 
 | b»Ctrld Box version | ROS 2 distro | CtrlX DataLayer  | KUKA (RSI) | UR   |
 |---------------------|--------------|------------------|------------|------|
-| 3.5.7               | Jazzy        | Yes (ver 3.2)    | Yes (KRC 4)| Yes  |
-| 3.5.7               | Jazzy        | TBT              | Yes (KRC 5)| TBT  |
+| 3.5.8               | Jazzy        | Yes (ver 3.2)    | Yes (KRC 4)| Yes  |
+| 3.5.8               | Jazzy        | TBT              | Yes (KRC 5)| TBT  |
 
 
 

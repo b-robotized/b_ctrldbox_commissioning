@@ -1,3 +1,7 @@
+# Docker Compose file for the ROS 2 commissioning environment.
+# This setup uses a macvlan network to allow the container to communicate
+# directly with the ctrlX CORE device on the local network.
+
 services:
   ros-container:
     image: ${IMAGE_TAG_FULL}
@@ -9,12 +13,14 @@ services:
       ctrlx_macvtap:
         ipv4_address: ${CONTAINER_MACVLAN_IP}
     
-    # x11 forwarding
+    # --- X11 Forwarding for GUI Applications (e.g., RViz) ---
     environment:
       - DISPLAY=$DISPLAY
       - QT_X11_NO_MITSHM=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Note: You may need to configure xauth on your host for this to work.
+      # xhost +local:docker
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
     
     # allow container to be interactive
@@ -24,19 +30,17 @@ services:
     command: tail -f /dev/null
 
 networks:
-  # to access host network, probably not needed on deployment
+  # This accesses host's network, can remove if not necessary
   ctrlx_bridge:
     name: ${CONTAINER_NAME}-bridge
     driver: bridge
 
+  # This taps into the host's physical network interface.
   ctrlx_macvtap:
     driver: macvlan
     name: ${CONTAINER_NAME}-macvtap
     driver_opts:
-      # host must create 192.168.28.x connection to see ctrlx UI and allow
-      # the docker container to tap into the ROS network
       parent: ${HOST_NETWORK_INTERFACE}
     ipam:
       config:
         - subnet: 192.168.28.0/24
-          #gateway: 192.168.28.1 no gateway, we only talk to this subnet

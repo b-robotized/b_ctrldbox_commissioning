@@ -1,5 +1,6 @@
 # ctrlX CORE device setup
 
+For help with issues, refer to [Troubleshooting](#troubleshooting) at the end of this file.
 
 ## 1. Network Connection
 
@@ -75,3 +76,8 @@ Important: Any changes made to the scheduler settings will only be applied to th
 ## 6. Add app License - TBA
 
 For now, official licensing is to be implemented
+
+# Troubleshooting
+
+### Restarting the ctrlX CORE
+To restart the device, navigate to `Settings -> Shutdown` and select **Restart**

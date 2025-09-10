@@ -18,16 +18,23 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
 ### 1.3 Network Configuration:
   
-  Configure a static IP address on your PC's Ethernet port that is on the 192.168.28.0/24 subnet (the default is `192.168.28.27` with netmask`255.255.255.0`).
+  Configure a static IP address on **your PC's Ethernet** port that is on the 192.168.28.0/24 subnet (the default is `192.168.28.201` with netmask`255.255.255.0`).
 
-  ***Important: ROS DDS sees only IP addresses `192.168.28.28` and `192.168.28.29`. Ensure one is set at your ctrlX CORE IP, and the other as this container IP.***
+  ***Important: ROS DDS on CtrlX CORE sees only IP addresses `192.168.28.201` and `192.168.28.202`, as set by the `ROS_STATIC_PEERS` env variable. Ensure one is set as your commissioning PC IP, and the other as this container IP.***
 
-  To recap, these are the IPs in the system:
-  - **CtrlX CORE:** `192.168.28.28` (ROS sees it)
-  - **commissioning PC:** `192.168.28.27`
-  - **commissioning Docker container:** `192.168.28.29` (ROS sees it)
+  #### for example:
+  If these are the IPs in the system:
+  - **CtrlX CORE:** `192.168.28.28`
+  - **commissioning PC:** `192.168.28.201`
+  - **commissioning Docker container:** `192.168.28.202`
 
-  Verify you can ping the ctrlX controller at its IP address.
+  Then these are `ROS_STATIC_PEERS` env variables:
+  - **CtrlX CORE:** `192.168.28.201, 192.168.28.202`
+  - **commissioning Docker container:** `192.168.28.28`
+
+  ... depending on which participant they expect to see.
+
+  Verify you can ping the ctrlX controller at its IP address from the docker container.
 
 ### 1.4 Environment Configuration:
 
@@ -40,7 +47,7 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
   * `HOST_NETWORK_INTERFACE`: The name of the network interface on your PC connected to the ctrlX device (e.g., `eth0`). Use `ip addr` or `ifconfig` to find it.
 
-  * `CONTAINER_MACVLAN_IP`: The static IP for the Docker container. The default (`192.168.28.29`) is usually fine.
+  * `CONTAINER_MACVLAN_IP`: The static IP for the Docker container. The default (`192.168.28.202`) is usually fine.
 
 3. ### 1.4 Make scripts executable:
 

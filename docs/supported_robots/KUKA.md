@@ -18,7 +18,9 @@ There should already exist an interface named Windows interface. For example:
 
 From here, the process varies slightly based on your KUKA System Software (KSS) version.
 
-![kuka_version](../assets/kuka/version_KRC5.jpg)
+<p align="center">
+<img src="../assets/kuka/version_KRC5.jpg" alt="Description of image" width="60%">
+</p>
 
 ### For KSS >= 8.6 (KRC5):
 
@@ -34,7 +36,9 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
   * **Subnet mask:** `255.255.255.0.`
 
-![kuka_new_interface](../assets/kuka/kuka_new_interface.jpg)
+<p align="center">
+<img src="../assets/kuka/kuka_new_interface.jpg" alt="Description of image" width="60%">
+</p>
 
 ### For KSS < 8.6 (KRC4):
 
@@ -53,7 +57,9 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
 For the network changes to take effect, a **cold reboot** is mandatory. Navigate to Shutdown, check the boxes for **Force cold start** and **Reload files**, and then press **Reboot control PC.**
 
-![cold_restart](../assets/kuka/KRC5_cold_restart.jpg)
+<p align="center">
+<img src="../assets/kuka/KRC5_cold_restart.jpg" alt="Description of image" width="60%">
+</p>
 
 ## 2. Prepare KRL Configuration Files
 
@@ -87,7 +93,9 @@ They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://git
 
   * All other files (`.xml`, `.rsix`) -> `C:\KRC\ROBOTER\Config\User\Common\SensorInterface\`
 
-![cold_restart](../assets/kuka/KRL_upload.jpg)
+<p align="center">
+<img src="../assets/kuka/KRL_upload.jpg" alt="Description of image" width="60%">
+</p>
 
 ## 4. Verify network connection
 
@@ -106,7 +114,9 @@ Run cmd.exe and ping the PC you want to communicate with on the same subnet
 
 Firstly, ensure `RobotSensorInterface` is listed under `Help > Info > Installed additional software.`
 
-![ris_installed](../assets/kuka/rsi_installed.jpg)
+<p align="center">
+<img src="../assets/kuka/rsi_installed.jpg" alt="Description of image" width="60%">
+</p>
 
 Then, activate the RSI program on the robot.
 

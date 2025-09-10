@@ -38,7 +38,7 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
 ### 1.4 Environment Configuration:
 
-  The repo contains an example `.env` file which must be configured with your host information for the container to properly run
+  The repo contains an example `.env` file called `comissionning.env.example` which must be configured with your host information for the container to properly run
 
   ```
   cp comissioning.env.example commissioning.env
@@ -102,4 +102,4 @@ When you are finished, run this command from **host machine**, not the container
 
 # Troubleshooting
 
-What are some issues people will have?
+TBA

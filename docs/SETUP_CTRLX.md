@@ -8,7 +8,9 @@ For help with issues, refer to [Troubleshooting](#troubleshooting) at the end of
 
 2. Connect your PC to the device's commissioning port (typically `XF10`) via an Ethernet cable.
 
-3. The device has a default static IP: `192.168.28.28`. Open a web browser and navigate to this address. You should see the ctrlX CORE login screen.
+3. **Device from b»robotized** If you have got the device with setup from b»robotized than the following steps are not relevant for you, still you can check them to better understand the configuration. Then check the documentation that you have got with the device for the IP address for ROS and engineering access through XF10 port.
+
+4. **Your device** The device has a default static IP address: `192.168.1.1`. Open a web browser and navigate to this address. You should see the ctrlX CORE login screen.```
 
 
 ![login-screen](assets/login.png)
@@ -16,7 +18,7 @@ For help with issues, refer to [Troubleshooting](#troubleshooting) at the end of
 Tip: For a general introduction to the ctrlX OS interface, see the official [Rexroth ctrlX OS Getting Started Playlist.](https://www.youtube.com/watch?v=kV8TtBNVecM&list=PLRO3LeFQeLyN8HlLG8VZzgoCLqTUcTPUx)
 
 
-## 2. Configure Robot Network Interface
+## 3. Configure real-time Network Interface to the Robot
 
 Ensure the robot is powered on and connected. Then:
 

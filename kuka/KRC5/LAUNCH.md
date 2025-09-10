@@ -1,11 +1,13 @@
-```
-# listen_ip tells the Kuka ros2 driver where to open a port for listening to robot. 
-# This should be the IP and port of the robot
-ros2 launch kuka_rsi_driver load_description.launch.xml description_package:=kuka_kr5_support description_macro_file:=kr5_arc_macro.xacro macro_name:=kuka_kr5_arc rsi_listen_ip:=10.23.23.5 rsi_listen_port:=28283
-```
+listen_ip tells the Kuka ros2 driver where to open a port for listening to robot. 
+This should be the IP and port on the CtrlX CORE device which is connected to the robot, on the same subnet as the robot.
 
 ```
-ros2 run controller_manager spawner -p kuka_jtc.yaml -c /controller_manager position_trajectory_controller
+ros2 launch kuka_rsi_driver load_description.launch.xml description_package:=kuka_kr5_support description_macro_file:=kr5_arc_macro.xacro macro_name:=kuka_kr5_arc rsi_listen_ip:=10.23.23.28 rsi_listen_port:=28283 
+```
+
+
+```
+ros2 run controller_manager spawner -p kuka_jtc.yaml -c /b_controlled_box_cm position_trajectory_controller
 ```
 
 ```

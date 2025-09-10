@@ -22,13 +22,20 @@ Ensure the robot is powered on and connected. Then:
 
 1. In the ctrlX UI, navigate to `Settings > Network Interfaces.`
 
-![network-interface](assets/network_interface.png)
-
 2. Select the Ethernet port connected to your robot.
 
 3. Go to the `IPv4` tab and set a static IP address that is on the same subnet as your robot.
 
+By default, we use:
+#### `XF10: 192.168.28.28` for connection with PC
+![network-interface10](assets/network_interface_XF10.png)
+
+#### `XF12: 10.23.23.28` for connection with robot
+![network-interface12](assets/network_interface_XF12.png)
+
 4. To validate the connection, navigate to `Settings > Network Diagnostics` and ping your robot.
+
+![ping](assets/ctrlx_ping_robot.png)
 
 ## 3. Install the Control Bundle App
 

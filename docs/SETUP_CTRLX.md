@@ -18,30 +18,35 @@ For help with issues, refer to [Troubleshooting](#troubleshooting) at the end of
 Tip: For a general introduction to the ctrlX OS interface, see the official [Rexroth ctrlX OS Getting Started Playlist.](https://www.youtube.com/watch?v=kV8TtBNVecM&list=PLRO3LeFQeLyN8HlLG8VZzgoCLqTUcTPUx)
 
 
-## 3. Configure real-time Network Interface to the Robot
+
+### 1.1 Configure ROS 2 Network Interface
+***IMPORTANT:*** Section is only applicable if you did not get the device directly from b»robotized.
+
+1. In the ctrlX UI, navigate to `Settings > Network Interfaces.`
+![network-interface10](assets/network_interface_XF10.png)
+2. Select the X10 Ethernet port.
+3. Go to the `IPv4` tab and add as additional IP address `192.168.28.28` with subnet mask `255.255.255.0`.
+4. To validate the connection, navigate to `Settings > Network Diagnostics` and ping your robot.
+
+### 1.2 Configure Robot Network Interface
+***IMPORTANT:*** Section is only applicable if you did not get the device directly from b»robotized.
 
 Ensure the robot is powered on and connected. Then:
 
 1. In the ctrlX UI, navigate to `Settings > Network Interfaces.`
-
-2. Select the Ethernet port connected to your robot.
-
+![network-interface12](assets/network_interface_XF12.png)
+2. Select the Ethernet port connected to your robot. (Recommended: `XF12`)
 3. Go to the `IPv4` tab and set a static IP address that is on the same subnet as your robot.
 
-By default, we use:
-#### `XF10: 192.168.28.28` for connection with PC
-![network-interface10](assets/network_interface_XF10.png)
+Recommened and default address is `10.23.23.28` with subnet mask `255.255.255.0`. _Note that if you got the device from b»robotized, there is a dedicated IP address for it - check the manual for more informations._
 
-#### `XF12: 10.23.23.28` for connection with robot
-![network-interface12](assets/network_interface_XF12.png)
-
-4. To validate the connection, navigate to `Settings > Network Diagnostics` and ping your robot.
-
+### 1.3 Validate connections
+To validate either robot or PC connection, navigate to `Settings > Network Diagnostics` and ping your robot.
 ![ping](assets/ctrlx_ping_robot.png)
 
-## 3. Install the Control Bundle App
+## 3. Install the b»controlled box App
 
-1. Obtain the b»Controlled Box Snap application file. If you don't have it, you can find apps on the [Rexroth Store.](https://community.boschrexroth.com/ctrlx-os-store-apps-oc2pqqwn)
+1. Obtain the b»controlled box Snap application file. If you don't have it, you can find the app [on the b»robotized cloud](https://cloud.b-robotized.com/s/JqT3ZqA8bQbqXz2).
 
 2. Ensure the device is in **SERVICE** mode. This mode allows for app installation but does not provide real-time guarantees.
 

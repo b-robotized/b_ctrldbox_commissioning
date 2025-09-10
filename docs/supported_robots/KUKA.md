@@ -6,14 +6,13 @@ This guide covers the KUKA-specific steps for configuring the Robot Sensor Inter
 
 You'll need to set up a dedicated network interface on the robot controller for RSI communication. 
 
-SmartHMI on the teach pad runs on Windows.
-Windows runs behind the SmartHMI on the teach pad. Ensure that the Windows interface of the controller is connected to the same subnet as the commissioning PC (`192.168.28.x`).
+SmartHMI on the teach pad runs ontop of Windows. Ensure that the Windows interface of the controller is connected to the same subnet as the configuration PC (e.g. `192.168.28.x`).
 
 Log in as **Expert** or **Administrator** on the teach pad and navigate to **Network configuration** (`Start-up -> Network configuration -> Activate advanced configuration`).
 There should already exist an interface named Windows interface. For example:
-* IP: 192.168.250.20
-* Subnet mask: 255.255.255.0
-* Default gateway: 192.168.250.20
+* IP: `192.168.28.210`
+* Subnet mask: `255.255.255.0`
+* Default gateway: `192.168.28.254`
 * Windows interface checkbox should be checked.
 
 From here, the process varies slightly based on your KUKA System Software (KSS) version.
@@ -32,12 +31,12 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on a new subnet (b»Controlled Box [is configured for `10.23.23.5`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+  * **IP address**: Assign a static IP on a new subnet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka-master/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
 
   * **Subnet mask:** `255.255.255.0.`
 
 <p align="center">
-<img src="../assets/kuka/kuka_new_interface.jpg" alt="Description of image" width="60%">
+<img src="../assets/kuka/krc5_new_interface.jpg" alt="Description of image" width="60%">
 </p>
 
 ### For KSS < 8.6 (KRC4):
@@ -49,9 +48,9 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
 3. Under "`RSI Ethernet`," select **New** and press **Edit**.
 
-4. Enter a static IP address for the RSI ethernet (b»Controlled Box [is configured for `10.23.23.5`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+4. Enter a static IP address for the RSI ethernet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC4/b_ctrldbox_eth.xml#L3).
 
-5. Close the utility, maximize the HMI, and perform a **cold restart** with the **"Reload files"** option checked.
+5. Close the utility and maximize the HMI.
 
 ### Perform a Cold Reboot
 
@@ -64,18 +63,19 @@ For the network changes to take effect, a **cold reboot** is mandatory. Navigate
 ## 2. Prepare KRL Configuration Files
 
 The **Kuka Robot Language** programs define the communication parameters. You must modify them to match your network setup before transferring them to the controller.
+**If you are using recommended IPs, you don't have to edit these files.**
 
 They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
 
 - `b_ctrldbox_rsi_eth.xml:`
 
-  - Edit the `<IP_NUMBER>` tag to match the IP address of your commissioning host PC
+  - Edit the default IP `10.23.23.28` to match the IP address of the IP address of the real-time interface for Robot on the CtrlX device.
 
 - `b_ctrldbox_rsi.rsix:`
 
   - This file contains safety limits. The default values are typically sufficient to start.
 
-  - Pay attention to the `<Timeout>` parameter under `ETHERNET` object. RSI operates in discrete time steps (e.g., 4ms), and the controller expects a valid response from the PC for each step. If you experience frequent disconnects, you may need to improve the real-time performance of your PC, for instance by using an RT-PREEMPT kernel.
+  - Pay attention to the `<Timeout>` parameter under `ETHERNET` object. RSI operates in discrete time steps (e.g., 4ms), and the controller expects a valid response from the PC for each step. If you experience frequent disconnects, you may need to adjust properly the scheduler rate in for the b»controlled box in the CtrlX. See [CtrlX setup](../SETUP_CTRLX.md) for more details.
 
 - `b_ctrldbox_rsi.src:`
 
@@ -103,12 +103,16 @@ Before proceeding, confirm that the b»Controlled Box can communicate with the r
 
 1. Minimize the SmartHMI (`Start-up > Service > Minimize HMI`).
 
-2. run `cmd.exe` and ping the ctrlX CORE at the address you've assigned it.
+2. run `cmd.exe` and ping the ctrlX CORE at the real time IP address, e.g.:
 
+```
+ping 10.23.23.28
+```
 
-Run cmd.exe and ping the PC you want to communicate with on the same subnet 
+3. On the Web UI in CtrlX CORE go to `Settings -> Network Diagnostics` and ping the IP that you have assigned for the newly created interface, e.g. `10.23.23.201`.
+**Note**: It is normal and expected to see replies marked as (DUP!). This indicates the RSI network task is active and responding correctly.
 
-***Note**: It is normal and expected to see replies marked as (DUP!). This indicates the RSI network task is active and responding correctly.*
+![CtrlX Ping robot](../assets/ctrlx_ping_robot.png)
 
 ## 5. Run the RSI Program
 
@@ -120,7 +124,7 @@ Firstly, ensure `RobotSensorInterface` is listed under `Help > Info > Installed 
 
 Then, activate the RSI program on the robot.
 
-1. On the teach pendant, select **T1 mode**.
+1. On the teach pendant, select **T1 mode**. _This is only for testing, later you can execute the program in the `AUTO` mode._
 
 2. Navigate to the `b_ctrldbox_rsi.src` program and **press the run/play button** while holding an enabling switch. The robot will move to its start position.
 
@@ -134,7 +138,7 @@ The KUKA robot is now configured. Proceed to the [Commissioning PC Setup](../SET
 
 # Troubleshooting
 
-`test_joint_trajectory_controller.launch.xml` command fails - if the robot is not in the configured position. SHow how to reconfigure and rebuild the thing. Mention that in the future versions this will not be an issue
+`test_joint_trajectory_controller.launch.xml` command fails - if the robot is not in the configured position. *TBA: Show how to reconfigure and rebuild the thing. Mention that in the future versions this will not be an issue.*
 
 ### Launch Fails Due to Incorrect Start Position
 
@@ -148,10 +152,3 @@ Edit the b_ctrldbox_rsi.src file on your PC. Locate the PTP {A1 ..., A2 ..., ...
 Re-transfer only the modified .src file to KRC:\R1\Program\ on the controller.
 Run the program again. The robot will now use this new start position.
   Note: In future versions, this dependency on a hardcoded start position may be relaxed for a more flexible startup procedure.
-
-
-### Connection Fails After Program Start
-
-Problem: The RSI program is running on the controller, but the control PC never establishes a connection.
-Cause: A firewall on the control PC or network is blocking incoming UDP packets from the robot.
-Solution: Ensure the firewall on the control PC is configured to allow incoming UDP traffic on the specified RSI port (default 49152).

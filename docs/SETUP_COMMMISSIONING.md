@@ -1,4 +1,4 @@
-# Commissioning PC setup
+# PC setup with ROS 2
 
 The commissioning PC host runs a Dockerized ROS 2 environment to communicate with the ctrlX CORE.
 
@@ -9,7 +9,6 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
   ```
   git clone https://github.com/b-robotized/b_ctrldbox_commissioning.git
   cd b_ctrldbox_commissioning
-
   ```
 ### 1.2 Install Docker Desktop
 
@@ -18,21 +17,21 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
 ### 1.3 Network Configuration:
   
-  Configure a static IP address on **your PC's Ethernet** port that is on the 192.168.28.0/24 subnet (the default is `192.168.28.201` with netmask`255.255.255.0`).
+  Configure a static IP address **on your PC's port** connected to CtrlX XF10 port to `192.168.28.201` with netmask `255.255.255.0`.
 
-  ***Important: ROS DDS on CtrlX CORE sees only IP addresses `192.168.28.201` and `192.168.28.202`, as set by the `ROS_STATIC_PEERS` env variable. Ensure one is set as your commissioning PC IP, and the other as this container IP.***
+  ***Important: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` and `192.168.28.202`. Ensure one is set for your PC and the other as this container IP.***
 
-  #### for example:
-  If these are the IPs in the system:
+  #### for example, if these are the default and recommended IPs in the system:
+
   - **CtrlX CORE:** `192.168.28.28`
-  - **commissioning PC:** `192.168.28.201`
+  - **ROS2 PC:** `192.168.28.201`
   - **commissioning Docker container:** `192.168.28.202`
 
-  Then these are `ROS_STATIC_PEERS` env variables:
+  .. then these are `ROS_STATIC_PEERS` env variables:
   - **CtrlX CORE:** `192.168.28.201, 192.168.28.202`
   - **commissioning Docker container:** `192.168.28.28`
 
-  ... depending on which participant they expect to see.
+  depending on which participant they expect to see.
 
   Verify you can ping the ctrlX controller at its IP address from the docker container.
 

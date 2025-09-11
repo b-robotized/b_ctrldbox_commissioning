@@ -62,6 +62,10 @@ These are the commands for using the container
 ### 2.1 Start the container: `start.sh`
 
 Upon first start, the container will be downloaded from our container repository. **It will require a login into our container registry!**
+#### Registry login:
+```
+echo "YOUR_REGISTRY_ACCESS_TOKEN" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin
+```
 The container also creates the necessary network configuration on the host PC
 ```
 ./start.sh

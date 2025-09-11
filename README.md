@@ -38,15 +38,14 @@ The following table presents the tested versions of b»Controlled Box.
 
 ### Supported Robot Controllers
 
-| Robot Controller / b»controlled box version | 3.5.8 | 3.5.9 |
-| :------------------------------------------ | :---: | :---: |
-| Supported ROS 2 version                     | Jazzy | Jazzy |
-| :------------------------------------------ | :---: | :---: |
-| **KUKA** KRC4 (RSI)                         |  🔬   |  ✅   |
-| **KUKA** KRC5 (RSI)                         |  🔬   |  ✅   |
-| **Universal Robots**                        |  ✅   |  🔬   |
-| **Yaskawa**                                 |  ❌   |  🚧   |
-| **KUKA** (EKI)                              |  ❌   |  🚧   |
+| Robot Controller / b»controlled box version |  3.5.8  |  3.5.9  |
+| :------------------------------------------ | :-----: | :-----: |
+| _Supported ROS 2 version_                   | _Jazzy_ | _Jazzy_ |
+| **KUKA** KRC4 (RSI)                         |   🔬    |   ✅    |
+| **KUKA** KRC5 (RSI)                         |   🔬    |   ✅    |
+| **Universal Robots**                        |   ✅    |   🔬    |
+| **Yaskawa**                                 |   ❌    |   🚧    |
+| **KUKA** (EKI)                              |   ❌    |   🚧    |
 ---
 
 * **✅ Tested:** Fully tested and supported in production.

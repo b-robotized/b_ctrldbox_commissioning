@@ -1,6 +1,6 @@
-# Kuka KR5 ROS 2 Startup Procedure
+# Kuka KRC5 ROS 2 Startup Procedure
 
-This guide outlines the steps to launch the Kuka KR5 driver, spawn the necessary controllers, and activate the system for operation.
+This guide outlines the steps to launch the Kuka KRC5 driver, spawn the necessary controllers, and activate the system for operation.
 
 ---
 
@@ -8,16 +8,18 @@ This guide outlines the steps to launch the Kuka KR5 driver, spawn the necessary
 
 First, launch the main driver for the Kuka robot. This command loads the robot's description (URDF) and starts the RSI (Robot Sensor Interface) hardware interface.
 
-**Key Parameter:**
+**Key Parameters:**
 
 - `rsi_listen_ip`: This IP must match the address of the ctrlX CORE device that is on the same network subnet as the robot. The driver will open a port at this address to listen for the robot's state data.
+- `description_package:` This determines the exact robot model description and the corresponding macro. **Adjust to your desired model.** Supported models are in [`kuka_experimental` ros2 package](https://github.com/b-robotized-forks/kuka_experimental).
+  - `macro_name` will be the name of the hardware interface for the activation command below.
 
 **Command:**
 ```bash
 ros2 launch kuka_rsi_driver load_description.launch.xml \
-  description_package:=kuka_kr5_support \
-  description_macro_file:=kr5_arc_macro.xacro \
-  macro_name:=kuka_kr5_arc \
+  description_package:=kuka_kr3_support \
+  description_macro_file:=kr3r540_macro.xacro \
+  macro_name:=kuka_kr3r540 \
   rsi_listen_ip:=10.23.23.28 \
   rsi_listen_port:=28283
 ```
@@ -33,9 +35,12 @@ Before activating controllers, you must activate the hardware interface for RSI 
 #### Activate the Hardware Component
 
 Transition the robot's hardware interface from an unconfigured to an active state.
+
+⚠️️ ***IMPORTANT:*** Ensure your hardware name fits the `macro_name` set in the description. Here it is `kuka_kr3r540`.
+
 ```
 ros2 control set_hardware_component_state -c /b_controlled_box_cm \
-  kuka_kr5_arc active
+  kuka_kr3r540 active
 ```
 
 ### Step 3: Spawn Controllers

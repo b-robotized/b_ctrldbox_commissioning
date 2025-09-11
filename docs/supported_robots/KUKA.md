@@ -21,8 +21,6 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 <img src="../assets/kuka/version_KRC5.jpg" alt="Description of image" width="60%">
 </p>
 
-### For KSS >= 8.6 (KRC5):
-
 1. On the teach pendant, navigate to `Start-up > Network configuration -> Add interface`.
 
 2. Select the new entry and configure the following:
@@ -31,26 +29,13 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on a new subnet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka-master/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka-master/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
 
   * **Subnet mask:** `255.255.255.0.`
 
 <p align="center">
 <img src="../assets/kuka/krc5_new_interface.jpg" alt="Description of image" width="60%">
 </p>
-
-### For KSS < 8.6 (KRC4):
-
-1. Log in as **Expert** and minimize the **HMI** (`Start-up > Service > Minimize HMI`) to access the Windows environment.
-
-2. From the Windows Start Menu, run the **RSI-Network** utility.
-  * Verify that the `Network -> Kuka User Interface` shows the **Windows interface** with the specified IP address.
-
-3. Under "`RSI Ethernet`," select **New** and press **Edit**.
-
-4. Enter a static IP address for the RSI ethernet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC4/b_ctrldbox_eth.xml#L3).
-
-5. Close the utility and maximize the HMI.
 
 ## 2. Prepare KRL Configuration Files
 

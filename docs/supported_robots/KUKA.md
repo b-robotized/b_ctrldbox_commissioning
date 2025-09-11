@@ -52,14 +52,6 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
 5. Close the utility and maximize the HMI.
 
-### Perform a Cold Reboot
-
-For the network changes to take effect, a **cold reboot** is mandatory. Navigate to Shutdown, check the boxes for **Force cold start** and **Reload files**, and then press **Reboot control PC.**
-
-<p align="center">
-<img src="../assets/kuka/KRC5_cold_restart.jpg" alt="Description of image" width="60%">
-</p>
-
 ## 2. Prepare KRL Configuration Files
 
 The **Kuka Robot Language** programs define the communication parameters. You must modify them to match your network setup before transferring them to the controller.
@@ -97,7 +89,15 @@ They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://git
 <img src="../assets/kuka/KRL_upload.jpg" alt="Description of image" width="60%">
 </p>
 
-## 4. Verify network connection
+### 4. Perform a Cold Reboot
+
+For the changes to take effect, a **cold reboot** is mandatory. Navigate to Shutdown, check the boxes for **Force cold start** and **Reload files**, and then press **Reboot control PC.**
+
+<p align="center">
+<img src="../assets/kuka/KRC5_cold_restart.jpg" alt="Description of image" width="60%">
+</p>
+
+## 5. Verify network connection
 
 Before proceeding, confirm that the b»Controlled Box can communicate with the robot's RSI interface.
 
@@ -114,7 +114,7 @@ ping 10.23.23.28
 
 ![CtrlX Ping robot](../assets/ctrlx_ping_robot.png)
 
-## 5. Run the RSI Program
+## 6. Run the RSI Program
 
 Firstly, ensure `RobotSensorInterface` is listed under `Help > Info > Installed additional software.`
 

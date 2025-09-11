@@ -84,7 +84,7 @@ You can configure the cycle time of this callable to match your robot's communic
 
 ![scheduler](assets/scheduler.png)
 
-Important: Any changes made to the scheduler settings will only be applied to the control bundle after the device transitions from SERVICE mode to SETUP mode.
+***Important: Any changes made to the scheduler settings will only be applied to the control bundle after the device transitions from SERVICE mode to SETUP mode.***
 
 
 ## 6. Add app License - TBA

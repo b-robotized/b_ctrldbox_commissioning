@@ -42,7 +42,12 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 The **Kuka Robot Language** programs define the communication parameters. You must modify them to match your network setup before transferring them to the controller.
 **If you are using recommended IPs, you don't have to edit these files.**
 
-They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
+
+***IMPORTANT: Make sure you use the correct configuration, depending on your `KSS` version from Step 1:***
+-  `kuka/KRC4/` configuration for `KSS < 8.6`
+-  `kuka/KRC5/` configuration for `KSS >= 8.6`
+
+The files can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
 
 - `b_ctrldbox_rsi_eth.xml:`
 

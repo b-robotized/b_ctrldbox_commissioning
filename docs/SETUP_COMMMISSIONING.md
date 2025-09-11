@@ -19,7 +19,7 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
   
   Configure a static IP address **on your PC's port** connected to CtrlX XF10 port to `192.168.28.201` with netmask `255.255.255.0`.
 
-  ***Important: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` and `192.168.28.202`. Ensure one is set for your PC and the other as this container IP.***
+  ***IMPORTANT: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` and `192.168.28.202`. Ensure one is set for your PC and the other as this container IP.***
 
   #### for example, if these are the default and recommended IPs in the system:
 

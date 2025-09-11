@@ -33,17 +33,22 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 The following table presents the tested versions of b»Controlled Box.
 
-**CtrlX CORE realtime SDK version: `3.2`**
+* **ROS 2 Distro:** `Jazzy`
+* **CtrlX CORE RT SDK:** `3.2`
 
-| b»Ctrld Box version     | ROS 2 distro | CtrlX DataLayer  | KUKA (RSI) | UR   |
-|-------------------------|--------------|------------------|------------|------|
-| from 3.5.9              | Jazzy        | Yes (ver 3.2)    | Yes (KRC 4)| Yes  |
-| from 3.5.9              | Jazzy        | Yes (ver 3.2)        | Yes (KRC 5)| TBT  |
+### Supported Robot Controllers
 
-- `Yes` - the connection is tested in production.
-- `Pre` - preliminary tests in the laboratory.
-- `TBT` - "To-be-tested"
-- `No`  - no support
+| Robot Controller           | b»controlled Box   | Support status |
+| :------------------------- | :---------------:  | :------------: |
+| **KUKA** KRC4 (RSI)        | v3.5.9+            |       ✅       |
+| **KUKA** KRC5 (RSI)        | v3.5.9+            |       ✅       |
+| **Universal Robots**       | v3.5.9+            |       🚧       |
+---
+
+* **✅ Tested:** Fully tested and supported in production.
+* **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
+* **🚧 To Be Tested:** Planned for testing in this version but not yet validated.
+* **❌ Not Supported:** No support is available or planned for this version.
 
 # Getting started
 

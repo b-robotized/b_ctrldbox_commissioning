@@ -46,7 +46,7 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 ## 3. Install the b»controlled box App
 
-1. Obtain the b»controlled box Snap application file. If you don't have it, you can find the app [on the b»robotized cloud](https://cloud.b-robotized.com/s/JqT3ZqA8bQbqXz2).
+1. Obtain the b»controlled box Snap application file.
 
 2. Ensure the device is in **SERVICE** mode. This mode allows for app installation but does not provide real-time guarantees.
 

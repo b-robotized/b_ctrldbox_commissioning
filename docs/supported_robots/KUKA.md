@@ -15,8 +15,6 @@ There should already exist an interface named Windows interface. For example:
 * Default gateway: `192.168.28.254`
 * Windows interface checkbox should be checked.
 
-From here, the process varies slightly based on your KUKA System Software (KSS) version.
-
 <p align="center">
 <img src="../assets/kuka/version_KRC5.jpg" alt="Description of image" width="60%">
 </p>
@@ -29,7 +27,7 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka-master/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
 
   * **Subnet mask:** `255.255.255.0.`
 

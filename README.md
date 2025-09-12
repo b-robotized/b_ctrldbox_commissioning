@@ -31,28 +31,32 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 # Compatibility
 
-The following table presents the tested versions of b»Controlled Box.
+### `b»controlled box` compatibility
 
-* **ROS 2 Distro:** `Jazzy`
-* **CtrlX CORE RT SDK:** `3.2`
+| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
+| :------------------------- | :--------------------: | :---------------------: |
+| **3.5.9 (Latest)**         |         Jazzy          |           3.2           |
+| **3.5.8**                  |         Jazzy          |           3.2           |
 
-### Supported Robot Controllers
-
-| Robot Controller / b»controlled box version |  3.5.8  |  3.5.9  |
-| :------------------------------------------ | :-----: | :-----: |
-| _Supported ROS 2 version_                   | _Jazzy_ | _Jazzy_ |
-| _CtrlX RT SDK_                              |  _3.2_  |  _3.2_  |
-| **KUKA** KRC4 (RSI)                         |   🔬    |   ✅    |
-| **KUKA** KRC5 (RSI)                         |   🔬    |   ✅    |
-| **Universal Robots**                        |   ✅    |   🔬    |
-| **Yaskawa**                                 |   ❌    |   🚧    |
-| **KUKA** (EKI)                              |   ❌    |   🚧    |
 ---
 
+### Robot Controller compatibility
+
+| Robot Controller             | `b»controlled box` v3.5.8 | `b»controlled box` v3.5.9 |
+| :--------------------------- | :-----------------------: | :-----------------------: |
+| **KUKA** |                           |                           |
+| &nbsp;&nbsp;&nbsp;KRC4 (RSI) |            🔬             |             ✅            |
+| &nbsp;&nbsp;&nbsp;KRC5 (RSI) |            🔬             |             ✅            |
+| &nbsp;&nbsp;&nbsp;EKI        |            ❌             |             🚧            |
+| **Universal Robots**         |             ✅            |             🔬            |
+| **Yaskawa**                  |             ❌            |             🚧            |
+
+#### Legend:
 * **✅ Tested:** Fully tested and supported in production.
 * **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
 * **🚧 To Be Tested:** Planned for testing in this version but not yet validated.
 * **❌ Not Supported:** No support is available or planned for this version.
+
 
 # Getting started
 

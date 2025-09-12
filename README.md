@@ -31,15 +31,6 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 # Compatibility
 
-### `b»controlled box` compatibility
-
-| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
-| :------------------------- | :--------------------: | :---------------------: |
-| **3.5.9 (Latest)**         |         Jazzy          |           3.2           |
-| **3.5.8**                  |         Jazzy          |           3.2           |
-
----
-
 ### Robot Controller compatibility
 
 | Robot Controller             | `b»controlled box` v3.5.8 | `b»controlled box` v3.5.9 |
@@ -56,6 +47,16 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 * **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
 * **🚧 To Be Tested:** Planned for testing in this version but not yet validated.
 * **❌ Not Supported:** No support is available or planned for this version.
+
+---
+
+### `b»controlled box` compatibility
+
+| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
+| :------------------------- | :--------------------: | :---------------------: |
+| **3.5.9 (Latest)**         |         Jazzy          |           3.2           |
+| **3.5.8**                  |         Jazzy          |           3.2           |
+
 
 
 # Getting started

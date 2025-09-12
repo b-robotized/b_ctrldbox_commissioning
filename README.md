@@ -31,19 +31,33 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 # Compatibility
 
-The following table presents the tested versions of b»Controlled Box.
+### Robot Controller compatibility
 
-**CtrlX CORE realtime SDK version: `3.2`**
+| Robot Controller             | `b»controlled box` v3.5.8 | `b»controlled box` v3.5.9 |
+| :--------------------------- | :-----------------------: | :-----------------------: |
+| **KUKA** |                           |                           |
+| &nbsp;&nbsp;&nbsp;KRC4 (RSI) |            🔬             |             ✅            |
+| &nbsp;&nbsp;&nbsp;KRC5 (RSI) |            🔬             |             ✅            |
+| &nbsp;&nbsp;&nbsp;EKI        |            ❌             |             🚧            |
+| **Universal Robots**         |             ✅            |             🔬            |
+| **Yaskawa**                  |             ❌            |             🚧            |
 
-| b»Ctrld Box version     | ROS 2 distro | CtrlX DataLayer  | KUKA (RSI) | UR   |
-|-------------------------|--------------|------------------|------------|------|
-| from 3.5.9              | Jazzy        | Yes (ver 3.2)    | Yes (KRC 4)| Yes  |
-| from 3.5.9              | Jazzy        | Yes (ver 3.2)        | Yes (KRC 5)| TBT  |
+#### Legend:
+* **✅ Tested:** Fully tested and supported in production.
+* **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
+* **🚧 To Be Tested:** Planned for testing in this version but not yet validated.
+* **❌ Not Supported:** No support is available or planned for this version.
 
-- `Yes` - the connection is tested in production.
-- `Pre` - preliminary tests in the laboratory.
-- `TBT` - "To-be-tested"
-- `No`  - no support
+---
+
+### `b»controlled box` compatibility
+
+| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
+| :------------------------- | :--------------------: | :---------------------: |
+| **3.5.9 (Latest)**         |         Jazzy          |           3.2           |
+| **3.5.8**                  |         Jazzy          |           3.2           |
+
+
 
 # Getting started
 

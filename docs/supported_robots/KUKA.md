@@ -15,13 +15,9 @@ There should already exist an interface named Windows interface. For example:
 * Default gateway: `192.168.28.254`
 * Windows interface checkbox should be checked.
 
-From here, the process varies slightly based on your KUKA System Software (KSS) version.
-
 <p align="center">
 <img src="../assets/kuka/version_KRC5.jpg" alt="Description of image" width="60%">
 </p>
-
-### For KSS >= 8.6 (KRC5):
 
 1. On the teach pendant, navigate to `Start-up > Network configuration -> Add interface`.
 
@@ -31,7 +27,7 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on a new subnet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/575718f718cc3ad3302c491e38694cbc44a09ad0/kuka-master/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
 
   * **Subnet mask:** `255.255.255.0.`
 
@@ -39,33 +35,17 @@ From here, the process varies slightly based on your KUKA System Software (KSS) 
 <img src="../assets/kuka/krc5_new_interface.jpg" alt="Description of image" width="60%">
 </p>
 
-### For KSS < 8.6 (KRC4):
-
-1. Log in as **Expert** and minimize the **HMI** (`Start-up > Service > Minimize HMI`) to access the Windows environment.
-
-2. From the Windows Start Menu, run the **RSI-Network** utility.
-  * Verify that the `Network -> Kuka User Interface` shows the **Windows interface** with the specified IP address.
-
-3. Under "`RSI Ethernet`," select **New** and press **Edit**.
-
-4. Enter a static IP address for the RSI ethernet. For example `10.23.23.201` - default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC4/b_ctrldbox_eth.xml#L3).
-
-5. Close the utility and maximize the HMI.
-
-### Perform a Cold Reboot
-
-For the network changes to take effect, a **cold reboot** is mandatory. Navigate to Shutdown, check the boxes for **Force cold start** and **Reload files**, and then press **Reboot control PC.**
-
-<p align="center">
-<img src="../assets/kuka/KRC5_cold_restart.jpg" alt="Description of image" width="60%">
-</p>
-
 ## 2. Prepare KRL Configuration Files
 
 The **Kuka Robot Language** programs define the communication parameters. You must modify them to match your network setup before transferring them to the controller.
 **If you are using recommended IPs, you don't have to edit these files.**
 
-They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
+
+***IMPORTANT: Make sure you use the correct configuration, depending on your `KSS` version from Step 1:***
+-  `kuka/KRC4/` configuration for `KSS < 8.6`
+-  `kuka/KRC5/` configuration for `KSS >= 8.6`
+
+The files can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
 
 - `b_ctrldbox_rsi_eth.xml:`
 
@@ -97,7 +77,15 @@ They can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://git
 <img src="../assets/kuka/KRL_upload.jpg" alt="Description of image" width="60%">
 </p>
 
-## 4. Verify network connection
+### 4. Perform a Cold Reboot
+
+For the changes to take effect, a **cold reboot** is mandatory. Navigate to Shutdown, check the boxes for **Force cold start** and **Reload files**, and then press **Reboot control PC.**
+
+<p align="center">
+<img src="../assets/kuka/KRC5_cold_restart.jpg" alt="Description of image" width="60%">
+</p>
+
+## 5. Verify network connection
 
 Before proceeding, confirm that the b»Controlled Box can communicate with the robot's RSI interface.
 
@@ -114,7 +102,7 @@ ping 10.23.23.28
 
 ![CtrlX Ping robot](../assets/ctrlx_ping_robot.png)
 
-## 5. Run the RSI Program
+## 6. Run the RSI Program
 
 Firstly, ensure `RobotSensorInterface` is listed under `Help > Info > Installed additional software.`
 

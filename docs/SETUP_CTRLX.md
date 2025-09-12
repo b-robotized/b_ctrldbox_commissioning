@@ -46,7 +46,7 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 ## 3. Install the b»controlled box App
 
-1. Obtain the b»controlled box Snap application file. If you don't have it, you can find the app [on the b»robotized cloud](https://cloud.b-robotized.com/s/JqT3ZqA8bQbqXz2).
+1. Obtain the b»controlled box Snap application file.
 
 2. Ensure the device is in **SERVICE** mode. This mode allows for app installation but does not provide real-time guarantees.
 
@@ -84,7 +84,7 @@ You can configure the cycle time of this callable to match your robot's communic
 
 ![scheduler](assets/scheduler.png)
 
-Important: Any changes made to the scheduler settings will only be applied to the control bundle after the device transitions from SERVICE mode to SETUP mode.
+***Important: Any changes made to the scheduler settings will only be applied to the control bundle after the device transitions from SERVICE mode to SETUP mode.***
 
 
 ## 6. Add app License - TBA

@@ -2,20 +2,19 @@
 <launch>
   <!-- UR specific arguments -->
   <arg name="ur_type"
-       description="Type/series of used UR robot."
-       default="ur5e" >
-      <choice name="ur3" />
-      <choice name="ur3e" />
-      <choice name="ur5" />
-      <choice name="ur5e" />
-      <choice name="ur7e" />
-      <choice name="ur10" />
-      <choice name="ur10e" />
-      <choice name="ur12e" />
-      <choice name="ur16e" />
-      <choice name="ur15" />
-      <choice name="ur20" />
-      <choice name="ur30" />
+       description="Type/series of used UR robot.">
+      <choice value="ur3" />
+      <choice value="ur3e" />
+      <choice value="ur5" />
+      <choice value="ur5e" />
+      <choice value="ur7e" />
+      <choice value="ur10" />
+      <choice value="ur10e" />
+      <choice value="ur12e" />
+      <choice value="ur16e" />
+      <choice value="ur15" />
+      <choice value="ur20" />
+      <choice value="ur30" />
   </arg>
 
   <arg name="runtime_config_dir"
@@ -23,7 +22,8 @@
        description="Base path prefix for runtime_configs directory on b»controlled box." />
 
   <arg name="robot_ip"
-       description="IP address by which the robot can be reached." />
+       description="IP address by which the robot can be reached. Default robot controlled by b»controlled box has IP 10.23.23.201."
+       default="10.23.23.201" />
 
   <arg name="safety_limits"
        default="true"
@@ -36,22 +36,6 @@
   <arg name="safety_k_position"
        default="20"
        description="k-position factor in the safety controller." />
-
-  <arg name="joint_limit_params_file"
-       default="$(find-pkg-share ur_description)/config/$(var ur_type)/joint_limits.yaml"
-       description="Config file containing the joint limits (e.g. velocities, positions) of the robot." />
-
-  <arg name="kinematics_params_file"
-       default="$(find-pkg-share ur_description)/config/$(var ur_type)/default_kinematics.yaml"
-       description="The calibration configuration of the actual robot used." />
-
-  <arg name="physical_params_file"
-       default="$(find-pkg-share ur_description)/config/$(var ur_type)/physical_parameters.yaml"
-       description="Config file containing the physical parameters (e.g. masses, inertia) of the robot." />
-
-  <arg name="visual_params_file"
-       default="$(find-pkg-share ur_description)/config/$(var ur_type)/visual_parameters.yaml"
-       description="Config file containing the visual parameters (e.g. meshes) of the robot." />
 
   <arg name="description_file"
        default="$(find-pkg-share ur_robot_driver)/urdf/ur.urdf.xacro"
@@ -70,7 +54,7 @@
        description="Enable mock command interfaces for sensors used for simple simulations. Used only if 'use_mock_hardware' parameter is true." />
 
   <arg name="headless_mode"
-       default="false"
+       default="true"
        description="Enable headless mode for robot control" />
 
   <arg name="initial_joint_controller"
@@ -146,20 +130,35 @@
        description="Port that will be opened for trajectory control." />
 
 
+  <let name="joint_limit_params_file"
+       value="$(find-pkg-share ur_description)/config/$(var ur_type)/joint_limits.yaml" />
+
+  <let name="kinematics_params_file"
+       value="$(find-pkg-share ur_description)/config/$(var ur_type)/default_kinematics.yaml" />
+
+  <let name="physical_params_file"
+       value="$(find-pkg-share ur_description)/config/$(var ur_type)/physical_parameters.yaml" />
+
+  <let name="visual_params_file"
+       value="$(find-pkg-share ur_description)/config/$(var ur_type)/visual_parameters.yaml" />
+
   <!-- Conditionally get runtime_config_dir if not provided -->
-  <let name="runtime_config_dir_resolved"
-    value="$(var runtime_config_dir)"
-    if="$(eval '$(var runtime_config_dir)' != '')" />
-  <let name="runtime_config_dir_resolved"
-    value="$(command 'ros2 topic echo --once --timeout 30 /b_controlled_box_cm/ctrlx/runtime_dir | head -n 1 | awk -F\"data: \" \"{print \$2}\"')"
-    unless="$(eval '$(var runtime_config_dir)' != '')" />
+  <let name="runtime_config_dir_resolved" value="$(var runtime_config_dir)" />
+  <group if="$(eval '\'$(var runtime_config_dir_resolved)\' == \'\'')">
+     <let name="runtime_config_dir_resolved"
+          value="$(command 'ros2 topic echo --once --timeout 30 --field data /b_controlled_box_cm/ctrlx/runtime_config_dir')" />
+          <!-- or make callable bash script that executes  $(command 'ros2 topic echo -once -timeout 30 /b_controlled_box_cm/ctrlx/runtime_config_dir | head -n 1 | awk -F\'data: \' \'{print $2}\'') -->
+     <let name="runtime_config_dir_resolved"
+          value="$(command 'echo  $(var runtime_config_dir_resolved) | head -n 1')" />  <!--We can not use | why? So this is how we can solve this-->
+     <let name="runtime_config_dir_resolved"
+          value="$(command 'head  $(var runtime_config_dir_resolved)')" />
+  </group>
 
   <let name="script_filename" value="$(var runtime_config_dir_resolved)/external_control.urscript" />
   <let name="input_recipe_filename" value="$(var runtime_config_dir_resolved)/rtde_input_recipe.txt" />
   <let name="output_recipe_filename" value="$(var runtime_config_dir_resolved)/rtde_output_recipe.txt" />
 
-  <!-- Robot description parameter -->
-  <let name="robot_description_content" value="$(command '$(find-executable xacro) $(var description_file) robot_ip:=$(var robot_ip) joint_limit_params:=$(var joint_limit_params_file) kinematics_params:=$(var kinematics_params_file) physical_params:=$(var physical_params_file) visual_params:=$(var visual_params_file) safety_limits:=$(var safety_limits) safety_pos_margin:=$(var safety_pos_margin) safety_k_position:=$(var safety_k_position) name:=$(var ur_type) script_filename:=$(var script_filename) input_recipe_filename:=$(var input_recipe_filename) output_recipe_filename:=$(var output_recipe_filename) tf_prefix:=$(var tf_prefix) use_mock_hardware:=$(var use_mock_hardware) mock_sensor_commands:=$(var mock_sensor_commands) headless_mode:=$(var headless_mode) use_tool_communication:=$(var use_tool_communication) tool_parity:=$(var tool_parity) tool_baud_rate:=$(var tool_baud_rate) tool_stop_bits:=$(var tool_stop_bits) tool_rx_idle_chars:=$(var tool_rx_idle_chars) tool_tx_idle_chars:=$(var tool_tx_idle_chars) tool_device_name:=$(var tool_device_name) tool_tcp_port:=$(var tool_tcp_port) tool_voltage:=$(var tool_voltage) reverse_ip:=$(var reverse_ip) script_command_port:=$(var script_command_port) reverse_port:=$(var reverse_port) script_sender_port:=$(var script_sender_port) trajectory_port:=$(var trajectory_port)')" />
+  <let name="robot_description_content" value="$(command '$(find-exec xacro) $(var description_file) robot_ip:=$(var robot_ip) joint_limit_params:=$(var joint_limit_params_file) kinematics_params:=$(var kinematics_params_file) physical_params:=$(var physical_params_file) visual_params:=$(var visual_params_file) safety_limits:=$(var safety_limits) safety_pos_margin:=$(var safety_pos_margin) safety_k_position:=$(var safety_k_position) name:=$(var ur_type) ur_type:=$(var ur_type) script_filename:=$(var script_filename) input_recipe_filename:=$(var input_recipe_filename) output_recipe_filename:=$(var output_recipe_filename) tf_prefix:=$(var tf_prefix) use_mock_hardware:=$(var use_mock_hardware) mock_sensor_commands:=$(var mock_sensor_commands) headless_mode:=$(var headless_mode) use_tool_communication:=$(var use_tool_communication) tool_parity:=$(var tool_parity) tool_baud_rate:=$(var tool_baud_rate) tool_stop_bits:=$(var tool_stop_bits) tool_rx_idle_chars:=$(var tool_rx_idle_chars) tool_tx_idle_chars:=$(var tool_tx_idle_chars) tool_device_name:=$(var tool_device_name) tool_tcp_port:=$(var tool_tcp_port) tool_voltage:=$(var tool_voltage) reverse_ip:=$(var reverse_ip) script_command_port:=$(var script_command_port) reverse_port:=$(var reverse_port) script_sender_port:=$(var script_sender_port) trajectory_port:=$(var trajectory_port)')" />
 
   <!-- Robot state publisher -->
   <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">

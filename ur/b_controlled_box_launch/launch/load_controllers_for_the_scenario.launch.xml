@@ -4,7 +4,7 @@
 
   <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
   <node pkg="controller_manager" exec="spawner" args="joint_trajectory_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
-  <node pkg="controller_manager" exec="spawner" args="io_and_status_controller:
+  <node pkg="controller_manager" exec="spawner" args="io_and_status_controller
  -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
   <node pkg="controller_manager" exec="spawner" args="ur_configuration_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
   <node pkg="controller_manager" exec="spawner" args="force_torque_sensor_broadcaster -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>

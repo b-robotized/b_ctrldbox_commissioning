@@ -1,0 +1,18 @@
+<launch>
+
+  <arg name="controller_manager_name" default="/b_controlled_box_cm"/>
+
+  <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="joint_trajectory_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="io_and_status_controller:
+ -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="ur_configuration_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="force_torque_sensor_broadcaster -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="passthrough_trajectory_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="gripper_position_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="force_mode_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="freedrive_mode_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="tcp_pose_broadcaster -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" args="tool_contact_controller -p scenario_controllers.yaml -c $(var controller_manager_name) --inactive"/>
+
+</launch>

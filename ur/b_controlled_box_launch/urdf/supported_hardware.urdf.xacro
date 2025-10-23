@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<robot name="b-controlled-box-all-hardware" xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!-- Fix all description to the world -->
+  <link name="world" />
+
+  <!-- UR -->
+  <xacro:arg name="ur_robot_ip" default="192.168.56.101"/>
+  <xacro:arg name="joint_limits_parameters_file" default="$(find ur_description)/config/ur3e/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_parameters_file" default="$(find ur_description)/config/ur3e/default_kinematics.yaml"/>
+  <xacro:arg name="physical_parameters_file" default="$(find ur_description)/config/ur3e/physical_parameters.yaml"/>
+  <xacro:arg name="visual_parameters_file" default="$(find ur_description)/config/ur3e/visual_parameters.yaml"/>
+  <xacro:arg name="ur_script_filename" default="/home/b-controlled-box/b_controlled_box_jazzy/.cache/bundle1/version0.0/config/controller/external_control.urscript"/>
+  <xacro:arg name="ur_output_recipe_filename" default="/home/b-controlled-box/b_controlled_box_jazzy/.cache/bundle1/version0.0/config/controller/rtde_output_recipe.txt"/>
+  <xacro:arg name="ur_input_recipe_filename" default="/home/b-controlled-box/b_controlled_box_jazzy/.cache/bundle1/version0.0/config/controller/rtde_input_recipe.txt"/>
+  <xacro:arg name="use_mock_hardware" default="true" />
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:ur_robot
+      name="ur3e"
+      tf_prefix="ur_"
+      parent="world"
+      joint_limits_parameters_file="$(arg joint_limits_parameters_file)"
+      kinematics_parameters_file="$(arg kinematics_parameters_file)"
+      physical_parameters_file="$(arg physical_parameters_file)"
+      visual_parameters_file="$(arg visual_parameters_file)"
+    >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur_robot>
+
+
+  <!--Create the control tag for the UR robot-->
+  <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
+  <xacro:ur_ros2_control
+    name="b_controlled_ur3e"
+    tf_prefix="ur_"
+    kinematics_parameters_file="$(arg kinematics_parameters_file)"
+    robot_ip="$(arg ur_robot_ip)"
+    script_filename="$(arg ur_script_filename)"
+    output_recipe_filename="$(arg ur_output_recipe_filename)"
+    input_recipe_filename="$(arg ur_input_recipe_filename)"
+    use_mock_hardware="false"
+    headless_mode="true"
+  />
+
+
+</robot>

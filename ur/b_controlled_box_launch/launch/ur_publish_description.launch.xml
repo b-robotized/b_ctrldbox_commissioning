@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- UR specific arguments -->
+  <arg name="ur_type"
+       description="Type/series of used UR robot."
+       default="ur5e" >
+      <choice name="ur3" />
+      <choice name="ur3e" />
+      <choice name="ur5" />
+      <choice name="ur5e" />
+      <choice name="ur7e" />
+      <choice name="ur10" />
+      <choice name="ur10e" />
+      <choice name="ur12e" />
+      <choice name="ur16e" />
+      <choice name="ur15" />
+      <choice name="ur20" />
+      <choice name="ur30" />
+  </arg>
+
+  <arg name="runtime_config_dir"
+       default=""
+       description="Base path prefix for runtime_configs directory on b»controlled box." />
+
+  <arg name="robot_ip"
+       description="IP address by which the robot can be reached." />
+
+  <arg name="safety_limits"
+       default="true"
+       description="Enables the safety limits controller if true." />
+
+  <arg name="safety_pos_margin"
+       default="0.15"
+       description="The margin to lower and upper limits in the safety controller." />
+
+  <arg name="safety_k_position"
+       default="20"
+       description="k-position factor in the safety controller." />
+
+  <arg name="joint_limit_params_file"
+       default="$(find-pkg-share ur_description)/config/$(var ur_type)/joint_limits.yaml"
+       description="Config file containing the joint limits (e.g. velocities, positions) of the robot." />
+
+  <arg name="kinematics_params_file"
+       default="$(find-pkg-share ur_description)/config/$(var ur_type)/default_kinematics.yaml"
+       description="The calibration configuration of the actual robot used." />
+
+  <arg name="physical_params_file"
+       default="$(find-pkg-share ur_description)/config/$(var ur_type)/physical_parameters.yaml"
+       description="Config file containing the physical parameters (e.g. masses, inertia) of the robot." />
+
+  <arg name="visual_params_file"
+       default="$(find-pkg-share ur_description)/config/$(var ur_type)/visual_parameters.yaml"
+       description="Config file containing the visual parameters (e.g. meshes) of the robot." />
+
+  <arg name="description_file"
+       default="$(find-pkg-share ur_robot_driver)/urdf/ur.urdf.xacro"
+       description="URDF/XACRO description file with the robot." />
+
+  <arg name="tf_prefix"
+       default=""
+       description="tf_prefix of the joint names, useful for multi-robot setup. If changed, also joint names in the controllers' configuration have to be updated." />
+
+  <arg name="use_mock_hardware"
+       default="false"
+       description="Start robot with mock hardware mirroring command to its states." />
+
+  <arg name="mock_sensor_commands"
+       default="false"
+       description="Enable mock command interfaces for sensors used for simple simulations. Used only if 'use_mock_hardware' parameter is true." />
+
+  <arg name="headless_mode"
+       default="false"
+       description="Enable headless mode for robot control" />
+
+  <arg name="initial_joint_controller"
+       default="scaled_joint_trajectory_controller"
+       description="Initially loaded robot controller." />
+
+  <arg name="activate_joint_controller"
+       default="true"
+       description="Activate loaded joint controller." />
+
+  <arg name="launch_rviz"
+       default="true"
+       description="Launch RViz?" />
+
+  <arg name="launch_dashboard_client"
+       default="true"
+       description="Launch Dashboard Client?" />
+
+  <arg name="use_tool_communication"
+       default="false"
+       description="Only available for e series!" />
+
+  <arg name="tool_parity"
+       default="0"
+       description="Parity configuration for serial communication. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_baud_rate"
+       default="115200"
+       description="Baud rate configuration for serial communication. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_stop_bits"
+       default="1"
+       description="Stop bits configuration for serial communication. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_rx_idle_chars"
+       default="1.5"
+       description="RX idle chars configuration for serial communication. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_tx_idle_chars"
+       default="3.5"
+       description="TX idle chars configuration for serial communication. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_device_name"
+       default="/tmp/ttyUR"
+       description="File descriptor that will be generated for the tool communication device. The user has be be allowed to write to this location. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_tcp_port"
+       default="54321"
+       description="Remote port that will be used for bridging the tool's serial device. Only effective, if use_tool_communication is set to True." />
+
+  <arg name="tool_voltage"
+       default="0"
+       description="Tool voltage that will be setup. 0 being a conservative value that won't destroy anything." />
+
+  <arg name="reverse_ip"
+       default="0.0.0.0"
+       description="IP that will be used for the robot controller to communicate back to the driver." />
+
+  <arg name="script_command_port"
+       default="50004"
+       description="Port that will be opened to forward URScript commands to the robot." />
+
+  <arg name="reverse_port"
+       default="50001"
+       description="Port that will be opened to send cyclic instructions from the driver to the robot controller." />
+
+  <arg name="script_sender_port"
+       default="50002"
+       description="The driver will offer an interface to query the external_control URScript on this port." />
+
+  <arg name="trajectory_port"
+       default="50003"
+       description="Port that will be opened for trajectory control." />
+
+
+  <!-- Conditionally get runtime_config_dir if not provided -->
+  <let name="runtime_config_dir_resolved"
+    value="$(var runtime_config_dir)"
+    if="$(eval '$(var runtime_config_dir)' != '')" />
+  <let name="runtime_config_dir_resolved"
+    value="$(command 'ros2 topic echo --once --timeout 30 /b_controlled_box_cm/ctrlx/runtime_dir | head -n 1 | awk -F\"data: \" \"{print \$2}\"')"
+    unless="$(eval '$(var runtime_config_dir)' != '')" />
+
+  <let name="script_filename" value="$(var runtime_config_dir_resolved)/external_control.urscript" />
+  <let name="input_recipe_filename" value="$(var runtime_config_dir_resolved)/rtde_input_recipe.txt" />
+  <let name="output_recipe_filename" value="$(var runtime_config_dir_resolved)/rtde_output_recipe.txt" />
+
+  <!-- Robot description parameter -->
+  <let name="robot_description_content" value="$(command '$(find-executable xacro) $(var description_file) robot_ip:=$(var robot_ip) joint_limit_params:=$(var joint_limit_params_file) kinematics_params:=$(var kinematics_params_file) physical_params:=$(var physical_params_file) visual_params:=$(var visual_params_file) safety_limits:=$(var safety_limits) safety_pos_margin:=$(var safety_pos_margin) safety_k_position:=$(var safety_k_position) name:=$(var ur_type) script_filename:=$(var script_filename) input_recipe_filename:=$(var input_recipe_filename) output_recipe_filename:=$(var output_recipe_filename) tf_prefix:=$(var tf_prefix) use_mock_hardware:=$(var use_mock_hardware) mock_sensor_commands:=$(var mock_sensor_commands) headless_mode:=$(var headless_mode) use_tool_communication:=$(var use_tool_communication) tool_parity:=$(var tool_parity) tool_baud_rate:=$(var tool_baud_rate) tool_stop_bits:=$(var tool_stop_bits) tool_rx_idle_chars:=$(var tool_rx_idle_chars) tool_tx_idle_chars:=$(var tool_tx_idle_chars) tool_device_name:=$(var tool_device_name) tool_tcp_port:=$(var tool_tcp_port) tool_voltage:=$(var tool_voltage) reverse_ip:=$(var reverse_ip) script_command_port:=$(var script_command_port) reverse_port:=$(var reverse_port) script_sender_port:=$(var script_sender_port) trajectory_port:=$(var trajectory_port)')" />
+
+  <!-- Robot state publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
+    <param name="robot_description" value="$(var robot_description_content)" />
+  </node>
+
+</launch>

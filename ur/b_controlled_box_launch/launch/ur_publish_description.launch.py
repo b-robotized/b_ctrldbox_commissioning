@@ -163,7 +163,7 @@ def generate_launch_description():
             'run',
             'b_controlled_box_launch',
             'listener_string',
-            '--topic', '/controller_manager/ctrlx/runtime_config_dir',
+            '--topic', '/b_controlled_box_cm/ctrlx/runtime_config_dir',
             '--timeout', '30'
         ],
         name='ctrlx_runtime_config_dir_capture',

@@ -22,6 +22,9 @@ services:
       # Note: You may need to configure xauth on your host for this to work.
       # xhost +local:docker
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      
+    devices:
+      - /dev/dri:/dev/dri
     
     # allow container to be interactive
     stdin_open: true

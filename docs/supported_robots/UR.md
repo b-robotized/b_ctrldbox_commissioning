@@ -1,19 +1,39 @@
 # UR Robot Setup
 
-## 1.
+This guide covers the UR-specific steps for configuring the RTDE communication. This configuration is essential for enabling real-time communication between the robot controller and the b»Controlled Box
 
-we need git@code.b-robotized.com:b-controlled-box/forks/Universal_Robots_ROS2_Driver.git
-for launch files
+## 1. Power on and start the robot
 
-git@github.com:UniversalRobots/Universal_Robots_Client_Library.git
-for sim container
+![home-pos](../assets/ur/ur_power_on.png)
+![home-pos](../assets/ur/ur_start.png)
 
-In container:
-- power on the robot, start it
-- hamburger menu - system - remote control - enable: this gives contro lto our ros2 hardware interface
-- same menu - network - static address: here we set the 192.168.28.201, an address our ctrlx sees. The commissioning container is 192.168.28.202
-- exit the menu, a new icon appears, says Local. Click on it and set to remote.
-- now the robot is ready to receive commands from the CtrlX
+## 1. Power on and start the robot
 
-- additionally, lead the robot to default home position to test JTC
+Lead the robot to the deafult "home" position. This is necessary for testing Joint Trajectory Controller with ROS2
+
+```
 positons: [0, -90, 0, -90, 0, 0]
+```
+
+![home-pos](../assets/ur/ur_home_position.png)
+
+## 1. Set up Remote Control
+
+To set up remote control, we first need to enable it by navigating to the hamburger menu in the top right corner and selecting `System -> Remote Control`
+
+![home-pos](../assets/ur/ur_remote_control.png)
+
+### Robot network IP
+
+Here we set the IP address where the robot responds to, this is the designated robot ethernet port on the CtrlX device.
+
+In this image, we're connecting to UR sim at `192.168.56.10`, but you put in your CtrlX IP for the robot.
+![home-pos](../assets/ur/ur_network_settings.png)
+
+Lastly, exit the menu and toggle remote control ON
+
+![home-pos](../assets/ur/ur_remote_control_toggle.png)
+
+## Next Steps
+
+The UR robot is now configured. Proceed to the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md) to launch the ROS 2 environment and start controlling the robot.

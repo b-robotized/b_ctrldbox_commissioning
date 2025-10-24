@@ -11,6 +11,14 @@ else
   exit 1
 fi
 
+if [ -z "$HOST_NETWORK_INTERFACE" ]; then
+    echo "ERROR: HOST_NETWORK_INTERFACE is not set in your .env file."
+    echo "Please define the HOST_NETWORK_INTERFACE variable."
+    echo "This is the network interface on your computer that is connected to the 192.168.28.x network."
+    echo "Run 'ip addr' in your terminal to find this. Look for an interface with an IP in that range."
+    exit 1
+fi
+
 if [ -z "$IMAGE_REGISTRY_URL" ]; then
     echo "ERROR: IMAGE_REGISTRY_URL is missing in your .env file."
     exit 1

@@ -67,7 +67,7 @@ The process is divided into three main parts:
 1. setting up [**ctrlX CORE device**](docs/SETUP_CTRLX.md)
 2. setting up the robot itself - refer to **manufacturer-specific instruction**
      * [**KUKA**](docs/supported_robots/KUKA.md)
-     * **UR** - To be added
+     * [**UR**](docs/supported_robots/UR.md)
 3. setting up [**b»Controlled Box commissioning environment**](docs/SETUP_COMMMISSIONING.md)
 
 ## How It Works: A Typical Data Flow

@@ -149,7 +149,48 @@
     <let name="input_recipe_filename" value="$(var runtime_config_dir)/rtde_input_recipe.txt" />
     <let name="output_recipe_filename" value="$(var runtime_config_dir)/rtde_output_recipe.txt" />
   
-    <let name="robot_description_content" value="$(command '$(find-exec xacro) $(var description_file) robot_ip:=$(var robot_ip) joint_limit_params:=$(var joint_limit_params_file) kinematics_params:=$(var kinematics_params_file) physical_params:=$(var physical_params_file) visual_params:=$(var visual_params_file) safety_limits:=$(var safety_limits) safety_pos_margin:=$(var safety_pos_margin) safety_k_position:=$(var safety_k_position) name:=$(var ur_type) ur_type:=$(var ur_type) script_filename:=$(var script_filename) input_recipe_filename:=$(var input_recipe_filename) output_recipe_filename:=$(var output_recipe_filename) tf_prefix:=$(var tf_prefix) use_mock_hardware:=$(var use_mock_hardware) mock_sensor_commands:=$(var mock_sensor_commands) headless_mode:=$(var headless_mode) use_tool_communication:=$(var use_tool_communication) tool_parity:=$(var tool_parity) tool_baud_rate:=$(var tool_baud_rate) tool_stop_bits:=$(var tool_stop_bits) tool_rx_idle_chars:=$(var tool_rx_idle_chars) tool_tx_idle_chars:=$(var tool_tx_idle_chars) tool_device_name:=$(var tool_device_name) tool_tcp_port:=$(var tool_tcp_port) tool_voltage:=$(var tool_voltage) reverse_ip:=$(var reverse_ip) script_command_port:=$(var script_command_port) reverse_port:=$(var reverse_port) script_sender_port:=$(var script_sender_port) trajectory_port:=$(var trajectory_port)')" />
+    <let name="robot_description_content"
+     value="$(command '
+       $(find-exec xacro) $(var description_file) \
+       name:=$(var ur_type) \
+       ur_type:=$(var ur_type) \
+       robot_ip:=$(var robot_ip) \
+       tf_prefix:=$(var tf_prefix) \
+       headless_mode:=$(var headless_mode) \
+       \
+       joint_limit_params:=$(var joint_limit_params_file) \
+       kinematics_params:=$(var kinematics_params_file) \
+       physical_params:=$(var physical_params_file) \
+       visual_params:=$(var visual_params_file) \
+       \
+       safety_limits:=$(var safety_limits) \
+       safety_pos_margin:=$(var safety_pos_margin) \
+       safety_k_position:=$(var safety_k_position) \
+       \
+       script_filename:=$(var script_filename) \
+       input_recipe_filename:=$(var input_recipe_filename) \
+       output_recipe_filename:=$(var output_recipe_filename) \
+       \
+       use_mock_hardware:=$(var use_mock_hardware) \
+       mock_sensor_commands:=$(var mock_sensor_commands) \
+       \
+       use_tool_communication:=$(var use_tool_communication) \
+       tool_parity:=$(var tool_parity) \
+       tool_baud_rate:=$(var tool_baud_rate) \
+       tool_stop_bits:=$(var tool_stop_bits) \
+       tool_rx_idle_chars:=$(var tool_rx_idle_chars) \
+       tool_tx_idle_chars:=$(var tool_tx_idle_chars) \
+       tool_device_name:=$(var tool_device_name) \
+       tool_tcp_port:=$(var tool_tcp_port) \
+       tool_voltage:=$(var tool_voltage) \
+       \
+       reverse_ip:=$(var reverse_ip) \
+       script_command_port:=$(var script_command_port) \
+       reverse_port:=$(var reverse_port) \
+       script_sender_port:=$(var script_sender_port) \
+       trajectory_port:=$(var trajectory_port) \
+       ')"
+    />
     
     <!-- Robot state publisher -->
     <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">

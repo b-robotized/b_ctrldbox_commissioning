@@ -19,7 +19,7 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
   
   Configure a static IP address **on your PC's port** connected to CtrlX XF10 port to `192.168.28.201` with netmask `255.255.255.0`.
 
-  ***IMPORTANT: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` and `192.168.28.202`. Ensure one is set for your PC and the other as this container IP.***
+  ***IMPORTANT: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` (for the dev PC) and `192.168.28.202` (for the commissioning Docker container).***
 
   #### for example, if these are the default and recommended IPs in the system:
 
@@ -31,11 +31,20 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
   - **CtrlX CORE:** `192.168.28.201, 192.168.28.202`
   - **commissioning Docker container:** `192.168.28.28`
 
-  depending on which participant they expect to see.
+  depending on which participant the actor expects to see.
 
   Verify you can ping the ctrlX controller at its IP address from the docker container.
 
-### 1.4 Environment Configuration:
+### 1.4 Set up date-and-time NTP server
+To make sure the Date and Time are synchronized between the commissioning container and the CtrlX, navigate to `Settings -> Date and Time` and connect to the NTP server.
+
+***IMPORTANT: The commissioning container must be running for NTP server connection to succeed.***
+
+Enter the IP address of the commissioning container (`192.168.28.202`) and test the connection. If it succeeds, click "Save"
+
+![date-and-time](assets/ctrlx_date_and_time.png)
+
+### 1.5 Environment Configuration:
 
   The repo contains an example `.env` file called `comissionning.env.example` which must be configured with your host information for the container to properly run
 
@@ -46,9 +55,9 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
   * `HOST_NETWORK_INTERFACE`: The name of the network interface on your PC connected to the ctrlX device (e.g., `eth0`). Use `ip addr` or `ifconfig` to find it.
 
-  * `CONTAINER_MACVLAN_IP`: The static IP for the Docker container. The default (`192.168.28.202`) is usually fine.
+  * `CONTAINER_MACVLAN_IP`: The static IP for the Docker container. Set it to `192.168.28.202`.
 
-3. ### 1.4 Make scripts executable:
+### 1.6 Make scripts executable:
 
   Make the `start/enter/stop` bash scripts executable:
   ```

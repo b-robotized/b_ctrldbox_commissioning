@@ -14,6 +14,7 @@ ros2 topic echo --once --timeout 30 /b_controlled_box_cm/ctrlx/runtime_config_di
     | xargs -I DIR ros2 launch b_controlled_box_launch ur_publish_description.launch.xml \
         ur_type:=ur3e \
         runtime_config_dir:=DIR
+        robot_ip:=my.robot.ip
 ```
 
 **Note:** *For running the UR simulator add argument robot_ip:=192.169.56.101*
@@ -39,7 +40,7 @@ Now you should see bunch of controllers beeing in inactive state.
 sometimes, a controller is skipped. to launch a specific controller, do:
 
 ```
-ros2 run controller_manager spawner -p scenario_controllers.yaml -c b_controlled_box_cm io_and_status_controller --inactive
+ros2 run controller_manager spawner -p scenario_controllers.yaml -c b_controlled_box_cm joint_state_broadcaster
 ```
 
 activate some controllers:
@@ -59,10 +60,10 @@ ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 must have description in one terminal
 
 ```
-ros2 launch ur_robot_driver ur_rsp.launch.py ur_type:=ur3e robot_ip:=xx.xx.xx.xx
+ros2 launch ur_robot_driver ur_rsp.launch.py ur_type:=ur3e robot_ip:=does.not.matter.here
 ```
 launch moveit in another
 
 ```
-ros2 launch b_controlled_box_launch ur\_moveit.launch.py ur_type:=ur3e
+ros2 launch b_controlled_box_launch ur_moveit.launch.py ur_type:=ur3e
 ```

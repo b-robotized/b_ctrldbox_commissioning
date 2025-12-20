@@ -41,6 +41,7 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 | &nbsp;&nbsp;&nbsp;EKI        |            ❌             |             🚧            |
 | **Universal Robots**         |             ✅            |             🔬            |
 | **Yaskawa**                  |             ❌            |             🚧            |
+| **Kassow**                  |             ✅            |             ✅            |
 
 #### Legend:
 * **✅ Tested:** Fully tested and supported in production.
@@ -68,6 +69,7 @@ The process is divided into three main parts:
 2. setting up the robot itself - refer to **manufacturer-specific instruction**
      * [**KUKA**](docs/supported_robots/KUKA.md)
      * [**UR**](docs/supported_robots/UR.md)
+     * [**Kassow**](docs/supported_robots/KASSOW.md)
 3. setting up [**b»Controlled Box commissioning environment**](docs/SETUP_COMMMISSIONING.md)
 
 ## How It Works: A Typical Data Flow

@@ -31,18 +31,6 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 # Compatibility
 
-### Robot Controller compatibility
-
-| Robot Controller             | `b»controlled box` v3.5.8 | `b»controlled box` v3.5.9 |
-| :--------------------------- | :-----------------------: | :-----------------------: |
-| **KUKA** |                           |                           |
-| &nbsp;&nbsp;&nbsp;KRC4 (RSI) |            🔬             |             ✅            |
-| &nbsp;&nbsp;&nbsp;KRC5 (RSI) |            🔬             |             ✅            |
-| &nbsp;&nbsp;&nbsp;EKI        |            ❌             |             🚧            |
-| **Universal Robots**         |             ✅            |             🔬            |
-| **Yaskawa**                  |             ❌            |             🚧            |
-| **Kassow**                  |             ✅            |             ✅            |
-
 #### Legend:
 * **✅ Tested:** Fully tested and supported in production.
 * **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
@@ -55,8 +43,7 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 | `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
 | :------------------------- | :--------------------: | :---------------------: |
-| **3.5.9 (Latest)**         |         Jazzy          |           3.2           |
-| **3.5.8**                  |         Jazzy          |           3.2           |
+| **3.5.5 (Latest)**         |         Jazzy          |         3.6.3           |
 
 
 

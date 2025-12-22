@@ -46,11 +46,36 @@ To change it do the following:
 
 4. Activate the KORD.
 
-## Controlling the robot from your ROS 2 computer:
+## Controlling the robot from your ROS 2 computer
 
 Make sure that you set the IP addresses and ROS 2 variables on your host computer as described in the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md).
 
 **THE KASSOW ROBOT IS NOT YET INTEGRATED IN THE COMMISSIONING CONTAINER - YOU WILL HAVE TO SETUP THE ROS 2 WORKSPACE LOCALLY AS DESCRIBED IN THE [kassow_kord_driver repository](https://github.com/b-robotized/kassow_kord_driver).**
+
+### Controling the robot using b»controlled box
+
+1. Download the b»controlled box Application for ctrlX CORE x7 from [here](https://cloud.b-robotized.com/s/sXbakM34YBDFP8g) and install it.
+2. In your local workspace list the ROS 2 topics using `ros2 topic list` and you should see multiple `/b_controlled_box_cm/*` topics.
+3. In one terminal output the `activity` topic of the controller manager to observe the internal states of the system:
+   ```
+   ros2 topic echo /b_controlled_box_cm/activity
+   ```
+4. In another terminal publish the description for single robot application:
+   ```
+   ros2 launch kassow_kord_bringup kassow_kord_description.launch.xml use_mock_hardware:=false ip_address:=10.23.23.238 port:=28283
+   ```
+   **Make sure that the port and IP address are set correctly!**
+5. In third terminal load the controllers and active the whole system. For this enter the `scripts` folder of the `kassow_kord_bringup` package.
+   ```
+   rosd kassow_kord_bringup && cd scripts  # if you are using RTW this command works
+   ./activate_kassow_robot.bash
+   ```
+   *As compoentns are getting activated you will see new output on the `activity` topic.*
+6. Start path planning framework MoveIt2 and visualization software `rviz2` using:
+   ```
+   ros2 launch kassow_kord_bringup kassow_kord_moveit.launch.xml
+   ```
+** IMPORTANT: b»controlled box currently support control only of one Kassow robot, as controlling multiple robots might lead to instabilities of the startup system. **
 
 
 ## Troubleshooting

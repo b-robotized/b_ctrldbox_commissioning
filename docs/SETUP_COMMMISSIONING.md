@@ -23,13 +23,13 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
   #### for example, if these are the default and recommended IPs in the system:
 
-  - **CtrlX CORE:** `192.168.28.28`
+  - **CtrlX CORE:** `192.168.28.7`
   - **ROS2 PC:** `192.168.28.201`
   - **commissioning Docker container:** `192.168.28.202`
 
   .. then these are `ROS_STATIC_PEERS` env variables:
   - **CtrlX CORE:** `192.168.28.201, 192.168.28.202`
-  - **commissioning Docker container:** `192.168.28.28`
+  - **commissioning Docker container:** `192.168.28.7`
 
   depending on which participant the actor expects to see.
 
@@ -94,7 +94,7 @@ When entering the container, the ros environment will automatically be sourced. 
 Inside the container, run a quick ping to make sure it can see the ctrlX CORE:
 
 ```
-ping 192.168.28.28
+ping 192.168.28.7
 ```
 
 ### 2.4 Launch the robot commands

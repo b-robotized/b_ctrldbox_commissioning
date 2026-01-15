@@ -107,6 +107,31 @@ ros2 launch kassow_kord_bringup kassow_kord_dual_arm_moveit.launch.xml
 
 # Troubleshooting
 
+### Recovering from a CBun Error
+- limit break, communication timeout or other.
+This breaks the communication of the robot and we have to deactivate and reconfigure it.
+
+0. Clear the errors on the robot teach pendant and re-activate CBun.
+
+1. deactivate the robot hardware and controllers.
+```
+rosd kassow_kord_bringup && cd scripts
+./deactivate_kassow_robot.bash
+```
+2. unconfigure the controllers
+```
+ros2 control set_controller_state -c b_controlled_box_cm joint_state_broadcaster unconfigured
+ros2 control set_controller_state -c b_controlled_box_cm kassow_joint_trajectory_controller unconfigured
+```
+3. unconfigure the hardware
+```
+ros2 control set_hardware_component_state -c b_controlled_box_cm kassow unconfigured
+```
+4. reactivate the robot
+```
+./activate_kassow_robot.bash
+```
+
 ### Controller Switching
 During operation, some controller activation service might fail. In that case, specific controllers can be switched to active or inactive state with the following commands:
 ```

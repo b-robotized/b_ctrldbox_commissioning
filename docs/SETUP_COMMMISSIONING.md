@@ -42,6 +42,8 @@ To make sure the Date and Time are synchronized between the commissioning contai
 
 Enter the IP address of the commissioning container (`192.168.28.202`) and test the connection. If it succeeds, click "Save"
 
+If encountering NTP connection issues, refer to [NTP server setup](/docs/SETUP_NTP_SERVER.md) instructions for more details.
+
 ![date-and-time](assets/ctrlx_date_and_time.png)
 
 ### 1.5 Environment Configuration:

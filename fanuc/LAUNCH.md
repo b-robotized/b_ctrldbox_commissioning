@@ -11,15 +11,28 @@ In one terminal output the `activity` topic of the controller manager to observe
    ros2 topic echo /b_controlled_box_cm/activity
    ```
 
-### Step 1: Launch the Robot Description
-
-First, launch the description for the Kassow robot. This command loads the robot's description (URDF) to CtrlX and starts the Kassow hardware driver.
+## Mock test
+In one terminal, launch the controller manager:
 
 ```bash
-ros2 launch kassow_kord_bringup kassow_kord_description.launch.xml \
-  use_mock_hardware:=false \
-  ip_address:=10.23.23.238 \
-  port:=28283
+ros2 launch b_robotized_fanuc_demo fanuc_bringup_mock.launch.xml
+```
+
+In another, launch MoveIt and RViZ:
+```bash
+ros2 launch b_robotized_fanuc_demo fanuc_moveit.launch.xml
+```
+
+## Real robot
+
+### Step 1: Launch the Robot Description
+
+First, launch the description for the Fanuc robot. This command loads the robot's description (URDF) to CtrlX and starts the Fanuc hardware driver.
+
+```bash
+ros2 launch b_robotized_fanuc_demo fanuc_description.launch.xml \
+  mock_hardware:=false \
+  robot_ip:=192.168.0.100
 ```
 
 ### Step 2: Set ctrlX to OPERATIONAL Mode
@@ -28,18 +41,23 @@ ros2 launch kassow_kord_bringup kassow_kord_description.launch.xml \
 
 ### Step 3: Activate the Robot
 
-In third terminal load the controllers and active the whole system. For this enter the `scripts` folder of the `kassow_kord_bringup` package.
+In third terminal activate the hardware interface. For this, make sure you're in the `fanuc/` directory.
+
 ```bash
-rosd kassow_kord_bringup && cd scripts
-./activate_kassow_robot.bash
+./activate_hardware.sh
 ```
    *As components are getting activated you will see new output on the `activity` topic.*
+
+Then, activate controllers:
+```bash
+./activate_controllers.sh
+``` 
 
 ### Step 4: Run MoveIt
 
 Start path planning framework MoveIt2 and visualization software `rviz2` using:
 ```
-ros2 launch kassow_kord_bringup kassow_kord_moveit.launch.xml
+ros2 launch b_robotized_fanuc_demo fanuc_moveit.launch.xml
 ```
 
 

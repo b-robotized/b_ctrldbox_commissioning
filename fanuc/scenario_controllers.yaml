@@ -1,0 +1,79 @@
+# Copyright (c) 20225 b»robotized Group
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+b_controlled_box_cm:
+  ros__parameters:
+    update_rate: 250  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    fanuc_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    fanuc_gpio_controller:
+      type: fanuc_controllers/FanucGPIOController
+
+
+joint_state_broadcaster:
+  ros__parameters:
+    type: joint_state_broadcaster/JointStateBroadcaster
+
+fanuc_gpio_controller:
+  ros__parameters:
+    type: fanuc_controllers/FanucGPIOController
+    gpio_config_file_package: fanuc_hardware_interface
+    gpio_config_file_path: config/example_gpio_config_small.yaml
+
+
+fanuc_joint_trajectory_controller:
+  ros__parameters:
+    # type: fanuc_controllers/FanucGPIOController  # let's try
+    type: joint_trajectory_controller/JointTrajectoryController
+    joints:
+      - fanuc_J1
+      - fanuc_J2
+      - fanuc_J3
+      - fanuc_J4
+      - fanuc_J5
+      - fanuc_J6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    allow_nonzero_velocity_at_trajectory_end: false # Set to false to suppress deprecation warning
+    constraints:
+      stopped_velocity_tolerance: 0.0
+      goal_time: 0.0
+      J1:
+        goal: 0.05
+        trajectory: 0.25
+      J2:
+        goal: 0.05
+        trajectory: 0.25
+      J3:
+        goal: 0.05
+        trajectory: 0.25
+      J4:
+        goal: 0.05
+        trajectory: 0.25
+      J5:
+        goal: 0.05
+        trajectory: 0.25
+      J6:
+        goal: 0.05
+        trajectory: 0.25

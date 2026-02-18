@@ -1,0 +1,38 @@
+<!--
+  Copyright (c) 2025, b-robotized Group
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Source of this file is https://github.com/b-robotized/ros_team_workspace repository.
+
+  Author: Dr. Denis
+-->
+
+<launch>
+
+  <include file="$(find-pkg-share b_robotized_fanuc_demo)/launch/fanuc_description.launch.xml">
+    <arg name="mock_hardware" value="true"/>
+    <arg name="prefix" value="fanuc_"/>
+  </include>
+
+  <let name="controllers_file_path" value="$(find-pkg-share b_robotized_fanuc_demo)/config/scenario_controllers.yaml"/>
+
+  <node pkg="controller_manager" exec="ros2_control_node" name="b_controlled_box_cm" output="both">
+    <param from="$(var controllers_file_path)"/>
+  </node>
+
+  <node pkg="controller_manager" exec="spawner" name="joint_state_broadcaster_spawner" output="screen" args="joint_state_broadcaster -c /b_controlled_box_cm"/>
+  <node pkg="controller_manager" exec="spawner" name="fanuc_joint_trajectory_controller_spawner" output="screen" args="fanuc_joint_trajectory_controller -c /b_controlled_box_cm"/>
+  <node pkg="controller_manager" exec="spawner" name="fanuc_gpio_controller_spawner" output="screen" args="fanuc_gpio_controller -c /b_controlled_box_cm"/>
+
+</launch>

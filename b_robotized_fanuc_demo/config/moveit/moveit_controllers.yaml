@@ -1,0 +1,23 @@
+# MoveIt uses this configuration for controller management
+/**:
+  ros__parameters:
+    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+    ompl:
+      arm:
+        projection_evaluator: joints(J1,J2)
+
+    moveit_simple_controller_manager:
+      controller_names:
+        - fanuc_joint_trajectory_controller
+
+      fanuc_joint_trajectory_controller:
+        type: FollowJointTrajectory
+        action_ns: follow_joint_trajectory
+        default: true
+        joints:
+          - fanuc_J1
+          - fanuc_J2
+          - fanuc_J3
+          - fanuc_J4
+          - fanuc_J5
+          - fanuc_J6

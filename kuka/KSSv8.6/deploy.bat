@@ -6,9 +6,42 @@ REM KUKA KSSv8.6 Deployment Script
 REM ============================================
 
 REM ============================================
+REM RSI CONFIGURATION SELECTION
+REM ============================================
+echo.
+echo ============================================
+echo KUKA KSSv8.6 b_ctrldbox Deployment
+echo ============================================
+echo.
+echo Select RSI configuration:
+echo   1. Standard (6 robot axes only)
+echo   2. External Axis (6 robot axes + external axes support)
+echo   3. GPIO (6 robot axes + GPIO support)
+echo.
+set /p rsi_config="Enter selection (1/2/3): "
+
+if "!rsi_config!"=="2" (
+    set "RSI_VARIANT=ext_axis"
+    echo.
+    echo Selected: External Axis configuration
+) else if "!rsi_config!"=="3" (
+    set "RSI_VARIANT=gpios"
+    echo.
+    echo Selected: GPIO configuration
+) else (
+    set "RSI_VARIANT="
+    echo.
+    echo Selected: Standard configuration
+)
+
+REM ============================================
 REM PATH CONFIGURATION - Update these as needed
 REM ============================================
-set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface"
+if "!RSI_VARIANT!"=="" (
+    set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface"
+) else (
+    set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface\!RSI_VARIANT!"
+)
 set "DST_RSI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\SensorInterface"
 
 set "SRC_RSI_PROGRAM=KRC\R1\Program\RSI"

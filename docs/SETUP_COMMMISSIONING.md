@@ -16,7 +16,18 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
   Refer to [this documentation](https://rtw.b-robotized.com/master/docker/general_information_docker/general_information_docker.html#installation-of-docker) for instructions.
 
 ### 1.3 Network Configuration:
-  
+
+#### Zenoh:
+---
+b»controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
+
+We encourage you to try out zenoh for your workspace. 
+To easily transition to zenoh, check out our [zenoh setup guide](./SETUP_ZENOH.md).
+
+
+#### FastRTPS:
+---
+
   Configure a static IP address **on your PC's port** connected to CtrlX XF10 port to `192.168.28.201` with netmask `255.255.255.0`.
 
   ***IMPORTANT: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` (for the dev PC) and `192.168.28.202` (for the commissioning Docker container).***

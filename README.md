@@ -31,21 +31,35 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 # Compatibility
 
+### `b»controlled box` compatibility
+
+| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
+| :------------------------- | :--------------------: | :---------------------: |
+| **1.5.8 (Latest)**         |         Jazzy          |         3.6.3           |
+
+
+### Supported hardware
+
+| Hardware                          |  Type       |  Status   |
+| :-------------------------------- | :---------: | :-------: |
+| **UR**                            | Robot       | ✅ | 
+| **KUKA**                          | Robot       | ✅ | 
+| **KASSOW**                        | Robot       | ✅ |
+| **FRANKA**                        | Robot       | ✅ | 
+| **DOBOT**                         | Robot       | ✅ | 
+| **Pssbl**                         | Robot       | ✅ |
+| **Fanuc**                         | Robot       | 🔬 | 
+| **Yaskawa**                       | Robot       | 🚧 | 
+| **Ethercat Master (CtrlX App)**   | Robot       | ✅ |
+| **OPCUA client**                  | Robot       | ✅ | 
+| **Beckhoff ADS client**           | Robot       | 🔬 | 
+| **Modbus server**                 | Robot       | 🔬 |
+
 #### Legend:
 * **✅ Tested:** Fully tested and supported in production.
 * **🔬 Preliminary:** In development; basic functionality is confirmed in the lab.
 * **🚧 To Be Tested:** Planned for testing in this version but not yet validated.
 * **❌ Not Supported:** No support is available or planned for this version.
-
----
-
-### `b»controlled box` compatibility
-
-| `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
-| :------------------------- | :--------------------: | :---------------------: |
-| **3.5.5 (Latest)**         |         Jazzy          |         3.6.3           |
-
-
 
 # Getting started
 
@@ -56,7 +70,11 @@ The process is divided into three main parts:
 2. setting up the robot itself - refer to **manufacturer-specific instruction**
      * [**KUKA**](docs/supported_robots/KUKA.md)
      * [**UR**](docs/supported_robots/UR.md)
-     * [**Kassow**](docs/supported_robots/KASSOW.md)
+     * [**KASSOW**](docs/supported_robots/KASSOW.md)
+     * [**FRANKA**](docs/supported_robots/FRANKA.md)
+     * [**Pssbl**](docs/supported_robots/PSSBL.md)
+     * [**FANUC**](docs/supported_robots/FANUC.md)
+     * [**DOBOT**](docs/supported_robots/DOBOT.md)
 3. setting up [**b»Controlled Box commissioning environment**](docs/SETUP_COMMMISSIONING.md)
 
 ## How It Works: A Typical Data Flow

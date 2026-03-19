@@ -52,7 +52,7 @@ Kuka driver comes with a `robot_manager` node which activates controllers and ha
 Launch it in a separate terminal:
 
 ``` bash
-ros2 launch kuka_rsi_driver robot_manager.launch.py robot_model:=kr10_r900_2 driver_version:=eki_rsi use_gpio:=true
+ros2 launch kuka_rsi_driver robot_manager.launch.py robot_model:=kr10_r900_2 driver_version:=eki_rsi use_gpio:=false
 ```
 
 ### Step 4: Activate the robot

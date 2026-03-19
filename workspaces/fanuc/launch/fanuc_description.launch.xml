@@ -1,0 +1,50 @@
+<!--
+Copyright (c) 2025, b-robotized group
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+Source of this file are templates in https://github.com/b-robotized/ros_team_workspace repository.
+-->
+
+<launch>
+  <arg name="mock_hardware"
+       default="true"
+       description="Choose if to start mock hardware or real hardware for Fanuc robot."/>
+  <arg name="robot_ip"
+       default="192.168.0.100"
+       description="IP address of the robot controller."/>
+  <arg name="robot_model"
+       default="m20_35-18d"
+       description="Exact robot model."/>
+  <arg name="robot_series"
+       default="m20"
+       description="Robot model series (m20, m10, lrmate, crx, r1000, r2000)"/>
+  <arg name="prefix"
+       default="fanuc_"
+       description="Robot model series (m20, m10, lrmate, crx, r1000, r2000)"/>
+
+
+  <let name="robot_description_content" value="$(command '$(find-exec xacro) $(find-pkg-share b_robotized_fanuc_demo)/urdf/fanuc_test.urdf.xacro \
+  mock_hardware:=$(var mock_hardware) \
+  robot_ip:=$(var robot_ip) \
+  robot_model:=$(var robot_model) \
+  robot_series:=$(var robot_series) \
+  prefix:=$(var prefix)
+  ')"/>
+
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
+    <param name="robot_description" value="$(var robot_description_content)" />
+  </node>
+
+</launch>

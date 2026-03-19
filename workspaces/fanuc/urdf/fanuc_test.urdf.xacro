@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="fanuc_test_robot">
+
+    <xacro:arg name="mock_hardware" default="false"/>
+    <xacro:arg name="prefix" default=""/>
+
+    <!-- Extracted from "fanuc_hardware_interface/robot/6dof_robot.urdf.xacro" file -->
+    <xacro:arg name="robot_model" default="m20_35-18d"/>
+    <xacro:arg name="robot_series" default="m20"/>
+    <xacro:arg name="robot_ip" default="192.168.0.100"/>
+    <xacro:arg name="rmi_port" default="16001"/>
+    <xacro:arg name="stream_motion_port" default="60015"/>
+    <xacro:arg name="gpio_configuration" default=""/>
+    <xacro:arg name="payload_schedule" default="1"/>
+    <xacro:arg name="out_cmd_interp_buff_target" default="8"/>
+
+    <xacro:property name="robot_description_file" default="fanuc_$(arg robot_series)_description"/>
+
+    <xacro:include filename="$(find ${robot_description_file})/urdf/$(arg robot_model)_urdf_macro.xacro"/>
+    <xacro:if value="$(arg mock_hardware)">
+        <xacro:include filename="$(find fanuc_hardware_interface)/config/6dof_robot_mock_ros2_control_macro.xacro"/>
+    </xacro:if>
+    <xacro:unless value="$(arg mock_hardware)">
+        <xacro:include filename="$(find fanuc_hardware_interface)/config/6dof_robot_physical_ros2_control_macro.xacro"/>
+    </xacro:unless>
+
+    <link name="world"/>
+    <link name="tool0"/>
+
+    <xacro:call macro="$(arg robot_model)" prefix="$(arg prefix)" parent="world" child="tool0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:call>
+    <xacro:robot_control name="fanuc" prefix="$(arg prefix)"/>
+
+</robot>

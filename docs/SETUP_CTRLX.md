@@ -54,6 +54,15 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 4. Upload the Snap file and click `Install`. The app will start automatically.
 
+### Install Zenoh app
+
+If using **zenoh** as ROS 2 middleware, make sure to install the **zenoh router app** as well. The `jazzy` snap is [available here](https://cloud.b-robotized.com/s/XBSLmK3Cms9sW85).
+
+b»controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
+
+We encourage you to try out zenoh for your workspace. 
+To easily transition to zenoh, check out our [zenoh setup guide](./SETUP_ZENOH.md).
+
 ## 4. Understanding Operation Modes
 
 The ctrlX OS has three key modes that manage the lifecycle of real-time applications.

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(b_controlled_box_launch LANGUAGES CXX)
+project(b_robotized_ur_demo LANGUAGES CXX)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
   add_compile_options(-Wall -Wextra)
@@ -11,10 +11,7 @@ find_package(ament_cmake_python REQUIRED)
 
 install(
   DIRECTORY launch urdf config srdf
-  DESTINATION share/b_controlled_box_launch
+  DESTINATION share/b_robotized_ur_demo
 )
 
-ament_python_install_package(b_controlled_box_launch
-  SCRIPTS_DESTINATION lib/b_controlled_box_launch
-)
 ament_package()

@@ -33,7 +33,7 @@
   <!--Create the control tag for the UR robot-->
   <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
   <xacro:ur_ros2_control
-    name="b_controlled_ur3e"
+    name="ur3e"
     tf_prefix="ur_"
     kinematics_parameters_file="$(arg kinematics_parameters_file)"
     robot_ip="$(arg ur_robot_ip)"

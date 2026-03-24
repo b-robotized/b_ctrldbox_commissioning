@@ -13,7 +13,7 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 ### 1.2 Install Docker Desktop
 
   Docker desktop is required to run the container and set up networking via `docker compose` command.
-  Refer to [this documentation](https://rtw.b-robotized.com/master/docker/general_information_docker/general_information_docker.html#installation-of-docker) for instructions.
+  Refer to [this documentation](https://rtw.b-robotized.com/master/operating_system/docker/general_information_docker/general_information_docker.html#installation-of-docker) for instructions.
 
 ### 1.3 Network Configuration:
 

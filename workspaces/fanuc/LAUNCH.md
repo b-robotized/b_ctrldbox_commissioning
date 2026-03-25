@@ -1,15 +1,15 @@
 
 # FANUC ROS 2 Startup Procedure
 
-This guide outlines the steps to launch the Kuka KRC4 driver, spawn the necessary controllers, and activate the system for operation.
+This guide outlines the steps to launch the Fanuc driver, spawn the necessary controllers, and activate the system for operation.
 
 
 ### Step 0: Observe controller manager activity
 
 In one terminal output the `activity` topic of the controller manager to observe the internal states of the system:
-   ```
-   ros2 topic echo /b_controlled_box_cm/activity
-   ```
+```bash
+ros2 topic echo /b_controlled_box_cm/activity
+```
 
 ## Mock test
 In one terminal, launch the controller manager:

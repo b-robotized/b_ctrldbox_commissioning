@@ -19,10 +19,26 @@
 -->
 
 <launch>
+  <arg name="ur_type"
+       description="Type/series of used UR robot.">
+      <choice value="ur3" />
+      <choice value="ur3e" />
+      <choice value="ur5" />
+      <choice value="ur5e" />
+      <choice value="ur7e" />
+      <choice value="ur10" />
+      <choice value="ur10e" />
+      <choice value="ur12e" />
+      <choice value="ur16e" />
+      <choice value="ur15" />
+      <choice value="ur20" />
+      <choice value="ur30" />
+  </arg>
 
   <include file="$(find-pkg-share b_robotized_ur_demo)/launch/description.launch.xml">
-    <arg name="mock_hardware" value="true"/>
-    <arg name="prefix" value="fanuc_"/>
+    <arg name="use_mock_hardware" value="true"/>
+    <arg name="ur_type" value="$(var ur_type)"/>
+    <arg name="runtime_config_dir" value="some-dummy-value"/>
   </include>
 
   <let name="controllers_file_path" value="$(find-pkg-share b_robotized_ur_demo)/config/scenario_controllers.yaml"/>

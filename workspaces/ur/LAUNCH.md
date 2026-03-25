@@ -13,12 +13,12 @@ ros2 topic echo /b_controlled_box_cm/activity
 In one terminal, launch the controller manager:
 
 ```bash
-ros2 launch b_robotized_ur_demo bringup_mock.launch.xml
+ros2 launch b_robotized_ur_demo bringup_mock.launch.xml ur_type:=ur3e
 ```
 
 In another, launch MoveIt and RViZ:
 ```bash
-ros2 launch b_robotized_ur_demo moveit.launch.xml
+ros2 launch b_robotized_ur_demo moveit.launch.py ur_type:=ur3e
 ```
 ## Real robot
 
@@ -34,8 +34,8 @@ ros2 topic echo --once --timeout 30 /b_controlled_box_cm/ctrlx/runtime_config_di
     | awk -F 'data: ' '{print $2}' \
     | xargs -I DIR ros2 launch b_robotized_ur_demo description.launch.xml \
         ur_type:=ur3e \
-        runtime_config_dir:=DIR
-        robot_ip:=<your-robot-ip>
+        runtime_config_dir:=DIR \
+        robot_ip:=your-robot-ip
 ```
 
 **Note:** *The "real robot" can we UrSim container as well. When running the UR simulator add argument robot_ip:=192.169.56.101*
@@ -71,7 +71,8 @@ Then, activate controllers:
 ⚠️ ***IMPORTANT:*** Ensure you have robot description published in one terminal.
 
 Start path planning framework MoveIt2 and visualization software `rviz2` using:
-```
+
+```bash
 ros2 launch b_robotized_ur_demo moveit.launch.py ur_type:=ur3e
 ```
 

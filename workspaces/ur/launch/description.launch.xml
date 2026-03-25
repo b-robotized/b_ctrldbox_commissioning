@@ -189,6 +189,8 @@
        reverse_port:=$(var reverse_port) \
        script_sender_port:=$(var script_sender_port) \
        trajectory_port:=$(var trajectory_port) \
+       rw_rate:=500 \
+       scheduling_policy:='' \
        ')"
     />
     

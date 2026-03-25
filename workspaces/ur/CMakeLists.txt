@@ -10,7 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
 install(
-  DIRECTORY launch urdf config srdf
+  DIRECTORY launch config srdf
   DESTINATION share/b_robotized_ur_demo
 )
 

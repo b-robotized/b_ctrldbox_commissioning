@@ -38,7 +38,7 @@ ros2 topic echo --once --timeout 30 /b_controlled_box_cm/ctrlx/runtime_config_di
         robot_ip:=your-robot-ip
 ```
 
-**Note:** *The "real robot" can we UrSim container as well. When running the UR simulator add argument robot_ip:=192.169.56.101*
+**Note:** *The "real robot" can be UrSim container as well. When running the UR simulator, your `robot_ip:=192.169.56.101`*
 
 Now you should see on the activity topic your component in the `unconfigured` state.
 

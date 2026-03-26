@@ -32,36 +32,56 @@ Alternatively, you can simply copy the source file from the container itself.
 
 # FAQ
 
-### Can I use b»controlled box with ROS 2 Humble?
+## Can I use b»controlled box with ROS 2 `humble`?
 
-**Generally yes, but it is a bit complicated.** The b»controlled box builds `ros2_control` for **ROS 2 Jazzy**. Because of this, the main thing you have to take care of is the compatibility of ROS messages across your system network.
+**The b»controlled box app is decidedly `jazzy`,** due to several crucial technical details. One might make `humble` ros nodes talk to `foxy`, but there is an important
+change done in `iron` (and subsequently, `humble`) that makes this near impossible (meaning, even if you do get it working, it will be a brittle nightmare to maintain).
 
-For your Humble workspace to communicate with the Jazzy `ros2_control` instance on the box, your local workspace must use the exact same message definitions.
+Lets explain.
 
-The main offenders we identified would be `control_msgs` and `controller_manager_msgs`.
+There are two main technical reasons:
 
-#### `control_msgs`
+### Type Description Distribution and Hashing (REP-2011) - breaks topics
 
-```yaml
-control_msgs:
-  type: git
-  url: https://github.com/b-robotized-forks/control_msgs.git
-  version: bCtrldBox/jazzy/gpio-controller-msgs
-```
-#### `controller_manager_msgs` (from `ros2_control` package - [link](https://github.com/b-robotized-forks/ros2_control/tree/bCtrldBox/jazzy/hw-unconfigured-cm-lifecycle/controller_manager_msgs))
+Starting in `iron`, the system introduced [Type Hashes (REP-2011)](https://docs.ros.org/en/iron/Releases/Release-Iron-Irwini.html#type-description-distribution). This appends a unique hash (e.g., RIHS01_...) to the end of the topic type to ensure that both the publisher and the subscriber are using the *exact same message definition*.
 
-```yaml
-ros2_control:
-  type: git
-  url: https://github.com/b-robotized-forks/ros2_control.git
-  version: bCtrldBox/jazzy/hw-unconfigured-cm-lifecycle
-```
+- **Jazzy** (and newer): Automatically appends this hash to the topic type string at the middleware (RMW) level.
 
-We currently use specific forks and branches for our control messages:
+- **Humble** (and older): Predates this feature. It either uses the raw message name or fails to generate the hash (sometimes falling back to injecting the string `TypeHashNotSupported`).
 
-#### ⚠️ Work in progress!
-This is still in testing. There might be some other statistics, navigation or other messages that break full compatibility with humble.
+Because the middleware routes messages by matching exact string paths for topics and types, a `jazzy` node and a `humble` node will see each other's topics as completely different types. They will simply ignore each other.
 
+> This is confirmed in testing the `jazzy` b»controlled box app with `humble` workspace, and there is limited discovery of topics and **no transport of data** using either FastRTPS DDS or Zenoh as middleware.
 
-#### Our Recommendation:
-Mixing ROS 2 distributions (especially across major changes in message structures) can cause MD5 hash and type mismatches over DDS/Zenoh, which are difficult to debug. It would be best long-term to transition your development workspace to ROS 2 Jazzy. This ensures seamless compatibility with the b»controlled box out of the, well, box.
+---
+
+### GID Storage Size Change - breaks services/actions
+
+In `iron`, the [storage size for the Global Identifier (GID)](https://docs.ros.org/en/iron/Releases/Release-Iron-Irwini.html#change-the-gid-storage-to-16-bytes) was changed from 24 bytes to 16 bytes. This GID is used under the rmw hood to track Service and Action requests and route the response back to the correct client.
+
+Because a `humble` node expects a 24-byte identifier and a `jazzy` node sends a 16-byte identifier, the memory alignment of the packets over the network is completely incompatible.
+
+> Attempting to call a `jazzy` service from a `humble` client (or vice versa) results in corrupted data parsing at the RMW layer, leading to dropped calls or crashes.
+
+---
+
+### Ok, what do I do then?
+
+These are not changes one can "hack" around, and are important architectural choices to advance ROS 2 as a framework. 
+
+Our main suggestion is: **Standardize distribution to `jazzy`**. 
+
+This is the simplest, easiest solution to keep you up to date, and enable you to use the **b»controlled box** application.
+If developing on Ubuntu `22.04`, you can leverage Docker containers to standardize environment accross your projects - just build the container from Ubuntu `24.04`.
+
+If you decide to upgrade to `jazzy` and need some support, don't hesitate to contact us for help!
+
+### Further reading & references:
+
+- [ROS Discourse: Incompatibility between distributions](https://discourse.openrobotics.org/t/incompatability-between-distributions/43747)
+
+- [Robotics StackExchange: How to communicate between ROS2 Humble and ROS2 Jazzy seamlessly](https://robotics.stackexchange.com/questions/118150/how-to-communicate-between-ros2-humble-and-ros2-jazzy-seamlessly)
+
+- [ROS 2 Iron Release Notes: Type Description Distribution](https://docs.ros.org/en/iron/Releases/Release-Iron-Irwini.html#type-description-distribution)
+
+- [ROS 2 Iron Release Notes: Change the GID storage to 16 bytes](https://docs.ros.org/en/iron/Releases/Release-Iron-Irwini.html#change-the-gid-storage-to-16-bytes)

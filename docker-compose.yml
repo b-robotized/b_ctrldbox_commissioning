@@ -4,7 +4,7 @@
 
 services:
   ros-container:
-    image: ${IMAGE_TAG_FULL}
+    image: ${IMAGE_TAG_FINAL}
     container_name: ${CONTAINER_NAME}
     hostname: ${CONTAINER_NAME}
     restart: "no"

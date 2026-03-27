@@ -35,7 +35,7 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 | `b»controlled box`         |  ROS 2 Version         |  `CtrlX RT SDK`         |
 | :------------------------- | :--------------------: | :---------------------: |
-| **1.5.8 (Latest)**         |         Jazzy          |         3.6.3           |
+| **1.6.0 (Latest)**         |         Jazzy          |         3.6.3           |
 
 
 ### Supported hardware

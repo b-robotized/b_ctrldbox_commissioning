@@ -83,11 +83,8 @@ These are the commands for using the container
 
 ### 2.1 Start the container: `start.sh`
 
-Upon first start, the container will be downloaded from our container repository. **It will require a login into our container registry!**
-#### Registry login:
-```
-echo "YOUR_REGISTRY_ACCESS_TOKEN" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin
-```
+Upon first start, the container will be downloaded from our container repository.
+
 The container also creates the necessary network configuration on the host PC
 ```
 ./start.sh
@@ -119,7 +116,11 @@ Robot commands for a specific manufacturer can be found in this repo, [on the co
 
 ### 2.5 Stop the container: `stop.sh`
 
-When you are finished, run this command from **host machine**, not the container.
+When you are finished, exit the container:
+```
+exit
+```
+and run this from the **host machine**, not the container.
 ```
 ./stop.sh
 ```

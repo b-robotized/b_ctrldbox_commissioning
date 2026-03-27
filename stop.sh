@@ -1,16 +1,7 @@
 #!/bin/bash
 set -e
-
-# Some validation
-if ls *.env 1> /dev/null 2>&1; then
-  ENV_FILE=$(find *.env)
-  source <(grep -v '^#' $ENV_FILE)
-else
-  echo "ERROR: Configuration file '*.env' not found."
-  echo "Please copy 'commissioning.env.example' to '*.env' and fill in your details."
-  exit 1
-fi
+source ./common.sh
 
 echo "Stopping and removing the container environment..."
-docker compose --env-file $ENV_FILE down
+docker compose --env-file "$ENV_FILE" down
 echo "Environment stopped."

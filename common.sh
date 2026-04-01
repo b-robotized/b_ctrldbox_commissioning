@@ -19,8 +19,7 @@ if [ -z "$HOST_NETWORK_INTERFACE" ]; then
     exit 1
 fi
 
-#export IMAGE_REGISTRY_URL=code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers
-export IMAGE_REGISTRY_URL=code.b-robotized.com:5050/b-controlled-box/releases
+export IMAGE_REGISTRY_URL=code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers
 export IMAGE_NAME=${ROBOT_TYPE}-commission
 export IMAGE_URL_FULL=${IMAGE_REGISTRY_URL}/${IMAGE_NAME}:${VERSION_TAG}
 export IMAGE_TAG_FINAL=b-robotized/${IMAGE_NAME}:${VERSION_TAG}

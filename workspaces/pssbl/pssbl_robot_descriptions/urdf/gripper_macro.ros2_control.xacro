@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="gripper_ros2_control" params="name prefix mock:=true">
+    <ros2_control name="${name}" type="system">
+
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+        <param name="mock_sensor_commands">true</param>
+        <param name="mock_gpio_commands">false</param>  <!-- in the current implementation 'true' will cause problems -->
+      </hardware>
+
+        <gpio name="${name}">
+          <xacro:command_interface_DataLayer name="engage"    DL_address="/output"   DL_variable="XI211116/Channel_1.Value"  initial_value=""/>
+          <xacro:state_interface_DataLayer name="engage"    DL_address="/output"   DL_variable="XI211116/Channel_1.Value"  initial_value=""/>
+          <xacro:command_interface_DataLayer name="disengage" DL_address="/output"   DL_variable="XI211116/Channel_2.Value"  initial_value=""/>
+          <xacro:state_interface_DataLayer name="disengage" DL_address="/output"   DL_variable="XI211116/Channel_2.Value"  initial_value=""/>
+
+          <xacro:state_interface_DataLayer   name="part_present" DL_address="/input"  DL_variable="XI110116/Channel_1.Value"/>
+        </gpio>
+     </ros2_control>
+  </xacro:macro>
+
+</robot>

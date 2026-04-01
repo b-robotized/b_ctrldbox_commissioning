@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="orba6">
+
+  <!-- set prefix if multiple robots are used -->
+  <xacro:arg name="prefix" default=""/>
+
+  <xacro:arg name="hardware" default="mock"/> <!-- mock, motion_app, motor_direct -->
+
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/orba6_2257/orba6_2257_macro.xacro"/>
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/orba6_2257/vacuum_gripper_macro.xacro"/>
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/orba6_2257/orba6_macro.ros2_control.xacro"/>
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/gripper_macro.ros2_control.xacro"/>
+
+  <!-- create link fixed to the "world" -->
+  <link name="world"/>
+
+  <xacro:orba6_2257 prefix="$(arg prefix)" parent="world">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:orba6_2257>
+
+  <xacro:orba6_ros2_control
+    name="orba6"
+    prefix="$(arg prefix)"
+    hardware="$(arg hardware)"
+  />
+
+  <xacro:orba6_vacuum_gripper prefix="" parent="$(arg prefix)flange">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:orba6_vacuum_gripper>
+
+  <xacro:gripper_ros2_control
+    name="orba6_gripper"
+    prefix=""
+    mock="$(eval hardware == 'mock')"
+  />
+
+</robot>

@@ -1,0 +1,60 @@
+/**:
+  ros__parameters:
+    robot_description_planning:
+      default_velocity_scaling_factor: 1.0
+      default_acceleration_scaling_factor: 0.5
+
+      joint_limits:
+        joint1:
+          has_position_limits: true
+          min_position: -3.2288591161895095   # -185°
+          max_position: 3.2288591161895095    # 185°
+          has_velocity_limits: true
+          max_velocity: 5.235987755982989     # 300°/s
+          has_acceleration_limits: true
+          max_acceleration: 14.745495827127663  # effort (radians(845))
+
+        joint2:
+          has_position_limits: true
+          min_position: -2.2689280275926285   # -130°
+          max_position: 2.573296008722465     # 147.5°
+          has_velocity_limits: true
+          max_velocity: 4.97418836818384      # 285°/s
+          has_acceleration_limits: true
+          max_acceleration: 9.773843811168245  # effort (radians(560))
+
+        joint3:
+          has_position_limits: true
+          min_position: -1.6580627894         # -95°
+          max_position: 2.7925268032          # 160°
+          has_velocity_limits: true
+          max_velocity: 6.387905064272797     # 366°/s
+          has_acceleration_limits: true
+          max_acceleration: 18.91534340328881  # effort (radians(1084))
+
+        joint4:
+          has_position_limits: true
+          min_position: -3.2288591161895095   # -185°
+          max_position: 3.2288591161895095    # 185°
+          has_velocity_limits: true
+          max_velocity: 16.340412940052833    # 936°/s
+          has_acceleration_limits: true
+          max_acceleration: 53.80327950430762  # effort (radians(3082))
+
+        joint5:
+          has_position_limits: true
+          min_position: -2.443460952792061    # -140°
+          max_position: 2.443460952792061     # 140°
+          has_velocity_limits: true
+          max_velocity: 15.707963267948966    # 900°/s
+          has_acceleration_limits: true
+          max_acceleration: 35.64274590489186  # effort (radians(2042))
+
+        joint6:
+          has_position_limits: true
+          min_position: -6.283185307179586    # -360°
+          max_position: 6.283185307179586     # 360°
+          has_velocity_limits: true
+          max_velocity: 15.707963267948966    # 900°/s
+          has_acceleration_limits: true
+          max_acceleration: 104.71975511965977 # effort (radians(6000))

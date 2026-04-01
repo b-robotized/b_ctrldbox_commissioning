@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>b_robotized_pssbl_demo</name>
+  <version>0.1.0</version>
+  <description>Bringup, MoveIt configuration, and controllers for PSSBL ORBA6 robots</description>
+  <maintainer email="nikola.banovic@b-robotized.com">Nikola Banovic</maintainer>
+  <maintainer email="denis.stogl@b-robotized.com">Dr. Denis Stogl</maintainer>
+  <license>Copyright (c) 2025, b-robotized</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <exec_depend>pssbl_robot_descriptions</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

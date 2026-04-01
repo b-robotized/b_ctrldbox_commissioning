@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="state_interface_DataLayer" params="name initial_value:='' DL_address DL_variable">
+      <state_interface name="${name}">
+          <xacro:if value="${initial_value != ''}">
+              <param name="initial_value">${initial_value}</param><!--  -->
+          </xacro:if>
+          <param name="DL_address">${DL_address}</param>
+          <param name="DL_variable">${DL_variable}</param>
+      </state_interface>
+  </xacro:macro>
+
+  <xacro:macro name="command_interface_DataLayer" params="name initial_value:='' DL_address DL_variable">
+    <command_interface name="${name}">
+      <xacro:if value="${initial_value != ''}">
+        <param name="initial_value">${initial_value}</param>
+      </xacro:if>
+      <param name="DL_address">${DL_address}</param>
+      <param name="DL_variable">${DL_variable}</param>
+    </command_interface>
+  </xacro:macro>
+
+  <xacro:macro name="motor_psu_parameters">
+    <!-- Commands -->
+    <param name="psu_command_power_sections_on">0x1000</param>
+    <param name="psu_command_dc_bus_charge">0x5000</param>
+    <param name="psu_command_operation_mode">0xD000</param>
+    <param name="psu_command_shutdown">0x0000</param>
+    <param name="psu_command_mask">0xD000</param>
+
+    <!-- Status -->
+    <param name="psu_status_mains_off_expected">0x0020</param>
+    <param name="psu_status_mains_off_mask">0xFFE0</param>
+
+    <param name="psu_status_dc_power_off_mask">0x00F0</param>
+    <param name="psu_status_dc_power_off_expected">0x00B0</param>
+
+    <param name="psu_status_dc_bus_charged_mask">0xFFF0</param>
+    <param name="psu_status_dc_bus_charged_expected">0x40F0</param>
+
+    <param name="psu_status_operation_mode_mask">0xFFF0</param>
+    <param name="psu_status_operation_mode_expected">0xC0F0</param>
+
+    <param name="psu_status_error_mask">0x2000</param>
+    <param name="psu_status_error_expected">0x2000</param>
+  </xacro:macro>
+
+  <xacro:macro name="motor_axis_parameters">
+    <!-- Commands -->
+    <param name="axis_command_enable">0xE000</param>
+    <param name="axis_command_shutdown">0x0000</param>
+    <param name="axis_command_mask">0xF000</param>
+
+    <param name="axis_dc_bus_command_enable">0x0001</param>
+    <param name="axis_dc_bus_command_shutdown">0x0000</param>
+    <param name="axis_dc_bus_command_mask">0x0001</param>
+
+    <!-- Status -->
+    <param name="axis_status_not_ready_for_operation_expected">0x0000</param>
+    <param name="axis_status_not_ready_for_operation_mask">0xC000</param>
+
+    <param name="axis_status_ready_for_operation_expected">0x4000</param>
+    <param name="axis_status_ready_for_operation_mask">0xC000</param>
+
+    <param name="axis_status_ready_expected">0x8000</param>
+    <param name="axis_status_enabled_expected">0xC000</param>
+    <param name="axis_status_ready_enabled_mask">0xC000</param> <!-- Covers 'Ab' and 'AF' -->
+
+    <param name="axis_status_error_mask">0x2000</param>
+    <param name="axis_status_error_expected">0x2000</param>
+  </xacro:macro>
+
+  <!-- ctrlX Drive on the main power suppoly device that generates DC -->
+  <xacro:macro name="ctrlXDriveXCD" params="axis_name dl_base_address ethercat_address">
+    <param name="drive_ethercat_address">${ethercat_address}</param>
+    <xacro:command_interface_DataLayer name="position" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Position_command_value"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="position" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Position_feedback_value_1"/>
+
+    <xacro:command_interface_DataLayer name="power_supply_control_word" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Power_supply_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="power_supply_control_word_status" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Power_supply_control_word"/>
+    <xacro:state_interface_DataLayer   name="power_supply_status_word" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Power_supply_status_word"/>
+
+    <xacro:command_interface_DataLayer name="drive_control_word" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="drive_control_word_status" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"/>
+    <xacro:state_interface_DataLayer   name="drive_status_word" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Drive_status_word"/>
+
+  </xacro:macro>
+
+  <!-- ctrlX Drive for the Secondary axis on the main power supply device that generates DC -->
+  <xacro:macro name="ctrlXDriveXCD_Second" params="axis_name dl_base_address ethercat_address">
+    <param name="drive_ethercat_address">${ethercat_address}</param>
+    <xacro:command_interface_DataLayer name="position" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Position_command_value"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="position" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Position_feedback_value_1"/>
+
+    <xacro:command_interface_DataLayer name="drive_control_word" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="drive_control_word_status" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="drive_status_word" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Drive_status_word"/>
+  </xacro:macro>
+
+  <!-- ctrlX Drives connected to DC bus -->
+  <xacro:macro name="ctrlXDriveXMD" params="axis_name dl_base_address ethercat_address">
+    <param name="drive_ethercat_address">${ethercat_address}</param>
+    <xacro:command_interface_DataLayer name="position" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Position_command_value"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="position" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Position_feedback_value_1"/>
+
+    <xacro:command_interface_DataLayer name="dc_bus_control_word" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.DC_Bus_Power_Control"  initial_value=""/>
+    <xacro:state_interface_DataLayer name="dc_bus_control_word_status" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.DC_Bus_Power_Control"  initial_value=""/>
+
+    <xacro:command_interface_DataLayer name="drive_control_word" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="drive_control_word_status" DL_address="${dl_base_address}/output"   DL_variable="${axis_name}/MDT.Master_control_word"  initial_value=""/>
+    <xacro:state_interface_DataLayer   name="drive_status_word" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Drive_status_word"/>
+
+    <!-- Unused, we're using the more general 'drive_status_word' for all axes, for consistency. -->
+    <xacro:state_interface_DataLayer   name="device_control_status_word" DL_address="${dl_base_address}/input"  DL_variable="${axis_name}/AT.Device_control_Status_word"/>
+  </xacro:macro>
+
+</robot>

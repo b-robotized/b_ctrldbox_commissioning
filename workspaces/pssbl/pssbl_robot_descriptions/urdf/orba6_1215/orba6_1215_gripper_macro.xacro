@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/common/inertials.xacro"/>
+
+  <xacro:macro name="orba6_1215_gripper" params="prefix parent *origin">
+    <!-- LINKS -->
+    <!-- base link -->
+    <link name="${prefix}mount_link">
+      <!-- Default inertial for Gazebo - copy and edit block from 'common.xacro'
+           to get more realistic behavior -->
+      <xacro:default_inertial/>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <!-- <cylinder length="0.3" radius="0.3"/> -->
+          <mesh filename="package://pssbl_robot_descriptions/meshes/orba6_1215_gripper/visual/mount_link.stl" />
+        </geometry>
+        <material name="grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <!--<cylinder length="0.3" radius="0.3"/>-->
+          <mesh filename="package://pssbl_robot_descriptions/meshes/orba6_1215_gripper/collision/mount_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- link 1 - All zero tool frame -->
+    <link name="${prefix}gripper_base"/>
+
+    <!-- link 2 - All zero tool frame -->
+    <link name="${prefix}gripper_tcp"/>
+
+    <!-- JOINTS -->
+    <!-- mount_joint fixes mount_link to the environment -->
+    <joint name="${prefix}mount_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}mount_link"/>
+    </joint>
+
+    <!-- joint 1 -->
+    <joint name="${prefix}gripper_base_joint" type="fixed">
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <parent link="${prefix}mount_link"/>
+      <child link="${prefix}gripper_base"/>
+    </joint>
+
+    <!-- joint 2 -->
+    <joint name="${prefix}gripper_tcp_joint" type="fixed">
+      <origin xyz="0 0 0.083" rpy="0 0 0"/>
+      <parent link="${prefix}mount_link"/>
+      <child link="${prefix}gripper_tcp"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

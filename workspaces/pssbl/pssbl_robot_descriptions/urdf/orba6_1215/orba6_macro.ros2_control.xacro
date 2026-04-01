@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/common/ctrlX_drives_data_layer.ros2_control.xacro"/>
+
+  <xacro:property name="DL_ethercat_base_address" value="fieldbuses/ethercat/master/instances/ethercatmaster" />
+  <xacro:property name="DL_ethercat_rt_base_address" value="${DL_ethercat_base_address}/realtime_data" />
+
+  <!-- Factor for which encoder values are multiplied in read(), and divided in write() -->
+  <xacro:property name="conversion_factor_motor_to_ros" value="${pi / 10000 / 180}" />
+
+  <!-- Factor for which units in MotionApp are converted to radians in ros-->
+  <!-- Look under MotionApp -> Axes -> AXIS_NAME -> Units -->
+  <xacro:property name="MotionApp_conversion_factor_position" value="${pi / 180}" />
+
+  <xacro:include filename="$(find pssbl_robot_descriptions)/urdf/gripper_macro.ros2_control.xacro"/>
+
+  <xacro:macro name="orba6_ios_ros2_control" params="name prefix hardware:=mock is_async:=false rw_rate:=0">
+    <ros2_control name="${name}" type="system" is_async="${is_async}" rw_rate="${rw_rate}">
+      <hardware>
+        <xacro:if value="${hardware == 'mock'}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="mock_sensor_commands">true</param>
+          <param name="mock_gpio_commands">true</param>
+        </xacro:if>
+        <xacro:unless value="${hardware == 'mock'}">
+          <plugin>ctrlx_hardware_interface/DataLayerHardwareInterface_RT</plugin>
+        </xacro:unless>
+      </hardware>
+
+      <gpio name="${prefix}orba6_digital_inputs">
+        <xacro:state_interface_DataLayer name="channel_1"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_1.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_2"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_2.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_3"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_3.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_4"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_4.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_5"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_5.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_6"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_6.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_7"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_7.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_8"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_8.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_9"    DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_9.Value"   initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_10"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_10.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_11"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_11.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_12"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_12.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_13"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_13.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_14"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_14.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_15"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_15.Value"  initial_value="1.0"/>
+        <xacro:state_interface_DataLayer name="channel_16"   DL_address="${DL_ethercat_rt_base_address}/input"   DL_variable="XI110116/Channel_16.Value"  initial_value="1.0"/>
+      </gpio>
+
+      <gpio name="${prefix}orba6_digital_outputs">
+        <xacro:command_interface_DataLayer name="channel_1"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_1.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_2"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_2.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_3"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_3.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_4"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_4.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_5"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_5.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_6"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_6.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_7"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_7.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_8"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_8.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_9"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_9.Value"   initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_10"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_10.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_11"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_11.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_12"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_12.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_13"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_13.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_14"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_14.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_15"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_15.Value"  initial_value="0.0"/>
+        <xacro:command_interface_DataLayer name="channel_16"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_16.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_1"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_1.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_2"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_2.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_3"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_3.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_4"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_4.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_5"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_5.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_6"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_6.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_7"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_7.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_8"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_8.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_9"    DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_9.Value"   initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_10"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_10.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_11"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_11.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_12"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_12.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_13"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_13.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_14"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_14.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_15"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_15.Value"  initial_value="0.0"/>
+        <xacro:state_interface_DataLayer name="channel_16"   DL_address="${DL_ethercat_rt_base_address}/output"   DL_variable="XI211116/Channel_16.Value"  initial_value="0.0"/>
+      </gpio>
+
+    </ros2_control>
+  </xacro:macro>
+
+  <xacro:macro name="orba6_ros2_control" params="name prefix hardware:=mock is_async:=false rw_rate:=0">
+    <ros2_control name="${name}" type="system" is_async="${is_async}" rw_rate="${rw_rate}">
+      <hardware>
+        <xacro:if value="${hardware == 'mock'}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="mock_sensor_commands">true</param>
+          <param name="mock_gpio_commands">false</param>  <!-- in the current implementation 'true' will cause problems -->
+        </xacro:if>
+        <xacro:if value="${hardware == 'motion_app'}">
+          <plugin>motion_app_hw_interface/MotionAppHwInterface</plugin>
+        </xacro:if>
+        <xacro:if value="${hardware == 'motor_direct'}">
+          <plugin>robot_datalayer_interface/RobotDatalayerInterface</plugin>
+          <param name="motor_activation_timeout_s">1.0</param>
+          <param name="coupling_ratio_5_to_6">-1.0</param>
+          <xacro:motor_psu_parameters/>
+          <xacro:motor_axis_parameters/>
+          <param name="DL_ethercat_soe_service_address">${DL_ethercat_base_address}/device_access/soe/parameter</param>
+        </xacro:if>
+      </hardware>
+
+      <!-- =================================================================== -->
+      <!-- ==             MODE 1: Direct Motor Control (EtherCAT)           == -->
+      <!-- =================================================================== -->
+      <!-- These interfaces are used in MockHardware or for direct motor control via Ethercat. -->
+      <xacro:if value="${hardware == 'mock' or hardware == 'motor_direct'}">
+        <joint name="${prefix}joint1">
+          <!-- Factor for which encoder values are multiplied in read(), and divided in write() -->
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXCD axis_name="ctrlX_DRIVE_XCD_SoE_1_2_FSoE"  dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1005"/>
+          <!-- Check the EhterCAT Address filed in the CtrlX UI for the drive address -->
+        </joint>
+        <joint name="${prefix}joint2">
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXCD_Second axis_name="ctrlX_DRIVE_XCD_SoE_2_2_FSoE" dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1006"/>
+        </joint>
+        <joint name="${prefix}joint3">
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXMD axis_name="ctrlX_DRIVE_XMD_SoE_1_2_FSoE" dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1007"/>
+        </joint>
+        <joint name="${prefix}joint4">
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXMD axis_name="ctrlX_DRIVE_XMD_SoE_2_2_FSoE" dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1008"/>
+        </joint>
+        <joint name="${prefix}joint5">
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXMD axis_name="ctrlX_DRIVE_XMD_SoE_1_2_FSoE_1" dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1009"/>
+        </joint>
+        <joint name="${prefix}joint6">
+          <param name="conversion_factor_motor_to_ros">${conversion_factor_motor_to_ros}</param>
+          <xacro:ctrlXDriveXMD axis_name="ctrlX_DRIVE_XMD_SoE_2_2_FSoE_1" dl_base_address="${DL_ethercat_rt_base_address}" ethercat_address="1010"/>
+        </joint>
+      </xacro:if>
+
+      <!-- =================================================================== -->
+      <!-- ==           MODE 2: Control via ctrlX MOTION App                == -->
+      <!-- =================================================================== -->
+      <!-- These interfaces target exposed datalayer members for Ctrlx Motion app. -->
+      <xacro:if value="${hardware == 'motion_app'}">
+        <joint name="${prefix}joint1">
+          <param name="MotionApp_axis_name">Axis_1</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+         <joint name="${prefix}joint2">
+          <param name="MotionApp_axis_name">Axis_2</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+         <joint name="${prefix}joint3">
+          <param name="MotionApp_axis_name">Axis_3</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+         <joint name="${prefix}joint4">
+          <param name="MotionApp_axis_name">Axis_4</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+         <joint name="${prefix}joint5">
+          <param name="MotionApp_axis_name">Axis_5</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+         <joint name="${prefix}joint6">
+          <param name="MotionApp_axis_name">Axis_6</param>
+          <param name="MotionApp_conversion_factor_position">${MotionApp_conversion_factor_position}</param>
+          <command_interface name="position"/>
+          <state_interface   name="position"/>
+        </joint>
+      </xacro:if>
+
+    </ros2_control>
+  </xacro:macro>
+
+</robot>

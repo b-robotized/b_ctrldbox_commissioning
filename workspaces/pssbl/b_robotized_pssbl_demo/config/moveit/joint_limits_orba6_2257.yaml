@@ -1,0 +1,60 @@
+/**:
+  ros__parameters:
+    robot_description_planning:
+      default_velocity_scaling_factor: 1.0
+      default_acceleration_scaling_factor: 0.5
+
+      joint_limits:
+        joint1:
+          has_position_limits: true
+          min_position: -3.2288591161895095   # -185°
+          max_position: 3.2288591161895095    # 185°
+          has_velocity_limits: true
+          max_velocity: 2.792526803190927    # 160°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0
+
+        joint2:
+          has_position_limits: true
+          min_position: -1.5707963267948966   # -90°
+          max_position: 2.0943951023931953    # 120°
+          has_velocity_limits: true
+          max_velocity: 2.827433388230814    # 162°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0
+
+        joint3:
+          has_position_limits: true
+          min_position: -1.6406094968746698   # -94° (-184 + 90)
+          max_position: 2.740166180459599     # 157° (67 + 90)
+          has_velocity_limits: true
+          max_velocity: 4.1887902047863905   # 240°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0
+
+        joint4:
+          has_position_limits: true
+          min_position: -6.283185307179586     # -360°
+          max_position: 6.283185307179586      # 360°
+          has_velocity_limits: true
+          max_velocity: 4.71238898038469       # 270°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0
+
+        joint5:
+          has_position_limits: true
+          min_position: -1.57  # -2.0943951023931953    # -120°
+          max_position: 1.57   # 2.0943951023931953     # 120°
+          has_velocity_limits: true
+          max_velocity: 4.71238898038469       # 270°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0
+
+        joint6:
+          has_position_limits: true
+          min_position: -6.283185307179586     # -360°
+          max_position: 6.283185307179586      # 360°
+          has_velocity_limits: true
+          max_velocity: 6.283185307179586      # 360°/s
+          has_acceleration_limits: true
+          max_acceleration: 2.0

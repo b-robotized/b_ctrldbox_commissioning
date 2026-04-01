@@ -49,6 +49,8 @@ ros2 launch pssbl_robot_descriptions description.launch.xml robot_model:=2257 ha
 
 **Note:** Available hardware options are `mock`, `motion_app`, and `motor_direct`.
 
+**IMPORTANT:** If using `motor_direct`, MotionApp on CtrlX must be disabled, as it is claiming the same ethercat signals as our direct motor control hardware interface
+
 ### Step 2: Set ctrlX to OPERATIONAL Mode
 
 ***IMPORTANT:*** For real-time performance, switch the ctrlX controller to OPERATIONAL mode before proceeding.
@@ -99,3 +101,25 @@ joint_state_broadcaster
 joint_trajectory_controller
 tool_controller
 ```
+
+1. **Reset motor errors:** Put the hardware into unconfigured state and then back to inactive. All errors are reset and all drives should be blinking green.
+   ```bash
+   ros2 control set_hardware_component_state -c /b_controlled_box_cm orba6 unconfigured
+   ros2 control set_hardware_component_state -c /b_controlled_box_cm orba6 inactive
+   ```
+   You can now activate the hardware and controllers again (or run `activate_pssbl_robot.bash`).
+
+2. **b»controlled box crashed:** Lead the CtrlX back to SERVICE mode. This resets the controller manager instance and should transition back to "Waiting for robot description" (check the `Logbook` on CtrlX). If the restart fails and the app does not wait for robot description, restart the CtrlX device.
+
+3. **Changed CtrlX IP address and lost ROS 2 topics:** Restart the CtrlX device.
+
+4. **RViz permission issues (X11 display):** Execute this **outside** the container:
+   ```bash
+   xhost +local:docker
+   ```
+   Then re-test:
+   ```bash
+   ros2 run rviz2 rviz2
+   ```
+
+5. **Components fail to activate:** Read the logbook output on CtrlX from the time the activation failed. It is usually a controller or state/command name mismatch between `scenario_controllers.yaml` in the scripts directory and `scenario_controllers.yaml` in the app data on CtrlX.

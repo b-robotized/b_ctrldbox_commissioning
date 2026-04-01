@@ -1,4 +1,4 @@
-# PSSBL ORBA6 ROS 2 Startup Procedure
+# PSSBL Robot ROS 2 Startup Procedure
 
 This guide outlines the steps to launch the PSSBL ORBA6 robot (models 1215 and 2257).
 
@@ -7,6 +7,20 @@ This guide outlines the steps to launch the PSSBL ORBA6 robot (models 1215 and 2
 **Packages:**
 - `pssbl_robot_descriptions` -- URDF, meshes, and robot description launch files
 - `b_robotized_pssbl_demo` -- Bringup, MoveIt, controllers, and SRDF
+
+### Start the Zenoh router
+
+The Zenoh router is necessary for ROS 2 discovery between your PC and the CtrlX device. The IP address should be the one with which your PC connects to CtrlX.
+
+Also make sure you've installed the zenoh router app on CtrlX. [Click here for more detailed instructions](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/master/docs/SETUP_ZENOH.md)
+
+```bash
+# This IP is your device CtrlX IP
+export ZENOH_CONFIG_OVERRIDE='connect/endpoints=["tcp/192.168.28.28:7447"]'
+ros2 run rmw_zenoh_cpp rmw_zenohd
+```
+
+Leave this running in its own terminal.
 
 ### Step 0: Observe controller manager activity
 

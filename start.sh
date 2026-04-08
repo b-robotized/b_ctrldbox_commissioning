@@ -10,7 +10,7 @@ if [[ "$(docker images -q ${IMAGE_URL_FULL} 2> /dev/null)" == "" ]]; then
 
   if [ "$USE_PRIVATE_REGISTRY" = "true" ]; then
     echo "NOTE: You are using a private registry. Make sure you have authenticated first:"
-    echo "  echo \"<b-robotized-access-token>\" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin "
+    echo "  echo \"<deploy-token>\" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin"
     echo ""
   fi
 

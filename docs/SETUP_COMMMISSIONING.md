@@ -19,9 +19,9 @@ The commissioning PC host runs a Dockerized ROS 2 environment to communicate wit
 
 #### Zenoh:
 ---
-b»controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
+b-controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
 
-We encourage you to try out zenoh for your workspace. 
+We encourage you to try out zenoh for your workspace.
 To easily transition to zenoh, check out our [zenoh setup guide](./SETUP_ZENOH.md).
 
 
@@ -30,12 +30,12 @@ To easily transition to zenoh, check out our [zenoh setup guide](./SETUP_ZENOH.m
 
   Configure a static IP address **on your PC's port** connected to CtrlX XF10 port to `192.168.28.201` with netmask `255.255.255.0`.
 
-  ***IMPORTANT: ROS 2 DDS on the b»controlled box is configured to see only IP addresses `192.168.28.201` (for the dev PC) and `192.168.28.202` (for the commissioning Docker container).***
+  ***IMPORTANT: ROS 2 DDS on the b-controlled box is configured to see only IP addresses `192.168.28.201` (for the dev PC) and `192.168.28.202` (for the commissioning Docker container).***
 
   #### for example, if these are the default and recommended IPs in the system:
 
   - **CtrlX CORE:** `192.168.28.7`
-  - **ROS2 PC:** `192.168.28.201`
+  - **ROS 2 PC:** `192.168.28.201`
   - **commissioning Docker container:** `192.168.28.202`
 
   .. then these are `ROS_STATIC_PEERS` env variables:
@@ -53,22 +53,26 @@ To make sure the Date and Time are synchronized between the commissioning contai
 
 Enter the IP address of the commissioning container (`192.168.28.202`) and test the connection. If it succeeds, click "Save"
 
-If encountering NTP connection issues, refer to [NTP server setup](/docs/SETUP_NTP_SERVER.md) instructions for more details.
+If encountering NTP connection issues, refer to [NTP server setup](./SETUP_NTP_SERVER.md) instructions for more details.
 
 ![date-and-time](assets/ctrlx_date_and_time.png)
 
 ### 1.5 Environment Configuration:
 
-  The repo contains an example `.env` file called `comissionning.env.example` which must be configured with your host information for the container to properly run
+  The repo contains an example `.env` file called `comissioning.env.example` which must be configured with your host information for the container to properly run
 
   ```
   cp comissioning.env.example commissioning.env
   ```
-  * `ROBOT_TYPE`: Set to your robot model (e.g., kuka).
+  * `ROBOT_TYPE`: Set to your robot model (e.g., `kuka`). Supported: `ur`, `kuka`, `kassow`, `pssbl`, `dobot`, `fanuc`.
+
+  * `VERSION_TAG`: Image version tag. Should match your b-controlled-box app version (e.g., `1.6.x`).
 
   * `HOST_NETWORK_INTERFACE`: The name of the network interface on your PC connected to the ctrlX device (e.g., `eth0`). Use `ip addr` or `ifconfig` to find it.
 
   * `CONTAINER_MACVLAN_IP`: The static IP for the Docker container. Set it to `192.168.28.202`.
+
+  For a full reference of all configuration variables (including private registry support), see [RUNNING_CONTAINERS.md](RUNNING_CONTAINERS.md).
 
 ### 1.6 Make scripts executable:
 
@@ -79,13 +83,10 @@ If encountering NTP connection issues, refer to [NTP server setup](/docs/SETUP_N
 
 # 2. Usage
 
-These are the commands for using the container
-
 ### 2.1 Start the container: `start.sh`
 
-Upon first start, the container will be downloaded from our container repository.
+Upon first start, the container image will be automatically pulled from the public container registry. On subsequent starts, the locally cached image is used.
 
-The container also creates the necessary network configuration on the host PC
 ```
 ./start.sh
 ```
@@ -96,8 +97,9 @@ To access the container from other terminals, run:
 ```
 ./enter.sh
 ```
-When entering the container, the ros environment will automatically be sourced. You can immediatelly run ros2 commands.
+When entering the container, the ROS 2 environment will automatically be sourced. You can immediately run `ros2` commands.
 
+You can open multiple terminals into the same container by running `./enter.sh` from separate terminal windows.
 
 ### 2.3 Verify container network:
 
@@ -109,10 +111,7 @@ ping 192.168.28.7
 
 ### 2.4 Launch the robot commands
 
-To run scenario commands from the container, refer to `LAUNCH.md` for commands specific to your robot type.
-
-Robot commands for a specific manufacturer can be found in this repo, [on the corresponding branch](https://github.com/b-robotized/b_ctrldbox_commissioning/branches) (e.g. `kuka-master` for [kuka](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master))
-
+To run scenario commands from the container, refer to the `LAUNCH.md` file in the corresponding `workspaces/<robot>/` directory.
 
 ### 2.5 Stop the container: `stop.sh`
 
@@ -125,7 +124,14 @@ and run this from the **host machine**, not the container.
 ./stop.sh
 ```
 
+---
 
-# Troubleshooting
+# Further Reading
 
-TBA
+| Topic | Document |
+|---|---|
+| Detailed container workflows (private images, custom builds, troubleshooting) | [RUNNING_CONTAINERS.md](RUNNING_CONTAINERS.md) |
+| Building your own containers, next steps after commissioning | [FAQ_NEXT_STEPS.md](FAQ_NEXT_STEPS.md) |
+| ctrlX CORE device setup | [SETUP_CTRLX.md](SETUP_CTRLX.md) |
+| Zenoh middleware configuration | [SETUP_ZENOH.md](SETUP_ZENOH.md) |
+| NTP server setup | [SETUP_NTP_SERVER.md](SETUP_NTP_SERVER.md) |

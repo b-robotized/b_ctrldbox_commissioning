@@ -1,8 +1,8 @@
 # Next steps
 
-**Congratulations on successfully commissioning your robot with b»controlled box!** 
+**Congratulations on successfully commissioning your robot with b-controlled box!**
 
-Once you have basic movement established, you will likely want to start building complex applications. To extend the system, you have two primary approaches:
+Once you have basic movement established, you will likely want to start building complex applications. To extend the system, you have several approaches:
 
 ## 1. Extend existing container
 
@@ -29,6 +29,16 @@ vcs import . < path-to/<robot-name>/jazzy.repos
 ```
 
 Alternatively, you can simply copy the source file from the container itself.
+
+## 3. Build your own commissioning container
+
+If you need to modify the commissioning container itself (e.g., add packages, integrate custom ROS 2 nodes, change build configurations), you can build your own image using the public container build repository:
+
+**[b_controlled_box_commissioning_containers](https://github.com/b-robotized/b_controlled_box_commissioning_containers)**
+
+That repository contains the Dockerfiles and build scripts for all publicly available commissioning images. See its README for instructions on building a custom image and using it with this repository.
+
+Once you have built a custom image locally, `start.sh` will automatically detect and use it instead of pulling from the remote registry. See [RUNNING_CONTAINERS.md](RUNNING_CONTAINERS.md) for details on how this works.
 
 # FAQ
 

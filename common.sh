@@ -30,7 +30,7 @@ fi
 # provided a private image and an access token by b-robotized, set
 # USE_PRIVATE_REGISTRY=true in your .env file and authenticate with
 #
-# echo "<b-robotized-access-token>" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin
+# echo "<deploy-token>" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin
 #
 # before running start.sh.
 IMAGE_REGISTRY_URL_PUBLIC="code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers"

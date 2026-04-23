@@ -1,0 +1,52 @@
+/**:
+  ros__parameters:
+    moveit_simple_controller_manager:
+      controller_names:
+        - fr3_left_joint_trajectory_controller
+        - fr3_right_joint_trajectory_controller
+        - fr3_joint_trajectory_controller
+
+      fr3_left_joint_trajectory_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+          - fr3_left_joint1
+          - fr3_left_joint2
+          - fr3_left_joint3
+          - fr3_left_joint4
+          - fr3_left_joint5
+          - fr3_left_joint6
+          - fr3_left_joint7
+
+      fr3_right_joint_trajectory_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+          - fr3_right_joint1
+          - fr3_right_joint2
+          - fr3_right_joint3
+          - fr3_right_joint4
+          - fr3_right_joint5
+          - fr3_right_joint6
+          - fr3_right_joint7
+
+      fr3_joint_trajectory_controller:
+        action_ns: follow_joint_trajectory
+        type: FollowJointTrajectory
+        default: true
+        joints:
+          - fr3_joint1
+          - fr3_joint2
+          - fr3_joint3
+          - fr3_joint4
+          - fr3_joint5
+          - fr3_joint6
+          - fr3_joint7
+
+    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+    ompl:
+      manipulator:
+        projection_evaluator: joints(fr3_left_joint1,fr3_left_joint2)

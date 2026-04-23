@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<robot name="franka_dual_arm" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <xacro:include filename="$(find franka_description)/robots/common/franka_arm.srdf.xacro"/>
+    <xacro:franka_arm_srdf 
+            arm_id="fr3_left"
+            hand="false"
+            ee_id=""
+            no_prefix="false"
+            arm_prefix=""
+            tip_link="link8"/>
+
+    <xacro:include filename="$(find franka_description)/robots/common/franka_arm.srdf.xacro"/>
+    <xacro:franka_arm_srdf 
+            arm_id="fr3_right"
+            hand="false"
+            ee_id=""
+            no_prefix="false"
+            arm_prefix=""
+            tip_link="link8"/>
+
+    <group name="dual_arm">
+        <group name="fr3_left_arm"/>
+        <group name="fr3_right_arm"/>
+    </group>
+
+    <group_state name="home" group="fr3_left_arm">
+        <joint name="fr3_left_joint1" value="0" />
+        <joint name="fr3_left_joint2" value="-0.785398163397" />
+        <joint name="fr3_left_joint3" value="0" />
+        <joint name="fr3_left_joint4" value="-2.35619449019" />
+        <joint name="fr3_left_joint5" value="0" />
+        <joint name="fr3_left_joint6" value="1.57079632679" />
+        <joint name="fr3_left_joint7" value="0.785398163397" />
+    </group_state>
+
+    <group_state name="home" group="fr3_right_arm">
+        <joint name="fr3_right_joint1" value="0" />
+        <joint name="fr3_right_joint2" value="-0.785398163397" />
+        <joint name="fr3_right_joint3" value="0" />
+        <joint name="fr3_right_joint4" value="-2.35619449019" />
+        <joint name="fr3_right_joint5" value="0" />
+        <joint name="fr3_right_joint6" value="1.57079632679" />
+        <joint name="fr3_right_joint7" value="0.785398163397" />
+    </group_state>
+
+</robot>

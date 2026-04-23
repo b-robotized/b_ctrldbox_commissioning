@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="franka_dual_arm">
+
+    <xacro:arg name="use_mock_hardware" default="true"/>
+
+    <xacro:arg name="robot_1_arm_id" default="fr3_left"/>
+    <xacro:arg name="robot_2_arm_id" default="fr3_right"/>
+
+    <xacro:arg name="robot_1_ip" default="10.42.0.203"/>
+    <xacro:arg name="robot_1_scheduling_policy" default="detached"/>
+
+    <xacro:arg name="robot_2_ip" default="10.42.0.204"/>
+    <xacro:arg name="robot_2_scheduling_policy" default="detached"/>
+
+    <link name="world"/>
+
+    <!-- ============= FRANKA LEFT ================ -->
+    <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
+    <xacro:franka_robot arm_id="$(arg robot_1_arm_id)"
+                        mesh_model="fr3"
+                        joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3/joint_limits.yaml')}"
+                        inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3/inertials.yaml')}"
+                        kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3/kinematics.yaml')}"
+                        dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')}"
+                        hand="false"
+                        ee_id="franka_hand"
+                        safety_distance="0.03"
+                        xyz="0 -0.5 0"
+                        with_sc="false"
+                        ros2_control="true"
+                        robot_ip="$(arg robot_1_ip)"
+                        use_fake_hardware="$(arg use_mock_hardware)"
+                        fake_sensor_commands="$(arg use_mock_hardware)"
+                        gazebo_effort="true"
+                        gazebo="false"
+                        no_prefix="false"
+                        arm_prefix=""
+                        description_pkg="franka_description"
+                        connected_to="world"
+                        scheduling_policy="$(arg robot_1_scheduling_policy)">
+    </xacro:franka_robot>
+
+    <!-- ============= FRANKA RIGHT ================ -->
+    <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro"/>
+    <xacro:franka_robot arm_id="$(arg robot_2_arm_id)"
+                        mesh_model="fr3"
+                        joint_limits="${xacro.load_yaml('$(find franka_description)/robots/fr3/joint_limits.yaml')}"
+                        inertials="${xacro.load_yaml('$(find franka_description)/robots/fr3/inertials.yaml')}"
+                        kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3/kinematics.yaml')}"
+                        dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')}"
+                        hand="false"
+                        ee_id="franka_hand"
+                        safety_distance="0.03"
+                        xyz="0 0.5 0"
+                        with_sc="false"
+                        ros2_control="true"
+                        robot_ip="$(arg robot_2_ip)"
+                        use_fake_hardware="$(arg use_mock_hardware)"
+                        fake_sensor_commands="$(arg use_mock_hardware)"
+                        gazebo_effort="true"
+                        gazebo="false"
+                        no_prefix="false"
+                        arm_prefix=""
+                        description_pkg="franka_description"
+                        connected_to="world"
+                        scheduling_policy="$(arg robot_2_scheduling_policy)">
+    </xacro:franka_robot>
+
+    <!-- ============= FRANKA LEFT TOOL MOUNT ================ -->
+    <link name="$(arg robot_1_arm_id)_tool0"/>
+    <joint name="$(arg robot_1_arm_id)_tool0_joint" type="fixed">
+        <parent link="$(arg robot_1_arm_id)_link8"/>
+        <child link="$(arg robot_1_arm_id)_tool0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <!-- ============= FRANKA RIGHT TOOL MOUNT ================ -->
+    <link name="$(arg robot_2_arm_id)_tool0"/>
+    <joint name="$(arg robot_2_arm_id)_tool0_joint" type="fixed">
+        <parent link="$(arg robot_2_arm_id)_link8"/>
+        <child link="$(arg robot_2_arm_id)_tool0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+</robot>

@@ -1,0 +1,42 @@
+<!--
+  Copyright (c) 2025, b-robotized Group
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Source of this file is https://github.com/b-robotized/ros_team_workspace repository.
+
+  Author: Dr. Denis
+-->
+
+<launch>
+
+  <arg name="description_package" default="b_robotized_franka_demo" description="Description package with robot URDF/xacro files. Usually not set, it enables use of a custom description."/>
+  <arg name="description_file" default="franka" description="URDF/XACRO description file with the robot."/>
+
+  <arg name="use_mock_hardware" default="false" description="Whether to use mock hardware or real hardware."/>
+
+  <arg name="arm_id" default="fr3" description="Arm ID of the robot."/>
+  <arg name="robot_ip" default="10.42.0.203" description="IP address of the robot."/>
+  <arg name="scheduling_policy" default="slave" description="Async hw interface scheduling policy"/>
+
+  <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var description_package))/urdf/$(var description_file).urdf.xacro \
+                                        use_mock_hardware:=$(var use_mock_hardware) \
+                                        arm_id:=$(var arm_id) \
+                                        robot_ip:=$(var robot_ip) \
+                                        scheduling_policy:=$(var scheduling_policy)')"/>
+
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
+    <param name="robot_description" value="$(var robot_description)"/>
+  </node>
+
+</launch>

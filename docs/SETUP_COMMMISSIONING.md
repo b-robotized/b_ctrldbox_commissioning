@@ -108,12 +108,28 @@ Inside the container, run a quick ping to make sure it can see the ctrlX CORE:
 ```
 ping 192.168.28.7
 ```
+### 2.5 Configuring `ros2_control` controllers
 
-### 2.4 Launch the robot commands
+For `ros2_control`, it is necessary to configure the names and types of controllers we use.
+
+In CtrlX UI, Navigate to app data, and open it in file view:
+
+![app-data](assets/ctrlx_app_data.png)
+
+Open `b-controlled-box` directory and open `scenario_controllers.yaml`
+
+![scenario-controllers](assets/ctrlx_scenario_controllers.png)
+
+**In the commissioning container**, navigate to `b_ctrldbox_commissioning/scripts` directory, and copy the contents of `scenario_controllers.yaml` there to the `scenario_controllers.yaml` on CtrlX.
+
+Click **SAVE** and you're ready to spawn the controllers!
+
+
+### 2.6 Launch the robot commands
 
 To run scenario commands from the container, refer to the `LAUNCH.md` file in the corresponding `workspaces/<robot>/` directory.
 
-### 2.5 Stop the container: `stop.sh`
+### 2.7 Stop the container: `stop.sh`
 
 When you are finished, exit the container:
 ```

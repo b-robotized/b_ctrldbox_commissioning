@@ -4,35 +4,38 @@ This guide covers the KUKA-specific steps for configuring the Robot Sensor Inter
 
 ## 1. Configure the RSI Network Interface
 
-You'll need to set up a dedicated network interface on the robot controller for RSI communication. 
+You'll need to set up a dedicated network interface on the robot controller for RSI communication.
 
 SmartHMI on the teach pad runs ontop of Windows. Ensure that the Windows interface of the controller is connected to the same subnet as the configuration PC (e.g. `192.168.28.x`).
 
 Log in as **Expert** or **Administrator** on the teach pad and navigate to **Network configuration** (`Start-up -> Network configuration -> Activate advanced configuration`).
 There should already exist an interface named Windows interface. For example:
-* IP: `192.168.28.210`
+* IP: `172.31.1.178`
 * Subnet mask: `255.255.255.0`
-* Default gateway: `192.168.28.254`
+* Default gateway: `xxx.xxx.xxx.xxx`
 * Windows interface checkbox should be checked.
 
+Adjust the IP address too `10.28.23.240` for everything to work out of the box.
+If you want to use differnet IP, make sure to add IP in the same range on X12 interface of CtrlX Core device and update the address in file `b_ctrldbox_EkiKSSinterface.xml` before data are copied to KUKA controller. For KUKA KSS version `>= v8.5` use `workspaces/kuka/KSS_above_v8.5/Config/User/Common/EthernetKRL/` and for KSS version `< v8.5` use `workspaces/kuka/KSS_under_v8.5/Config/User/Common/EthernetKRL/`
+
 <p align="center">
-<img src="../assets/kuka/version_KRC5.jpg" alt="Description of image" width="60%">
-</p>
+<img src="../assets/kuka/version_KRC5.jpg" alt="KUKA KRC version to know which configuration to install." width="60%">
+</p>_
 
 1. On the teach pendant, navigate to `Start-up > Network configuration -> Add interface`.
 
 2. Select the new entry and configure the following:
 
-  * **Interface name:** b>>ctrld box (or similar).
+  * **Interface name:** RSI b»ctrld box (or similar).
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/kuka-master/kuka/KRC5/b_ctrldbox_rsi_eth.xml#L3)).
+  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](workspaces/kuka/KSS_above_v8.5/Config/User/Common/SensorInterface/b_ctrldbox_rsi_eth.xml).
 
   * **Subnet mask:** `255.255.255.0.`
 
 <p align="center">
-<img src="../assets/kuka/krc5_new_interface.jpg" alt="Description of image" width="60%">
+<img src="../assets/kuka/krc5_new_interface.jpg" alt="RSI Interface configuration." width="60%">
 </p>
 
 ## 2. Prepare KRL Configuration Files
@@ -42,10 +45,10 @@ The **Kuka Robot Language** programs define the communication parameters. You mu
 
 
 ***IMPORTANT: Make sure you use the correct configuration, depending on your `KSS` version from Step 1:***
--  `kuka/KRC4/` configuration for `KSS < 8.6`
--  `kuka/KRC5/` configuration for `KSS >= 8.6`
+-  `workspaces/kuka/KSS_under_v8.5/` configuration for `KSS < 8.5`
+-  `workspaces/kuka/KSS_above_v8.5/` configuration for `KSS >= 8.5`
 
-The files can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/kuka`
+The files can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/workspaces/kuka`
 
 - `b_ctrldbox_rsi_eth.xml:`
 

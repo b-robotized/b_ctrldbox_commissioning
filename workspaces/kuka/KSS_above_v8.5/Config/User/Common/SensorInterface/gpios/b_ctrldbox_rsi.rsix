@@ -8,6 +8,14 @@
          <Inputs>
             <Input InIdx="0" OutObjId="DigOut_1" OutIdx="0" />
             <Input InIdx="1" OutObjId="DigIn_1" OutIdx="0" />
+            <Input InIdx="2" OutObjId="DigIn_132" OutIdx="0" />
+            <Input InIdx="3" OutObjId="DigIn_133" OutIdx="0" />
+            <Input InIdx="4" OutObjId="DigIn_134" OutIdx="0" />
+            <Input InIdx="5" OutObjId="DigIn_135" OutIdx="0" />
+            <Input InIdx="6" OutObjId="DigIn_136" OutIdx="0" />
+            <Input InIdx="7" OutObjId="DigIn_137" OutIdx="0" />
+            <Input InIdx="8" OutObjId="DigIn_138" OutIdx="0" />
+            <Input InIdx="9" OutObjId="DigIn_139" OutIdx="0" />
          </Inputs>
          <Parameters>
             <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
@@ -83,6 +91,165 @@
          </Inputs>
          <Parameters>
             <Parameter Name="Index" ParamId="0" ParamValue="1" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_132">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="132" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_133">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="133" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_134">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="134" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_135">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="135" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_136">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="136" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_137">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="137" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_138">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="138" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_139">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="139" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_33">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="8" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="33" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_34">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="9" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="34" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_35">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="10" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="35" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_36">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="11" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="36" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_39">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="12" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="39" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_40">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="13" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="40" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_41">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="14" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="41" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_42">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="15" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="42" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_43">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="16" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="43" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_44">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="17" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="44" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_45">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="18" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="45" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_46">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="19" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="46" />
             <Parameter Name="DataType" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>

@@ -11,18 +11,15 @@
       <ELEMENT TAG="DEF_AIPos" TYPE="DOUBLE" INDX="INTERNAL" />  <!-- Joint position -->
       <ELEMENT TAG="DEF_EIPos" TYPE="DOUBLE" INDX="INTERNAL" />  <!-- External axis position -->
       <ELEMENT TAG="DEF_Delay" TYPE="LONG"   INDX="INTERNAL" />  <!-- Number of late packets -->
-      <!-- Inputs -->
-      <ELEMENT TAG="GPIO.01"   TYPE="BOOL"   INDX="1"  />
-      <ELEMENT TAG="GPIO.02"   TYPE="BOOL"   INDX="2"  />
       <!-- Contact feedback -->
-      <ELEMENT TAG="GPIO.extend_check_1"  TYPE="BOOL" INDX="3"  />  
-      <ELEMENT TAG="GPIO.extend_check_3"  TYPE="BOOL" INDX="4"  />  
-      <ELEMENT TAG="GPIO.retract_check_1" TYPE="BOOL" INDX="5"  />  
-      <ELEMENT TAG="GPIO.retract_check_3" TYPE="BOOL" INDX="6"  />  
-      <ELEMENT TAG="GPIO.extend_check_2"  TYPE="BOOL" INDX="7"  />  
-      <ELEMENT TAG="GPIO.extend_check_4"  TYPE="BOOL" INDX="8"  />  
-      <ELEMENT TAG="GPIO.retract_check_2" TYPE="BOOL" INDX="9"  />  
-      <ELEMENT TAG="GPIO.retract_check_4" TYPE="BOOL" INDX="10" />  
+      <ELEMENT TAG="GPIO.extend_check_1"  TYPE="BOOL" INDX="1"  />
+      <ELEMENT TAG="GPIO.extend_check_3"  TYPE="BOOL" INDX="2"  />
+      <ELEMENT TAG="GPIO.retract_check_1" TYPE="BOOL" INDX="3"  />
+      <ELEMENT TAG="GPIO.retract_check_3" TYPE="BOOL" INDX="4"  />
+      <ELEMENT TAG="GPIO.extend_check_2"  TYPE="BOOL" INDX="5"  />
+      <ELEMENT TAG="GPIO.extend_check_4"  TYPE="BOOL" INDX="6"  />
+      <ELEMENT TAG="GPIO.retract_check_2" TYPE="BOOL" INDX="7"  />
+      <ELEMENT TAG="GPIO.retract_check_4" TYPE="BOOL" INDX="8"  />  
     </ELEMENTS>
   </SEND>
   <RECEIVE>
@@ -36,22 +33,20 @@
       <ELEMENT TAG="AK.A4" TYPE="DOUBLE" INDX="5"  HOLDON="1" />
       <ELEMENT TAG="AK.A5" TYPE="DOUBLE" INDX="6"  HOLDON="1" />
       <ELEMENT TAG="AK.A6" TYPE="DOUBLE" INDX="7"  HOLDON="1" />
-      <!-- Outputs -->
-      <ELEMENT TAG="GPIO.01"  TYPE="BOOL"  INDX="8"  HOLDON="1" />
       <!-- Ejectors (suction) -->
-      <ELEMENT TAG="GPIO.suction_1" TYPE="BOOL" INDX="9"  HOLDON="1" />
-      <ELEMENT TAG="GPIO.suction_2" TYPE="BOOL" INDX="10" HOLDON="1" />
-      <ELEMENT TAG="GPIO.suction_3" TYPE="BOOL" INDX="11" HOLDON="1" />
-      <ELEMENT TAG="GPIO.suction_4" TYPE="BOOL" INDX="12" HOLDON="1" />
+      <ELEMENT TAG="GPIO.suction_1" TYPE="BOOL" INDX="8"  HOLDON="1" />
+      <ELEMENT TAG="GPIO.suction_2" TYPE="BOOL" INDX="9"  HOLDON="1" />
+      <ELEMENT TAG="GPIO.suction_3" TYPE="BOOL" INDX="10" HOLDON="1" />
+      <ELEMENT TAG="GPIO.suction_4" TYPE="BOOL" INDX="11" HOLDON="1" />
       <!-- Cylinder valves -->
-      <ELEMENT TAG="GPIO.retract_1" TYPE="BOOL" INDX="13" HOLDON="1" />
-      <ELEMENT TAG="GPIO.extend_1"  TYPE="BOOL" INDX="14" HOLDON="1" />
-      <ELEMENT TAG="GPIO.retract_2" TYPE="BOOL" INDX="15" HOLDON="1" />
-      <ELEMENT TAG="GPIO.extend_2"  TYPE="BOOL" INDX="16" HOLDON="1" />
-      <ELEMENT TAG="GPIO.retract_3" TYPE="BOOL" INDX="17" HOLDON="1" />
-      <ELEMENT TAG="GPIO.extend_3"  TYPE="BOOL" INDX="18" HOLDON="1" />
-      <ELEMENT TAG="GPIO.retract_4" TYPE="BOOL" INDX="19" HOLDON="1" />
-      <ELEMENT TAG="GPIO.extend_4"  TYPE="BOOL" INDX="20" HOLDON="1" />
+      <ELEMENT TAG="GPIO.retract_1" TYPE="BOOL" INDX="12" HOLDON="1" />
+      <ELEMENT TAG="GPIO.extend_1"  TYPE="BOOL" INDX="13" HOLDON="1" />
+      <ELEMENT TAG="GPIO.retract_2" TYPE="BOOL" INDX="14" HOLDON="1" />
+      <ELEMENT TAG="GPIO.extend_2"  TYPE="BOOL" INDX="15" HOLDON="1" />
+      <ELEMENT TAG="GPIO.retract_3" TYPE="BOOL" INDX="16" HOLDON="1" />
+      <ELEMENT TAG="GPIO.extend_3"  TYPE="BOOL" INDX="17" HOLDON="1" />
+      <ELEMENT TAG="GPIO.retract_4" TYPE="BOOL" INDX="18" HOLDON="1" />
+      <ELEMENT TAG="GPIO.extend_4"  TYPE="BOOL" INDX="19" HOLDON="1" />
     </ELEMENTS>
   </RECEIVE>
 </ROOT>

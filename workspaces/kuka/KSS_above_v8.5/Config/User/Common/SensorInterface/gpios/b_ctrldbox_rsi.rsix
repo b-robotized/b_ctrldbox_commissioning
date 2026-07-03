@@ -2543,6 +2543,16 @@
    </BlueprintCollections>
    <Constructs xmlns="RsiConstruct">
       <Construct Name="Ethernet_1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="400,370">
+         <Inputs>
+            <Input Name="In1" SourceObject="DigIn_132" SourcePort="Out1" Points="176.08,955.9;188.08,955.9;200.08,955.9;200.08,389.5;366,389.5;382,389.5" />
+            <Input Name="In2" SourceObject="DigIn_133" SourcePort="Out1" Points="176.08,1015.9;188.08,1015.9;200.08,1015.9;200.08,419.5;366,419.5;382,419.5" />
+            <Input Name="In3" SourceObject="DigIn_134" SourcePort="Out1" Points="176.08,1075.9;188.08,1075.9;200.08,1075.9;200.08,449.5;366,449.5;382,449.5" />
+            <Input Name="In4" SourceObject="DigIn_135" SourcePort="Out1" Points="176.08,1135.9;188.08,1135.9;200.08,1135.9;200.08,479.5;366,479.5;382,479.5" />
+            <Input Name="In5" SourceObject="DigIn_136" SourcePort="Out1" Points="176.08,1195.9;188.08,1195.9;200.08,1195.9;200.08,509.5;366,509.5;382,509.5" />
+            <Input Name="In6" SourceObject="DigIn_137" SourcePort="Out1" Points="176.08,1255.9;188.08,1255.9;200.08,1255.9;200.08,539.5;366,539.5;382,539.5" />
+            <Input Name="In7" SourceObject="DigIn_138" SourcePort="Out1" Points="176.08,1315.9;188.08,1315.9;200.08,1315.9;200.08,569.5;366,569.5;382,569.5" />
+            <Input Name="In8" SourceObject="DigIn_139" SourcePort="Out1" Points="176.08,1375.9;188.08,1375.9;200.08,1375.9;200.08,599.5;366,599.5;382,599.5" />
+         </Inputs>
          <Parameters>
             <StringParameter Name="ConfigFile" Value="b_ctrldbox_rsi_eth.xml" />
             <IntParameter Name="Timeout" Value="100" />
@@ -2593,6 +2603,142 @@
             <DoubleParameter Name="MaxE4" CanBeSetFromKrl="true" Value="2000" />
             <DoubleParameter Name="MaxE5" CanBeSetFromKrl="true" Value="2000" />
             <DoubleParameter Name="MaxE6" CanBeSetFromKrl="true" Value="2000" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_132" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,936.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="132" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_133" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,996.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="133" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_134" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1056.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="134" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_135" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1116.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="135" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_136" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1176.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="136" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_137" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1236.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="137" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_138" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1296.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="138" />
+         </Parameters>
+      </Construct>
+      <Construct Name="DigIn_139" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1356.4">
+         <Parameters>
+            <IntParameter Name="Index" Value="139" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_33" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,823.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out8" Points="578.516666666667,599.5;586.516666666667,599.5;594.516666666667,599.5;594.516666666667,842.6;766,842.6;782,842.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="33" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_34" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,883.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out9" Points="578.516666666667,629.5;586.516666666667,629.5;594.516666666667,629.5;594.516666666667,902.6;766,902.6;782,902.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="34" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_35" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,943.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out10" Points="578.516666666667,659.5;586.516666666667,659.5;594.516666666667,659.5;594.516666666667,962.6;766,962.6;782,962.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="35" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_36" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1003.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out11" Points="578.516666666667,689.5;586.516666666667,689.5;594.516666666667,689.5;594.516666666667,1022.6;766,1022.6;782,1022.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="36" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_39" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1063.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out12" Points="578.516666666667,719.5;586.516666666667,719.5;594.516666666667,719.5;594.516666666667,1082.6;766,1082.6;782,1082.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="39" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_40" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1123.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out13" Points="578.516666666667,749.5;586.516666666667,749.5;594.516666666667,749.5;594.516666666667,1142.6;766,1142.6;782,1142.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="40" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_41" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1183.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out14" Points="578.516666666667,779.5;586.516666666667,779.5;594.516666666667,779.5;594.516666666667,1202.6;766,1202.6;782,1202.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="41" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_42" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1243.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out15" Points="578.516666666667,809.5;586.516666666667,809.5;594.516666666667,809.5;594.516666666667,1262.6;766,1262.6;782,1262.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="42" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_43" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1303.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out16" Points="578.516666666667,839.5;586.516666666667,839.5;594.516666666667,839.5;594.516666666667,1322.6;766,1322.6;782,1322.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="43" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_44" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1363.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out17" Points="578.516666666667,869.5;586.516666666667,869.5;594.516666666667,869.5;594.516666666667,1382.6;766,1382.6;782,1382.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="44" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_45" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1423.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out18" Points="578.516666666667,899.5;586.516666666667,899.5;594.516666666667,899.5;594.516666666667,1442.6;766,1442.6;782,1442.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="45" />
+         </Parameters>
+      </Construct>
+      <Construct Name="Map2DigOut_46" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1483.1">
+         <Inputs>
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out19" Points="578.516666666667,929.5;586.516666666667,929.5;594.516666666667,929.5;594.516666666667,1502.6;766,1502.6;782,1502.6" />
+         </Inputs>
+         <Parameters>
+            <IntParameter Name="Index" Value="46" />
          </Parameters>
       </Construct>
    </Constructs>

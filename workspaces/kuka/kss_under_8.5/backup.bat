@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 REM ============================================
-REM KUKA KSS < v8.5 b_ctrldbox Backup Script
+REM KUKA KSS < v8.6 b_ctrldbox Backup Script
 REM Copies the CURRENT on-controller files that
 REM deploy.bat would overwrite into a timestamped
 REM backup folder, for manual comparison later.
@@ -10,7 +10,7 @@ REM ============================================
 
 echo.
 echo ============================================
-echo KUKA KSS below v8.5 b_ctrldbox Backup
+echo KUKA KSS below v8.6 b_ctrldbox Backup
 echo ============================================
 echo.
 

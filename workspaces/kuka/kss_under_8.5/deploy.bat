@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 REM ============================================
-REM KUKA KSS < v8.5 Deployment Script
+REM KUKA KSS < v8.6 Deployment Script
 REM (RSI Context deployed as separate .rsi /
 REM  .rsi.diagram / .rsi.xml files instead of
 REM  a single .rsix package)
@@ -13,7 +13,7 @@ REM RSI CONFIGURATION SELECTION
 REM ============================================
 echo.
 echo ============================================
-echo KUKA KSS below v8.5 b_ctrldbox Deployment
+echo KUKA KSS below v8.6 b_ctrldbox Deployment
 echo ============================================
 echo.
 echo Select RSI configuration:

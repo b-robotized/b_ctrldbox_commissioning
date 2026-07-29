@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSIObjects xsi:noNamespaceSchemaLocation="/Roboter/Config/System/Common/Schemes/RSIContext.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RSIObject ObjType="AXISCORR" ObjTypeID="33" ObjID="AxisCorr_1">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="2" />
+      <Input InIdx="2" OutObjID="ETHERNET1" OutIdx="3" />
+      <Input InIdx="3" OutObjID="ETHERNET1" OutIdx="4" />
+      <Input InIdx="4" OutObjID="ETHERNET1" OutIdx="5" />
+      <Input InIdx="5" OutObjID="ETHERNET1" OutIdx="6" />
+      <Input InIdx="6" OutObjID="ETHERNET1" OutIdx="7" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="LowerLimA1" ParamID="1" ParamValue="-170.0" IsPublic="true" />
+      <Parameter Name="LowerLimA2" ParamID="2" ParamValue="-135.0" IsPublic="true" />
+      <Parameter Name="LowerLimA3" ParamID="3" ParamValue="-210.0" IsPublic="true" />
+      <Parameter Name="LowerLimA4" ParamID="4" ParamValue="-185.0" IsPublic="true" />
+      <Parameter Name="LowerLimA5" ParamID="5" ParamValue="-210.0" IsPublic="true" />
+      <Parameter Name="LowerLimA6" ParamID="6" ParamValue="-350.0" IsPublic="true" />
+      <Parameter Name="UpperLimA1" ParamID="13" ParamValue="170.0" IsPublic="true" />
+      <Parameter Name="UpperLimA2" ParamID="14" ParamValue="90.0" IsPublic="true" />
+      <Parameter Name="UpperLimA3" ParamID="15" ParamValue="90.0" IsPublic="true" />
+      <Parameter Name="UpperLimA4" ParamID="16" ParamValue="90.0" IsPublic="true" />
+      <Parameter Name="UpperLimA5" ParamID="17" ParamValue="120.0" IsPublic="true" />
+      <Parameter Name="UpperLimA6" ParamID="18" ParamValue="350.0" IsPublic="true" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">
+    <Inputs>
+      <Input InIdx="1" OutObjID="DigIn_132" OutIdx="1" />
+      <Input InIdx="2" OutObjID="DigIn_133" OutIdx="1" />
+      <Input InIdx="3" OutObjID="DigIn_134" OutIdx="1" />
+      <Input InIdx="4" OutObjID="DigIn_135" OutIdx="1" />
+      <Input InIdx="5" OutObjID="DigIn_136" OutIdx="1" />
+      <Input InIdx="6" OutObjID="DigIn_137" OutIdx="1" />
+      <Input InIdx="7" OutObjID="DigIn_138" OutIdx="1" />
+      <Input InIdx="8" OutObjID="DigIn_139" OutIdx="1" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="ConfigFile" ParamID="1" ParamValue="rsi_ethernet.xml" IsRuntime="false" />
+      <Parameter Name="Timeout" ParamID="1" ParamValue="100" />
+      <Parameter Name="Flag" ParamID="4" ParamValue="1" />
+      <Parameter Name="Precision" ParamID="8" ParamValue="4" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="AXISCORRMON" ObjTypeID="82" ObjID="AxisCorrMon_1">
+    <Parameters>
+      <Parameter Name="MaxA1" ParamID="1" ParamValue="360.0" IsPublic="true" />
+      <Parameter Name="MaxA2" ParamID="2" ParamValue="200.0" IsPublic="true" />
+      <Parameter Name="MaxA3" ParamID="3" ParamValue="360.0" IsPublic="true" />
+      <Parameter Name="MaxA4" ParamID="4" ParamValue="720.0" IsPublic="true" />
+      <Parameter Name="MaxA5" ParamID="5" ParamValue="360.0" IsPublic="true" />
+      <Parameter Name="MaxA6" ParamID="6" ParamValue="360.0" IsPublic="true" />
+      <Parameter Name="MaxE1" ParamID="7" ParamValue="6.0" IsPublic="true" />
+      <Parameter Name="MaxE2" ParamID="8" ParamValue="6.0" IsPublic="true" />
+      <Parameter Name="MaxE3" ParamID="9" ParamValue="6.0" IsPublic="true" />
+      <Parameter Name="MaxE4" ParamID="10" ParamValue="6.0" IsPublic="true" />
+      <Parameter Name="MaxE5" ParamID="11" ParamValue="6.0" IsPublic="true" />
+      <Parameter Name="MaxE6" ParamID="12" ParamValue="6.0" IsPublic="true" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="STOP" ObjTypeID="18" ObjID="STOP1">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="1" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Mode" ParamID="1" ParamValue="4" />
+      <Parameter Name="Channel" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_132">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="132" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_133">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="133" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_134">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="134" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_135">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="135" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_136">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="136" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_137">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="137" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_138">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="138" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_139">
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="139" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_33">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="8" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="33" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_34">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="9" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="34" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_35">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="10" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="35" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_36">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="11" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="36" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_39">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="12" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="39" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_40">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="13" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="40" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_41">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="14" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="41" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_42">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="15" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="42" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_43">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="16" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="43" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_44">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="17" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="44" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_45">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="18" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="45" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_46">
+    <Inputs>
+      <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="19" />
+    </Inputs>
+    <Parameters>
+      <Parameter Name="Index" ParamID="1" ParamValue="46" />
+      <Parameter Name="DataType" ParamID="2" ParamValue="0" />
+    </Parameters>
+  </RSIObject>
+</RSIObjects>

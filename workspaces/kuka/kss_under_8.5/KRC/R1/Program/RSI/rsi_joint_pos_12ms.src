@@ -37,7 +37,7 @@ DEF rsi_joint_pos_12ms()
     PTP $AXIS_ACT_MEAS
 
     ; Create RSI Context
-    ret = RSI_CREATE("rsi_joint_pos", cont_id, TRUE)
+    ret = RSI_CREATE("b_ctrldbox_rsi", cont_id, TRUE)
     IF (ret <> RSIOK) THEN
         HALT
     ENDIF

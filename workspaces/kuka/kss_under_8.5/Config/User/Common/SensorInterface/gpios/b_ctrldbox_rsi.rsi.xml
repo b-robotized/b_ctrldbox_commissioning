@@ -36,7 +36,7 @@
       <Input InIdx="8" OutObjID="DigIn_139" OutIdx="1" />
     </Inputs>
     <Parameters>
-      <Parameter Name="ConfigFile" ParamID="1" ParamValue="rsi_ethernet.xml" IsRuntime="false" />
+      <Parameter Name="ConfigFile" ParamID="1" ParamValue="b_ctrldbox_rsi_eth.xml" IsRuntime="false" />
       <Parameter Name="Timeout" ParamID="1" ParamValue="100" />
       <Parameter Name="Flag" ParamID="4" ParamValue="1" />
       <Parameter Name="Precision" ParamID="8" ParamValue="4" />

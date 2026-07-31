@@ -2,13 +2,14 @@
 setlocal enabledelayedexpansion
 
 REM ============================================
-REM KUKA b_ctrldbox Backup Script
+REM KUKA b_ctrldbox / FZI Backup Script
 REM Copies the CURRENT on-controller files that
-REM deploy.bat would overwrite into a timestamped
-REM backup folder, for manual comparison later.
-REM Controller-side paths are the same regardless
-REM of KSS version, so no version selection is
-REM needed here.
+REM deploy.bat would overwrite (or delete as stale)
+REM into a timestamped backup folder, for manual
+REM comparison later. Controller-side paths are the
+REM same regardless of KSS version / driver choice,
+REM so no selection is needed here - everything that
+REM could exist gets backed up.
 REM ============================================
 
 echo.
@@ -23,6 +24,7 @@ REM ============================================
 set "DST_RSI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\SensorInterface"
 set "DST_EKI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\EthernetKRL"
 set "DST_PROGRAM=C:\KRC\ROBOTER\KRC\R1\Program\b_ctrldbox"
+set "DST_PROGRAM_FZI=C:\KRC\ROBOTER\KRC\R1\Program\fzi_rsi_driver"
 
 REM ============================================
 REM TIMESTAMP
@@ -38,7 +40,8 @@ echo.
 
 call :BackupFolder "RSI config files" "%DST_RSI_CONFIG%" "%BACKUP_ROOT%\Config\User\Common\SensorInterface"
 call :BackupFolder "EKI config files" "%DST_EKI_CONFIG%" "%BACKUP_ROOT%\Config\User\Common\EthernetKRL"
-call :BackupFolder "Program files (RSI+EKI)" "%DST_PROGRAM%" "%BACKUP_ROOT%\KRC\R1\Program\b_ctrldbox"
+call :BackupFolder "b_ctrldbox program files (RSI+EKI)" "%DST_PROGRAM%" "%BACKUP_ROOT%\KRC\R1\Program\b_ctrldbox"
+call :BackupFolder "FZI reference driver program files" "%DST_PROGRAM_FZI%" "%BACKUP_ROOT%\KRC\R1\Program\fzi_rsi_driver"
 
 echo.
 echo ============================================

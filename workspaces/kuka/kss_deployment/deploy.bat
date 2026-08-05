@@ -3,34 +3,41 @@ setlocal enabledelayedexpansion
 
 REM ============================================
 REM KUKA b_ctrldbox Deployment Script
-REM Supports both RSI packaging formats:
-REM   - KSS 8.6 and above: single .rsix file
-REM   - KSS below 8.6:     separate .rsi /
-REM                        .rsi.diagram / .rsi.xml files
+REM Supports the three RSI Visual generations used
+REM across supported KSS versions:
+REM   - RSI 3.3.x (KSS 8.3, 8.4): separate .rsi /
+REM                               .rsi.diagram / .rsi.xml files
+REM   - RSI 4.0.x (KSS 8.5):      single .rsix file
+REM   - RSI 4.1.x (KSS 8.6):      single .rsix file
 REM ============================================
 
 REM ============================================
-REM KSS VERSION SELECTION
+REM RSI VERSION SELECTION
 REM ============================================
 echo.
 echo ============================================
 echo KUKA b_ctrldbox Deployment
 echo ============================================
 echo.
-echo Select KSS version:
-echo   1. KSS 8.6 and above (single .rsix file)
-echo   2. KSS below 8.6 (separate .rsi / .rsi.diagram / .rsi.xml files)
+echo Select RSI version (matches your KSS version):
+echo   1. RSI 3.3.x - KSS 8.3, 8.4 (separate .rsi / .rsi.diagram / .rsi.xml files)
+echo   2. RSI 4.0.x - KSS 8.5 (single .rsix file)
+echo   3. RSI 4.1.x - KSS 8.6 (single .rsix file)
 echo.
-set /p kss_version="Enter selection (1/2): "
+set /p rsi_version="Enter selection (1/2/3): "
 
-if "!kss_version!"=="2" (
-    set "KSS_VERSION_DIR=below_v8.6"
+if "!rsi_version!"=="1" (
+    set "KSS_VERSION_DIR=rsi_3.3.x"
     echo.
-    echo Selected: KSS below 8.6
+    echo Selected: RSI 3.3.x (KSS 8.3, 8.4)
+) else if "!rsi_version!"=="3" (
+    set "KSS_VERSION_DIR=rsi_4.1.x"
+    echo.
+    echo Selected: RSI 4.1.x (KSS 8.6)
 ) else (
-    set "KSS_VERSION_DIR=above_v8.6"
+    set "KSS_VERSION_DIR=rsi_4.0.x"
     echo.
-    echo Selected: KSS 8.6 and above
+    echo Selected: RSI 4.0.x (KSS 8.5)
 )
 
 REM ============================================

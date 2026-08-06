@@ -16,6 +16,12 @@ in turn is tied to the KSS version on the controller:
 Pick the folder matching your controller's KSS version, not just "packed vs.
 split" — RSI 4.0.x and 4.1.x both use `.rsix` but are not interchangeable.
 
+The `b_ctrldbox_rsi_eth.xml` (IP/port/element mapping) is identical across all
+three RSI versions for a given configuration, so it lives once under
+`common/` instead of being duplicated in each `rsi_*.x/` folder. Only the
+RSI Visual project itself (`.rsix` or `.rsi`/`.rsi.diagram`/`.rsi.xml`) differs
+between RSI versions.
+
 ## Overview
 
 The b_ctrldbox RSI setup supports three different configurations:
@@ -30,10 +36,11 @@ The b_ctrldbox RSI setup supports three different configurations:
 
 **Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/` (KSS 8.6) or
 `Config/User/Common/SensorInterface/rsi_4.0.x/` (KSS 8.5) or
-`Config/User/Common/SensorInterface/rsi_3.3.x/` (KSS 8.3, 8.4)
+`Config/User/Common/SensorInterface/rsi_3.3.x/` (KSS 8.3, 8.4), plus the
+shared `Config/User/Common/SensorInterface/common/`
 
 **Files:**
-- `b_ctrldbox_rsi_eth.xml` - Ethernet configuration
+- `common/b_ctrldbox_rsi_eth.xml` - Ethernet configuration (same for all RSI versions)
 - RSI 4.0.x / 4.1.x (KSS 8.5 / 8.6): `b_ctrldbox_rsi.rsix` - packed RSI Visual project
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project
 
@@ -67,10 +74,11 @@ DEF_Delay  - Late packet counter
 
 **Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/ext_axis/` (KSS 8.6) or
 `Config/User/Common/SensorInterface/rsi_4.0.x/ext_axis/` (KSS 8.5) or
-`Config/User/Common/SensorInterface/rsi_3.3.x/ext_axis/` (KSS 8.3, 8.4)
+`Config/User/Common/SensorInterface/rsi_3.3.x/ext_axis/` (KSS 8.3, 8.4), plus
+the shared `Config/User/Common/SensorInterface/common/ext_axis/`
 
 **Files:**
-- `b_ctrldbox_rsi_eth.xml` - Ethernet configuration with external axis
+- `common/ext_axis/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with external axis (same for all RSI versions)
 - RSI 4.0.x / 4.1.x (KSS 8.5 / 8.6): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with AxisCorrExt
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project with AxisCorrExt
 
@@ -115,10 +123,11 @@ DEF_Delay  - Late packet counter
 
 **Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/gpios/` (KSS 8.6) or
 `Config/User/Common/SensorInterface/rsi_4.0.x/gpios/` (KSS 8.5) or
-`Config/User/Common/SensorInterface/rsi_3.3.x/gpios/` (KSS 8.3, 8.4)
+`Config/User/Common/SensorInterface/rsi_3.3.x/gpios/` (KSS 8.3, 8.4), plus
+the shared `Config/User/Common/SensorInterface/common/gpios/`
 
 **Files:**
-- `b_ctrldbox_rsi_eth.xml` - Ethernet configuration with GPIO
+- `common/gpios/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with GPIO (same for all RSI versions)
 - RSI 4.0.x / 4.1.x (KSS 8.5 / 8.6): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with GPIO blocks
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project with GPIO blocks
 
@@ -194,19 +203,24 @@ identical across all three.
 
 Based on your selections:
 
-| RSI version | KSS version | RSI selection | Source Folder | Files Deployed |
-|---|---|---|---|---|
-| **RSI 3.3.x** | 8.3, 8.4 | 1 (Standard) | `Config/User/Common/SensorInterface/rsi_3.3.x/` | `b_ctrldbox_rsi_eth.xml` + `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` |
-| **RSI 3.3.x** | 8.3, 8.4 | 2 (External Axis) | `Config/User/Common/SensorInterface/rsi_3.3.x/ext_axis/` | External axis versions |
-| **RSI 3.3.x** | 8.3, 8.4 | 3 (GPIO) | `Config/User/Common/SensorInterface/rsi_3.3.x/gpios/` | GPIO versions |
-| **RSI 4.0.x** | 8.5 | 1 (Standard) | `Config/User/Common/SensorInterface/rsi_4.0.x/` | `b_ctrldbox_rsi_eth.xml` + `b_ctrldbox_rsi.rsix` |
-| **RSI 4.0.x** | 8.5 | 2 (External Axis) | `Config/User/Common/SensorInterface/rsi_4.0.x/ext_axis/` | External axis versions |
-| **RSI 4.0.x** | 8.5 | 3 (GPIO) | `Config/User/Common/SensorInterface/rsi_4.0.x/gpios/` | GPIO versions |
-| **RSI 4.1.x** | 8.6 | 1 (Standard) | `Config/User/Common/SensorInterface/rsi_4.1.x/` | `b_ctrldbox_rsi_eth.xml` + `b_ctrldbox_rsi.rsix` |
-| **RSI 4.1.x** | 8.6 | 2 (External Axis) | `Config/User/Common/SensorInterface/rsi_4.1.x/ext_axis/` | External axis versions |
-| **RSI 4.1.x** | 8.6 | 3 (GPIO) | `Config/User/Common/SensorInterface/rsi_4.1.x/gpios/` | GPIO versions |
+| RSI version | KSS version | RSI selection | Version-specific Source Folder | Version-specific Files | Shared Source Folder | Shared File |
+|---|---|---|---|---|---|---|
+| **RSI 3.3.x** | 8.3, 8.4 | 1 (Standard) | `.../rsi_3.3.x/` | `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 3.3.x** | 8.3, 8.4 | 2 (External Axis) | `.../rsi_3.3.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 3.3.x** | 8.3, 8.4 | 3 (GPIO) | `.../rsi_3.3.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.0.x** | 8.5 | 1 (Standard) | `.../rsi_4.0.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.0.x** | 8.5 | 2 (External Axis) | `.../rsi_4.0.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.0.x** | 8.5 | 3 (GPIO) | `.../rsi_4.0.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 1 (Standard) | `.../rsi_4.1.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 2 (External Axis) | `.../rsi_4.1.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 3 (GPIO) | `.../rsi_4.1.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+
+(`.../` = `Config/User/Common/SensorInterface/`. Both the version-specific and
+shared source folders are copied into the same destination on the
+controller, `C:\KRC\ROBOTER\Config\User\Common\SensorInterface\`.)
 
 All configurations also deploy the same shared files regardless of RSI/KSS version:
+- RSI ethernet config (from `Config/User/Common/SensorInterface/common/`)
 - RSI program files (from `KRC/R1/Program/RSI/`)
 - EKI config files (from `Config/User/Common/EthernetKRL/`)
 - EKI server programs (from `KRC/R1/Program/EKIserver/`)
@@ -236,52 +250,61 @@ Simply run `deploy.bat` again and select a different configuration. The script w
 
 If you need to switch manually, pick `rsi_3.3.x`, `rsi_4.0.x`, or `rsi_4.1.x`
 to match your controller's KSS version (8.3/8.4, 8.5, or 8.6 respectively).
+Each switch needs **two** copies: the shared `common\...\b_ctrldbox_rsi_eth.xml`
+plus the RSI-version-specific project file(s) — both land in the same
+destination folder.
 
 **For External Axis (RSI 4.0.x / KSS 8.5):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.0.x\ext_axis\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\ext_axis\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.0.x\ext_axis\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **For External Axis (RSI 4.1.x / KSS 8.6):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.1.x\ext_axis\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\ext_axis\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.1.x\ext_axis\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **For External Axis (RSI 3.3.x / KSS 8.3, 8.4):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_3.3.x\ext_axis\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\ext_axis\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_3.3.x\ext_axis\*.rsi* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **For GPIO (RSI 4.0.x / KSS 8.5):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.0.x\gpios\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\gpios\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.0.x\gpios\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **For GPIO (RSI 4.1.x / KSS 8.6):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.1.x\gpios\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\gpios\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.1.x\gpios\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **For GPIO (RSI 3.3.x / KSS 8.3, 8.4):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_3.3.x\gpios\*.* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\gpios\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_3.3.x\gpios\*.rsi* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **Back to Standard (RSI 4.0.x / KSS 8.5):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.0.x\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 copy Config\User\Common\SensorInterface\rsi_4.0.x\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **Back to Standard (RSI 4.1.x / KSS 8.6):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_4.1.x\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 copy Config\User\Common\SensorInterface\rsi_4.1.x\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
 **Back to Standard (RSI 3.3.x / KSS 8.3, 8.4):**
 ```batch
-copy Config\User\Common\SensorInterface\rsi_3.3.x\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\common\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 copy Config\User\Common\SensorInterface\rsi_3.3.x\b_ctrldbox_rsi.rsi C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 copy Config\User\Common\SensorInterface\rsi_3.3.x\b_ctrldbox_rsi.rsi.diagram C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 copy Config\User\Common\SensorInterface\rsi_3.3.x\b_ctrldbox_rsi.rsi.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\

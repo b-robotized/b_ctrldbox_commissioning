@@ -69,8 +69,10 @@ REM ============================================
 REM PATH CONFIGURATION - Update these as needed
 REM ============================================
 if "!RSI_VARIANT!"=="" (
+    set "SRC_RSI_ETH=Config\User\Common\SensorInterface\common"
     set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface\!KSS_VERSION_DIR!"
 ) else (
+    set "SRC_RSI_ETH=Config\User\Common\SensorInterface\common\!RSI_VARIANT!"
     set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface\!KSS_VERSION_DIR!\!RSI_VARIANT!"
 )
 set "DST_RSI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\SensorInterface"
@@ -109,6 +111,7 @@ if "!hasFiles!"=="1" (
 REM ============================================
 REM DEPLOYMENT
 REM ============================================
+call :CopyFiles "RSI ethernet config files (shared)" "%SRC_RSI_ETH%" "%DST_RSI_CONFIG%"
 call :CopyFiles "RSI config files" "%SRC_RSI_CONFIG%" "%DST_RSI_CONFIG%"
 call :CopyFiles "RSI program files" "%SRC_RSI_PROGRAM%" "%DST_PROGRAM%"
 call :CopyFiles "EKI config files" "%SRC_EKI_CONFIG%" "%DST_EKI_CONFIG%"

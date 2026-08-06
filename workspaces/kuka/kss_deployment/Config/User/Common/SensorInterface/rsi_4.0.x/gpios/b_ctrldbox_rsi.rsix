@@ -68,6 +68,29 @@
             <Parameter IsPublic="true" Name="MaxE6" ParamId="11" ParamValue="2000" />
          </Parameters>
       </RsiObject>
+      <RsiObject ObjTypeId="55" ObjType="Monitor" ObjId="Monitor_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="AxisCorrMon_1" OutIdx="0" />
+            <Input InIdx="1" OutObjId="AxisCorrMon_1" OutIdx="1" />
+            <Input InIdx="2" OutObjId="AxisCorrMon_1" OutIdx="2" />
+            <Input InIdx="3" OutObjId="AxisCorrMon_1" OutIdx="3" />
+            <Input InIdx="4" OutObjId="AxisCorrMon_1" OutIdx="4" />
+            <Input InIdx="5" OutObjId="AxisCorrMon_1" OutIdx="5" />
+            <Input InIdx="6" OutObjId="AxisCorrMon_1" OutIdx="6" />
+            <Input InIdx="7" OutObjId="AxisCorrMon_1" OutIdx="7" />
+            <Input InIdx="8" OutObjId="AxisCorrMon_1" OutIdx="8" />
+            <Input InIdx="9" OutObjId="AxisCorrMon_1" OutIdx="9" />
+            <Input InIdx="10" OutObjId="AxisCorrMon_1" OutIdx="10" />
+            <Input InIdx="11" OutObjId="AxisCorrMon_1" OutIdx="11" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Refresh" ParamId="0" ParamValue="1" />
+            <Parameter Name="Timeout" ParamId="1" ParamValue="50" />
+            <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
+            <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.0.1" />
+            <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
+         </Parameters>
+      </RsiObject>
       <!-- DigIn objects: reed contact feedback $IN[132..139] -->
       <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_132">
          <Parameters>
@@ -260,6 +283,18 @@
          <Link From="Ethernet_1" FromPort="Out17" To="Map2DigOut_44" ToPort="In1" Points="578.516666666667,869.5;586.516666666667,869.5;594.516666666667,869.5;594.516666666667,1382.6;766,1382.6;782,1382.6" />
          <Link From="Ethernet_1" FromPort="Out18" To="Map2DigOut_45" ToPort="In1" Points="578.516666666667,899.5;586.516666666667,899.5;594.516666666667,899.5;594.516666666667,1442.6;766,1442.6;782,1442.6" />
          <Link From="Ethernet_1" FromPort="Out19" To="Map2DigOut_46" ToPort="In1" Points="578.516666666667,929.5;586.516666666667,929.5;594.516666666667,929.5;594.516666666667,1502.6;766,1502.6;782,1502.6" />
+         <Link From="AxisCorrMon_1" FromPort="A1" To="Monitor_1" ToPort="In1" Points="169,19.5;217,19.5;265,19.5;265,19.5;366,19.5;382,19.5" />
+         <Link From="AxisCorrMon_1" FromPort="A2" To="Monitor_1" ToPort="In2" Points="169,49.5;209,49.5;249,49.5;249,49.5;366,49.5;382,49.5" />
+         <Link From="AxisCorrMon_1" FromPort="A3" To="Monitor_1" ToPort="In3" Points="169,79.5;201,79.5;233,79.5;233,79.5;366,79.5;382,79.5" />
+         <Link From="AxisCorrMon_1" FromPort="A4" To="Monitor_1" ToPort="In4" Points="169,109.5;193,109.5;217,109.5;217,109.5;366,109.5;382,109.5" />
+         <Link From="AxisCorrMon_1" FromPort="A5" To="Monitor_1" ToPort="In5" Points="169,139.5;185,139.5;201,139.5;201,139.5;366,139.5;382,139.5" />
+         <Link From="AxisCorrMon_1" FromPort="A6" To="Monitor_1" ToPort="In6" Points="169,169.5;177,169.5;185,169.5;185,169.5;366,169.5;382,169.5" />
+         <Link From="AxisCorrMon_1" FromPort="E1" To="Monitor_1" ToPort="In7" Points="169,199.5;169,199.5;169,199.5;169,199.5;366,199.5;382,199.5" />
+         <Link From="AxisCorrMon_1" FromPort="E2" To="Monitor_1" ToPort="In8" Points="169,229.5;161,229.5;153,229.5;153,229.5;366,229.5;382,229.5" />
+         <Link From="AxisCorrMon_1" FromPort="E3" To="Monitor_1" ToPort="In9" Points="169,259.5;153,259.5;137,259.5;137,259.5;366,259.5;382,259.5" />
+         <Link From="AxisCorrMon_1" FromPort="E4" To="Monitor_1" ToPort="In10" Points="169,289.5;145,289.5;121,289.5;121,289.5;366,289.5;382,289.5" />
+         <Link From="AxisCorrMon_1" FromPort="E5" To="Monitor_1" ToPort="In11" Points="169,319.5;137,319.5;105,319.5;105,319.5;366,319.5;382,319.5" />
+         <Link From="AxisCorrMon_1" FromPort="E6" To="Monitor_1" ToPort="In12" Points="169,349.5;129,349.5;89,349.5;89,349.5;366,349.5;382,349.5" />
       </Links>
       <Nodes>
          <Node Location="400,370" Name="Ethernet_1" Type="Ethernet" />
@@ -286,6 +321,7 @@
          <Node Location="800,1363.1" Name="Map2DigOut_44" Type="Map2DigOut" />
          <Node Location="800,1423.1" Name="Map2DigOut_45" Type="Map2DigOut" />
          <Node Location="800,1483.1" Name="Map2DigOut_46" Type="Map2DigOut" />
+         <Node Location="400,0" Name="Monitor_1" Type="Monitor" />
       </Nodes>
       <Comments />
    </Editor>

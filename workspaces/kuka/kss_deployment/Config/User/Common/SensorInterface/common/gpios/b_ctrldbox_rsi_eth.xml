@@ -12,14 +12,14 @@
       <ELEMENT TAG="DEF_EIPos" TYPE="DOUBLE" INDX="INTERNAL" />  <!-- External axis position -->
       <ELEMENT TAG="DEF_Delay" TYPE="LONG"   INDX="INTERNAL" />  <!-- Number of late packets -->
       <!-- Contact feedback -->
-      <ELEMENT TAG="GPIO.extend_check_1"  TYPE="BOOL" INDX="1"  />
-      <ELEMENT TAG="GPIO.extend_check_3"  TYPE="BOOL" INDX="2"  />
-      <ELEMENT TAG="GPIO.retract_check_1" TYPE="BOOL" INDX="3"  />
-      <ELEMENT TAG="GPIO.retract_check_3" TYPE="BOOL" INDX="4"  />
-      <ELEMENT TAG="GPIO.extend_check_2"  TYPE="BOOL" INDX="5"  />
-      <ELEMENT TAG="GPIO.extend_check_4"  TYPE="BOOL" INDX="6"  />
-      <ELEMENT TAG="GPIO.retract_check_2" TYPE="BOOL" INDX="7"  />
-      <ELEMENT TAG="GPIO.retract_check_4" TYPE="BOOL" INDX="8"  />  
+      <ELEMENT TAG="GPIO.retract_check_1" TYPE="BOOL" INDX="1"  />
+      <ELEMENT TAG="GPIO.retract_check_3" TYPE="BOOL" INDX="2"  />
+      <ELEMENT TAG="GPIO.extend_check_1"  TYPE="BOOL" INDX="3"  />
+      <ELEMENT TAG="GPIO.extend_check_3"  TYPE="BOOL" INDX="4"  />
+      <ELEMENT TAG="GPIO.retract_check_2" TYPE="BOOL" INDX="5"  />
+      <ELEMENT TAG="GPIO.retract_check_4" TYPE="BOOL" INDX="6"  />
+      <ELEMENT TAG="GPIO.extend_check_2"  TYPE="BOOL" INDX="7"  />
+      <ELEMENT TAG="GPIO.extend_check_4"  TYPE="BOOL" INDX="8"  />
     </ELEMENTS>
   </SEND>
   <RECEIVE>

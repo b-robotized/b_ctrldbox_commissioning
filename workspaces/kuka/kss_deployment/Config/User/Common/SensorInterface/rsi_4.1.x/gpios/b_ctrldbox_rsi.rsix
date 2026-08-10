@@ -90,7 +90,7 @@
             <Parameter Name="Refresh" ParamId="0" ParamValue="1" />
             <Parameter Name="Timeout" ParamId="1" ParamValue="50" />
             <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
-            <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.0.1" />
+            <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.28.201" />
             <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
          </Parameters>
       </RsiObject>
@@ -505,7 +505,7 @@
                   <IntParameter Name="ReqTimeZero" Index="2" Min="0" Max="1" Default="1">
                      <Description>Tooltip_MONITOR_ReqTimeZero</Description>
                   </IntParameter>
-                  <StringParameter Name="IP" Index="0" CanBeSetAtRuntime="false" Default="192.168.0.1" RestrictionType="Ip">
+                  <StringParameter Name="IP" Index="0" CanBeSetAtRuntime="false" Default="192.168.28.201" RestrictionType="Ip">
                      <Description>Tooltip_MONITOR_IP</Description>
                   </StringParameter>
                   <IntParameter Name="Channel" Index="1" CanBeSetAtRuntime="false" Min="1" Max="8" Default="1">

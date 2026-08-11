@@ -12,6 +12,7 @@ in turn is tied to the KSS version on the controller:
 | RSI 3.3.x | KSS 8.3, 8.4 | Split project: `.rsi` + `.rsi.diagram` + `.rsi.xml` |
 | RSI 4.0.x | KSS 8.5 | Packed project: single `.rsix` file |
 | RSI 4.1.x | KSS 8.6 | Packed project: single `.rsix` file |
+| RSI 6.2.x | KSS 9.2.2 (iiQKA.OS2) | Packed project (`.rsix`), imported via iiQWorks.Sim — not a folder under this deployment, see `../iiqka_os2_deployment/` |
 
 Pick the folder matching your controller's KSS version, not just "packed vs.
 split" — RSI 4.0.x and 4.1.x both use `.rsix` but are not interchangeable.
@@ -21,6 +22,32 @@ three RSI versions for a given configuration, so it lives once under
 `common/` instead of being duplicated in each `rsi_*.x/` folder. Only the
 RSI Visual project itself (`.rsix` or `.rsi`/`.rsi.diagram`/`.rsi.xml`) differs
 between RSI versions.
+
+**KSS 9.2.2 (iiQKA.OS2) is a different platform, not another folder here.**
+Classic KSS (8.3–8.6, above) gives RSI its own virtual network interface,
+separate from EKI. On KSS 9.2.2 / iiQKA.OS2, RSI does not get a virtual
+interface — **EKI and RSI use the same IP address** on the same
+network/interface as the rest of the controller. Don't assume separate
+addresses per protocol when configuring or troubleshooting KSS 9.2.2. See
+`../iiqka_os2_deployment/README.md` for the deployment itself.
+
+### Tested Combinations
+
+The mapping above says which RSI packaging is *compatible* with which KSS
+range. It does not mean every version in that range has been run against
+real hardware — only these specific patch versions have been validated so
+far:
+
+| KSS version | RSI version | Status |
+|---|---|---|
+| KSS 8.5.5 | RSI 4.0.6 | ✅ Tested on real controller |
+| KSS 8.6.5 | RSI 4.1.6 | ✅ Tested on real controller |
+| KSS 8.3, 8.4 | RSI 3.3.x | ⬜ Not yet tested |
+| KSS 9.2.2 (iiQKA.OS2) | RSI 6.2.1.4 | ✅ Tested on real controller — see `../iiqka_os2_deployment/` |
+
+Update this table with the exact patch versions once validated — don't widen
+a row to a whole KSS range until every version in that range has actually
+been tested.
 
 ## Overview
 

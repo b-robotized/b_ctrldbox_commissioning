@@ -26,9 +26,9 @@ For the NTP service to work, three specific components need to be set up in the 
 
     # If it does not, run this to allow connections from the 192.168.28.x subnet
     # Appends the "allow" directive to chrony.conf.
-    echo "allow 192.168.28.0/24" >> /etc/chrony/chrony.conf
-    sudo systemctl restart chronyd
-    sudo systemctl enable chronyd
+    echo "allow 192.168.28.0/24" | sudo tee -a /etc/chrony/chrony.conf > /dev/null
+    sudo service chrony restart
+    sudo service chrony status
     ```
 
 2.  **Kernel Clock Capabilities (`docker-compose.yml`)**

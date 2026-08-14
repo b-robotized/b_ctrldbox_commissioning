@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RsiContext Version="0.2.0">
+   <RsiObjects>
+      <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="Ethernet_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="DigIn_132" OutIdx="0" />
+            <Input InIdx="1" OutObjId="DigIn_133" OutIdx="0" />
+            <Input InIdx="2" OutObjId="DigIn_134" OutIdx="0" />
+            <Input InIdx="3" OutObjId="DigIn_135" OutIdx="0" />
+            <Input InIdx="4" OutObjId="DigIn_136" OutIdx="0" />
+            <Input InIdx="5" OutObjId="DigIn_137" OutIdx="0" />
+            <Input InIdx="6" OutObjId="DigIn_138" OutIdx="0" />
+            <Input InIdx="7" OutObjId="DigIn_139" OutIdx="0" />
+         </Inputs>
+         <Parameters>
+            <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
+            <Parameter Name="Timeout" ParamId="0" ParamValue="100" />
+            <Parameter Name="Flag" ParamId="3" ParamValue="1" />
+            <Parameter Name="Precision" ParamId="7" ParamValue="4" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="33" ObjType="AxisCorr" ObjId="AxisCorr_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="1" />
+            <Input InIdx="1" OutObjId="Ethernet_1" OutIdx="2" />
+            <Input InIdx="2" OutObjId="Ethernet_1" OutIdx="3" />
+            <Input InIdx="3" OutObjId="Ethernet_1" OutIdx="4" />
+            <Input InIdx="4" OutObjId="Ethernet_1" OutIdx="5" />
+            <Input InIdx="5" OutObjId="Ethernet_1" OutIdx="6" />
+         </Inputs>
+         <Parameters>
+            <Parameter IsPublic="true" Name="LowerLimA1" ParamId="0" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA2" ParamId="1" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA3" ParamId="2" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA4" ParamId="3" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA5" ParamId="4" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA6" ParamId="5" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="UpperLimA1" ParamId="6" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA2" ParamId="7" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA3" ParamId="8" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA4" ParamId="9" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA5" ParamId="10" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA6" ParamId="11" ParamValue="180" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="18" ObjType="Stop" ObjId="Stop_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="0" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Mode" ParamId="0" ParamValue="4" />
+            <Parameter Name="Channel" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="82" ObjType="AxisCorrMon" ObjId="AxisCorrMon_1">
+         <Parameters>
+            <Parameter IsPublic="true" Name="MaxA1" ParamId="0" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA2" ParamId="1" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA3" ParamId="2" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA4" ParamId="3" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA5" ParamId="4" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA6" ParamId="5" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxE1" ParamId="6" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE2" ParamId="7" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE3" ParamId="8" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE4" ParamId="9" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE5" ParamId="10" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE6" ParamId="11" ParamValue="2000" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="55" ObjType="Monitor" ObjId="Monitor_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="AxisCorrMon_1" OutIdx="0" />
+            <Input InIdx="1" OutObjId="AxisCorrMon_1" OutIdx="1" />
+            <Input InIdx="2" OutObjId="AxisCorrMon_1" OutIdx="2" />
+            <Input InIdx="3" OutObjId="AxisCorrMon_1" OutIdx="3" />
+            <Input InIdx="4" OutObjId="AxisCorrMon_1" OutIdx="4" />
+            <Input InIdx="5" OutObjId="AxisCorrMon_1" OutIdx="5" />
+            <Input InIdx="6" OutObjId="AxisCorrMon_1" OutIdx="6" />
+            <Input InIdx="7" OutObjId="AxisCorrMon_1" OutIdx="7" />
+            <Input InIdx="8" OutObjId="AxisCorrMon_1" OutIdx="8" />
+            <Input InIdx="9" OutObjId="AxisCorrMon_1" OutIdx="9" />
+            <Input InIdx="10" OutObjId="AxisCorrMon_1" OutIdx="10" />
+            <Input InIdx="11" OutObjId="AxisCorrMon_1" OutIdx="11" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Refresh" ParamId="0" ParamValue="1" />
+            <Parameter Name="Timeout" ParamId="1" ParamValue="50" />
+            <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
+            <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.28.201" />
+            <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
+         </Parameters>
+      </RsiObject>
+      <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_132">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="132" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_133">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="133" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_134">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="134" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_135">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="135" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_136">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="136" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_137">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="137" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_138">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="138" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_139">
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="139" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_33">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="7" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="33" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_34">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="8" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="34" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_35">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="9" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="35" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_36">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="10" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="36" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_39">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="11" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="39" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_40">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="12" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="40" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_41">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="13" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="41" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_42">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="14" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="42" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_43">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="15" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="43" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_44">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="16" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="44" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_45">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="17" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="45" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_46">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="18" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Index" ParamId="0" ParamValue="46" />
+            <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+   </RsiObjects>
+   <Editor>
+      <Toolboxes>
+         <Toolbox Name="RSI" Version="1.1.0" />
+      </Toolboxes>
+      <Links>
+         <Link From="DigIn_132" FromPort="Out1" To="Ethernet_1" ToPort="In1" Points="176.08,955.9;188.08,955.9;200.08,955.9;200.08,389.5;366,389.5;382,389.5" />
+         <Link From="DigIn_133" FromPort="Out1" To="Ethernet_1" ToPort="In2" Points="176.08,1015.9;188.08,1015.9;200.08,1015.9;200.08,419.5;366,419.5;382,419.5" />
+         <Link From="DigIn_134" FromPort="Out1" To="Ethernet_1" ToPort="In3" Points="176.08,1075.9;188.08,1075.9;200.08,1075.9;200.08,449.5;366,449.5;382,449.5" />
+         <Link From="DigIn_135" FromPort="Out1" To="Ethernet_1" ToPort="In4" Points="176.08,1135.9;188.08,1135.9;200.08,1135.9;200.08,479.5;366,479.5;382,479.5" />
+         <Link From="DigIn_136" FromPort="Out1" To="Ethernet_1" ToPort="In5" Points="176.08,1195.9;188.08,1195.9;200.08,1195.9;200.08,509.5;366,509.5;382,509.5" />
+         <Link From="DigIn_137" FromPort="Out1" To="Ethernet_1" ToPort="In6" Points="176.08,1255.9;188.08,1255.9;200.08,1255.9;200.08,539.5;366,539.5;382,539.5" />
+         <Link From="DigIn_138" FromPort="Out1" To="Ethernet_1" ToPort="In7" Points="176.08,1315.9;188.08,1315.9;200.08,1315.9;200.08,569.5;366,569.5;382,569.5" />
+         <Link From="DigIn_139" FromPort="Out1" To="Ethernet_1" ToPort="In8" Points="176.08,1375.9;188.08,1375.9;200.08,1375.9;200.08,599.5;366,599.5;382,599.5" />
+         <Link From="Ethernet_1" FromPort="Out2" To="AxisCorr_1" ToPort="CorrA1" Points="578.516666666667,419.5;598.516666666667,419.5;618.516666666667,419.5;618.516666666667,389.5;766,389.5;782,389.5" />
+         <Link From="Ethernet_1" FromPort="Out3" To="AxisCorr_1" ToPort="CorrA2" Points="578.516666666667,449.5;606.516666666667,449.5;634.516666666667,449.5;634.516666666667,419.5;766,419.5;782,419.5" />
+         <Link From="Ethernet_1" FromPort="Out4" To="AxisCorr_1" ToPort="CorrA3" Points="578.516666666667,479.5;614.516666666667,479.5;650.516666666667,479.5;650.516666666667,449.5;766,449.5;782,449.5" />
+         <Link From="Ethernet_1" FromPort="Out5" To="AxisCorr_1" ToPort="CorrA4" Points="578.516666666667,509.5;622.516666666667,509.5;666.516666666667,509.5;666.516666666667,479.5;766,479.5;782,479.5" />
+         <Link From="Ethernet_1" FromPort="Out6" To="AxisCorr_1" ToPort="CorrA5" Points="578.516666666667,539.5;630.516666666667,539.5;682.516666666667,539.5;682.516666666667,509.5;766,509.5;782,509.5" />
+         <Link From="Ethernet_1" FromPort="Out7" To="AxisCorr_1" ToPort="CorrA6" Points="578.516666666667,569.5;638.516666666667,569.5;698.516666666667,569.5;698.516666666667,539.5;766,539.5;782,539.5" />
+         <Link From="Ethernet_1" FromPort="Out1" To="Stop_1" ToPort="In1" Points="578.516666666667,389.5;642.516666666667,389.5;706.516666666667,389.5;706.516666666667,729.3;766,729.3;782,729.3" />
+         <Link From="Ethernet_1" FromPort="Out8" To="Map2DigOut_33" ToPort="In1" Points="578.516666666667,599.5;586.516666666667,599.5;594.516666666667,599.5;594.516666666667,842.6;766,842.6;782,842.6" />
+         <Link From="Ethernet_1" FromPort="Out9" To="Map2DigOut_34" ToPort="In1" Points="578.516666666667,629.5;586.516666666667,629.5;594.516666666667,629.5;594.516666666667,902.6;766,902.6;782,902.6" />
+         <Link From="Ethernet_1" FromPort="Out10" To="Map2DigOut_35" ToPort="In1" Points="578.516666666667,659.5;586.516666666667,659.5;594.516666666667,659.5;594.516666666667,962.6;766,962.6;782,962.6" />
+         <Link From="Ethernet_1" FromPort="Out11" To="Map2DigOut_36" ToPort="In1" Points="578.516666666667,689.5;586.516666666667,689.5;594.516666666667,689.5;594.516666666667,1022.6;766,1022.6;782,1022.6" />
+         <Link From="Ethernet_1" FromPort="Out12" To="Map2DigOut_39" ToPort="In1" Points="578.516666666667,719.5;586.516666666667,719.5;594.516666666667,719.5;594.516666666667,1082.6;766,1082.6;782,1082.6" />
+         <Link From="Ethernet_1" FromPort="Out13" To="Map2DigOut_40" ToPort="In1" Points="578.516666666667,749.5;586.516666666667,749.5;594.516666666667,749.5;594.516666666667,1142.6;766,1142.6;782,1142.6" />
+         <Link From="Ethernet_1" FromPort="Out14" To="Map2DigOut_41" ToPort="In1" Points="578.516666666667,779.5;586.516666666667,779.5;594.516666666667,779.5;594.516666666667,1202.6;766,1202.6;782,1202.6" />
+         <Link From="Ethernet_1" FromPort="Out15" To="Map2DigOut_42" ToPort="In1" Points="578.516666666667,809.5;586.516666666667,809.5;594.516666666667,809.5;594.516666666667,1262.6;766,1262.6;782,1262.6" />
+         <Link From="Ethernet_1" FromPort="Out16" To="Map2DigOut_43" ToPort="In1" Points="578.516666666667,839.5;586.516666666667,839.5;594.516666666667,839.5;594.516666666667,1322.6;766,1322.6;782,1322.6" />
+         <Link From="Ethernet_1" FromPort="Out17" To="Map2DigOut_44" ToPort="In1" Points="578.516666666667,869.5;586.516666666667,869.5;594.516666666667,869.5;594.516666666667,1382.6;766,1382.6;782,1382.6" />
+         <Link From="Ethernet_1" FromPort="Out18" To="Map2DigOut_45" ToPort="In1" Points="578.516666666667,899.5;586.516666666667,899.5;594.516666666667,899.5;594.516666666667,1442.6;766,1442.6;782,1442.6" />
+         <Link From="Ethernet_1" FromPort="Out19" To="Map2DigOut_46" ToPort="In1" Points="578.516666666667,929.5;586.516666666667,929.5;594.516666666667,929.5;594.516666666667,1502.6;766,1502.6;782,1502.6" />
+         <Link From="AxisCorrMon_1" FromPort="A1" To="Monitor_1" ToPort="In1" Points="169,19.5;217,19.5;265,19.5;265,19.5;366,19.5;382,19.5" />
+         <Link From="AxisCorrMon_1" FromPort="A2" To="Monitor_1" ToPort="In2" Points="169,49.5;209,49.5;249,49.5;249,49.5;366,49.5;382,49.5" />
+         <Link From="AxisCorrMon_1" FromPort="A3" To="Monitor_1" ToPort="In3" Points="169,79.5;201,79.5;233,79.5;233,79.5;366,79.5;382,79.5" />
+         <Link From="AxisCorrMon_1" FromPort="A4" To="Monitor_1" ToPort="In4" Points="169,109.5;193,109.5;217,109.5;217,109.5;366,109.5;382,109.5" />
+         <Link From="AxisCorrMon_1" FromPort="A5" To="Monitor_1" ToPort="In5" Points="169,139.5;185,139.5;201,139.5;201,139.5;366,139.5;382,139.5" />
+         <Link From="AxisCorrMon_1" FromPort="A6" To="Monitor_1" ToPort="In6" Points="169,169.5;177,169.5;185,169.5;185,169.5;366,169.5;382,169.5" />
+         <Link From="AxisCorrMon_1" FromPort="E1" To="Monitor_1" ToPort="In7" Points="169,199.5;169,199.5;169,199.5;169,199.5;366,199.5;382,199.5" />
+         <Link From="AxisCorrMon_1" FromPort="E2" To="Monitor_1" ToPort="In8" Points="169,229.5;161,229.5;153,229.5;153,229.5;366,229.5;382,229.5" />
+         <Link From="AxisCorrMon_1" FromPort="E3" To="Monitor_1" ToPort="In9" Points="169,259.5;153,259.5;137,259.5;137,259.5;366,259.5;382,259.5" />
+         <Link From="AxisCorrMon_1" FromPort="E4" To="Monitor_1" ToPort="In10" Points="169,289.5;145,289.5;121,289.5;121,289.5;366,289.5;382,289.5" />
+         <Link From="AxisCorrMon_1" FromPort="E5" To="Monitor_1" ToPort="In11" Points="169,319.5;137,319.5;105,319.5;105,319.5;366,319.5;382,319.5" />
+         <Link From="AxisCorrMon_1" FromPort="E6" To="Monitor_1" ToPort="In12" Points="169,349.5;129,349.5;89,349.5;89,349.5;366,349.5;382,349.5" />
+      </Links>
+      <Nodes>
+         <Node Location="400,370" Name="Ethernet_1" Type="Ethernet" />
+         <Node Location="800,370" Name="AxisCorr_1" Type="AxisCorr" />
+         <Node Location="800,709.8" Name="Stop_1" Type="Stop" />
+         <Node Location="0,0" Name="AxisCorrMon_1" Type="AxisCorrMon" />
+         <Node Location="0,936.4" Name="DigIn_132" Type="DigIn" />
+         <Node Location="0,996.4" Name="DigIn_133" Type="DigIn" />
+         <Node Location="0,1056.4" Name="DigIn_134" Type="DigIn" />
+         <Node Location="0,1116.4" Name="DigIn_135" Type="DigIn" />
+         <Node Location="0,1176.4" Name="DigIn_136" Type="DigIn" />
+         <Node Location="0,1236.4" Name="DigIn_137" Type="DigIn" />
+         <Node Location="0,1296.4" Name="DigIn_138" Type="DigIn" />
+         <Node Location="0,1356.4" Name="DigIn_139" Type="DigIn" />
+         <Node Location="800,823.1" Name="Map2DigOut_33" Type="Map2DigOut" />
+         <Node Location="800,883.1" Name="Map2DigOut_34" Type="Map2DigOut" />
+         <Node Location="800,943.1" Name="Map2DigOut_35" Type="Map2DigOut" />
+         <Node Location="800,1003.1" Name="Map2DigOut_36" Type="Map2DigOut" />
+         <Node Location="800,1063.1" Name="Map2DigOut_39" Type="Map2DigOut" />
+         <Node Location="800,1123.1" Name="Map2DigOut_40" Type="Map2DigOut" />
+         <Node Location="800,1183.1" Name="Map2DigOut_41" Type="Map2DigOut" />
+         <Node Location="800,1243.1" Name="Map2DigOut_42" Type="Map2DigOut" />
+         <Node Location="800,1303.1" Name="Map2DigOut_43" Type="Map2DigOut" />
+         <Node Location="800,1363.1" Name="Map2DigOut_44" Type="Map2DigOut" />
+         <Node Location="800,1423.1" Name="Map2DigOut_45" Type="Map2DigOut" />
+         <Node Location="800,1483.1" Name="Map2DigOut_46" Type="Map2DigOut" />
+         <Node Location="400,0" Name="Monitor_1" Type="Monitor" />
+      </Nodes>
+      <Comments />
+   </Editor>
+</RsiContext>

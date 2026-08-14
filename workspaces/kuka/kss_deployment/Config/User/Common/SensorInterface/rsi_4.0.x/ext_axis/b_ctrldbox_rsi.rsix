@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RsiContext Version="0.2.0"><RsiObjects>
+      <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="Ethernet_1">
+         <Parameters>
+            <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
+            <Parameter Name="Timeout" ParamId="0" ParamValue="100" />
+            <Parameter Name="Flag" ParamId="3" ParamValue="1" />
+            <Parameter Name="Precision" ParamId="7" ParamValue="4" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="33" ObjType="AxisCorr" ObjId="AxisCorr_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="1" />
+            <Input InIdx="1" OutObjId="Ethernet_1" OutIdx="2" />
+            <Input InIdx="2" OutObjId="Ethernet_1" OutIdx="3" />
+            <Input InIdx="3" OutObjId="Ethernet_1" OutIdx="4" />
+            <Input InIdx="4" OutObjId="Ethernet_1" OutIdx="5" />
+            <Input InIdx="5" OutObjId="Ethernet_1" OutIdx="6" />
+         </Inputs>
+         <Parameters>
+            <Parameter IsPublic="true" Name="LowerLimA1" ParamId="0" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA2" ParamId="1" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA3" ParamId="2" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA4" ParamId="3" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA5" ParamId="4" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="LowerLimA6" ParamId="5" ParamValue="-180" />
+            <Parameter IsPublic="true" Name="UpperLimA1" ParamId="6" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA2" ParamId="7" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA3" ParamId="8" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA4" ParamId="9" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA5" ParamId="10" ParamValue="180" />
+            <Parameter IsPublic="true" Name="UpperLimA6" ParamId="11" ParamValue="180" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="18" ObjType="Stop" ObjId="Stop_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="0" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Mode" ParamId="0" ParamValue="4" />
+            <Parameter Name="Channel" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="82" ObjType="AxisCorrMon" ObjId="AxisCorrMon_1">
+         <Parameters>
+            <Parameter IsPublic="true" Name="MaxA1" ParamId="0" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA2" ParamId="1" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA3" ParamId="2" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA4" ParamId="3" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA5" ParamId="4" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxA6" ParamId="5" ParamValue="180" />
+            <Parameter IsPublic="true" Name="MaxE1" ParamId="6" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE2" ParamId="7" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE3" ParamId="8" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE4" ParamId="9" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE5" ParamId="10" ParamValue="2000" />
+            <Parameter IsPublic="true" Name="MaxE6" ParamId="11" ParamValue="2000" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="55" ObjType="Monitor" ObjId="Monitor_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="AxisCorrMon_1" OutIdx="0" />
+            <Input InIdx="1" OutObjId="AxisCorrMon_1" OutIdx="1" />
+            <Input InIdx="2" OutObjId="AxisCorrMon_1" OutIdx="2" />
+            <Input InIdx="3" OutObjId="AxisCorrMon_1" OutIdx="3" />
+            <Input InIdx="4" OutObjId="AxisCorrMon_1" OutIdx="4" />
+            <Input InIdx="5" OutObjId="AxisCorrMon_1" OutIdx="5" />
+            <Input InIdx="6" OutObjId="AxisCorrMon_1" OutIdx="6" />
+            <Input InIdx="7" OutObjId="AxisCorrMon_1" OutIdx="7" />
+            <Input InIdx="8" OutObjId="AxisCorrMon_1" OutIdx="8" />
+            <Input InIdx="9" OutObjId="AxisCorrMon_1" OutIdx="9" />
+            <Input InIdx="10" OutObjId="AxisCorrMon_1" OutIdx="10" />
+            <Input InIdx="11" OutObjId="AxisCorrMon_1" OutIdx="11" />
+         </Inputs>
+         <Parameters>
+            <Parameter Name="Refresh" ParamId="0" ParamValue="1" />
+            <Parameter Name="Timeout" ParamId="1" ParamValue="50" />
+            <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
+            <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.28.201" />
+            <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="87" ObjType="AxisCorrExt" ObjId="AxisCorrExt_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="7" />
+         </Inputs>
+         <Parameters>
+            <Parameter IsPublic="true" Name="LowerLimE1" ParamId="0" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="LowerLimE2" ParamId="1" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="LowerLimE3" ParamId="2" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="LowerLimE4" ParamId="3" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="LowerLimE5" ParamId="4" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="LowerLimE6" ParamId="5" ParamValue="-1000" />
+            <Parameter IsPublic="true" Name="UpperLimE1" ParamId="6" ParamValue="1000" />
+            <Parameter IsPublic="true" Name="UpperLimE2" ParamId="7" ParamValue="1000" />
+            <Parameter IsPublic="true" Name="UpperLimE3" ParamId="8" ParamValue="1000" />
+            <Parameter IsPublic="true" Name="UpperLimE4" ParamId="9" ParamValue="1000" />
+            <Parameter IsPublic="true" Name="UpperLimE5" ParamId="10" ParamValue="1000" />
+            <Parameter IsPublic="true" Name="UpperLimE6" ParamId="11" ParamValue="1000" />
+         </Parameters>
+      </RsiObject>
+   </RsiObjects>
+   <Editor><Toolboxes><Toolbox Name="RSI" Version="1.1.0" /></Toolboxes><Links><Link From="Ethernet_1" FromPort="Out2" To="AxisCorr_1" ToPort="CorrA1" Points="178.516666666667,49.5;198.516666666667,49.5;218.516666666667,49.5;218.516666666667,19.5;366,19.5;382,19.5" /><Link From="Ethernet_1" FromPort="Out3" To="AxisCorr_1" ToPort="CorrA2" Points="178.516666666667,79.5;206.516666666667,79.5;234.516666666667,79.5;234.516666666667,49.5;366,49.5;382,49.5" /><Link From="Ethernet_1" FromPort="Out4" To="AxisCorr_1" ToPort="CorrA3" Points="178.516666666667,109.5;214.516666666667,109.5;250.516666666667,109.5;250.516666666667,79.5;366,79.5;382,79.5" /><Link From="Ethernet_1" FromPort="Out5" To="AxisCorr_1" ToPort="CorrA4" Points="178.516666666667,139.5;222.516666666667,139.5;266.516666666667,139.5;266.516666666667,109.5;366,109.5;382,109.5" /><Link From="Ethernet_1" FromPort="Out6" To="AxisCorr_1" ToPort="CorrA5" Points="178.516666666667,169.5;230.516666666667,169.5;282.516666666667,169.5;282.516666666667,139.5;366,139.5;382,139.5" /><Link From="Ethernet_1" FromPort="Out7" To="AxisCorr_1" ToPort="CorrA6" Points="178.516666666667,199.5;238.516666666667,199.5;298.516666666667,199.5;298.516666666667,169.5;366,169.5;382,169.5" /><Link From="Ethernet_1" FromPort="Out1" To="Stop_1" ToPort="In1" Points="178.516666666667,19.5;242.516666666667,19.5;306.516666666667,19.5;306.516666666667,359.3;366,359.3;382,359.3" /><Link From="AxisCorrMon_1" FromPort="A1" To="Monitor_1" ToPort="In1" Points="169,812.4;225,812.4;281,812.4;281,812.4;366,812.4;382,812.4" /><Link From="AxisCorrMon_1" FromPort="A2" To="Monitor_1" ToPort="In2" Points="169,842.4;217,842.4;265,842.4;265,842.4;366,842.4;382,842.4" /><Link From="AxisCorrMon_1" FromPort="A3" To="Monitor_1" ToPort="In3" Points="169,872.4;209,872.4;249,872.4;249,872.4;366,872.4;382,872.4" /><Link From="AxisCorrMon_1" FromPort="A4" To="Monitor_1" ToPort="In4" Points="169,902.4;201,902.4;233,902.4;233,902.4;366,902.4;382,902.4" /><Link From="AxisCorrMon_1" FromPort="A5" To="Monitor_1" ToPort="In5" Points="169,932.4;193,932.4;217,932.4;217,932.4;366,932.4;382,932.4" /><Link From="AxisCorrMon_1" FromPort="A6" To="Monitor_1" ToPort="In6" Points="169,962.4;185,962.4;201,962.4;201,962.4;366,962.4;382,962.4" /><Link From="AxisCorrMon_1" FromPort="E1" To="Monitor_1" ToPort="In7" Points="169,992.4;177,992.4;185,992.4;185,992.4;366,992.4;382,992.4" /><Link From="AxisCorrMon_1" FromPort="E2" To="Monitor_1" ToPort="In8" Points="169,1022.4;177,1022.4;185,1022.4;185,1022.4;366,1022.4;382,1022.4" /><Link From="AxisCorrMon_1" FromPort="E3" To="Monitor_1" ToPort="In9" Points="169,1052.4;177,1052.4;185,1052.4;185,1052.4;366,1052.4;382,1052.4" /><Link From="AxisCorrMon_1" FromPort="E4" To="Monitor_1" ToPort="In10" Points="169,1082.4;177,1082.4;185,1082.4;185,1082.4;366,1082.4;382,1082.4" /><Link From="AxisCorrMon_1" FromPort="E5" To="Monitor_1" ToPort="In11" Points="169,1112.4;177,1112.4;185,1112.4;185,1112.4;366,1112.4;382,1112.4" /><Link From="AxisCorrMon_1" FromPort="E6" To="Monitor_1" ToPort="In12" Points="169,1142.4;177,1142.4;185,1142.4;185,1142.4;366,1142.4;382,1142.4" /><Link From="Ethernet_1" FromPort="Out8" To="AxisCorrExt_1" ToPort="CorrE1" Points="178.516666666667,229.5;186.516666666667,229.5;194.516666666667,229.5;194.516666666667,472.6;366,472.6;382,472.6" /></Links><Nodes><Node Location="0,0" Name="Ethernet_1" Type="Ethernet" /><Node Location="400,0" Name="AxisCorr_1" Type="AxisCorr" /><Node Location="400,339.8" Name="Stop_1" Type="Stop" /><Node Location="0,792.9" Name="AxisCorrMon_1" Type="AxisCorrMon" /><Node Location="400,792.9" Name="Monitor_1" Type="Monitor" /><Node Location="400,453.1" Name="AxisCorrExt_1" Type="AxisCorrExt" /></Nodes><Comments /></Editor></RsiContext>

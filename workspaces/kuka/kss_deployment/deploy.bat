@@ -77,12 +77,12 @@ if "!RSI_VARIANT!"=="" (
 )
 set "DST_RSI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\SensorInterface"
 
-set "SRC_RSI_PROGRAM=KRC\R1\Program\RSI"
+set "SRC_RSI_PROGRAM=KRC\R1\Program\RSI_kss"
 
-set "SRC_EKI_CONFIG=Config\User\Common\EthernetKRL"
+set "SRC_EKI_CONFIG=Config\User\Common\EthernetKRL\kss"
 set "DST_EKI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\EthernetKRL"
 
-set "SRC_EKI_PROGRAM=KRC\R1\Program\EKIserver"
+set "SRC_EKI_PROGRAM=KRC\R1\Program\EKIServer_kss"
 
 set "DST_PROGRAM=C:\KRC\ROBOTER\KRC\R1\Program\b_ctrldbox"
 

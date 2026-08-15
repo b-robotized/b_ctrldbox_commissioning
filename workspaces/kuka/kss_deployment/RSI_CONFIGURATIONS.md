@@ -77,8 +77,8 @@ imported via iiQWorks.Sim, not `deploy.bat`), plus the shared
 - RSI 4.0.x / 4.1.x / 6.x (KSS 8.5 / 8.6 / 9.2.2): `b_ctrldbox_rsi.rsix` - packed RSI Visual project
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project
 
-RSI 6.x only has the Standard variant ported so far — no `ext_axis`/`gpios`
-subfolder yet, see "iiQKA.OS2 (RSI 6.x) Deployment" below.
+RSI 6.x's `ext_axis`/`gpios` variants are also ported now — see below and
+"iiQKA.OS2 (RSI 6.x) Deployment" further down.
 
 **Features:**
 - ✅ 6 robot axes (A1-A6)
@@ -110,13 +110,25 @@ DEF_Delay  - Late packet counter
 
 **Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/ext_axis/` (KSS 8.6) or
 `Config/User/Common/SensorInterface/rsi_4.0.x/ext_axis/` (KSS 8.5) or
-`Config/User/Common/SensorInterface/rsi_3.3.x/ext_axis/` (KSS 8.3, 8.4), plus
-the shared `Config/User/Common/SensorInterface/common/ext_axis/`
+`Config/User/Common/SensorInterface/rsi_3.3.x/ext_axis/` (KSS 8.3, 8.4) or
+`Config/User/Common/SensorInterface/rsi_6.x/ext_axis/` (KSS 9.2.2, iiQKA.OS2 —
+imported via iiQWorks.Sim, not `deploy.bat`), plus the shared
+`Config/User/Common/SensorInterface/common/ext_axis/`
 
 **Files:**
-- `common/ext_axis/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with external axis (same for all RSI versions)
-- RSI 4.0.x / 4.1.x (KSS 8.5 / 8.6): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with AxisCorrExt
+- `common/ext_axis/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with external axis (same for all RSI versions, including 6.x — confirmed byte-identical mod line endings, same as the Standard variant's shared file)
+- RSI 4.0.x / 4.1.x / 6.x (KSS 8.5 / 8.6 / 9.2.2): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with AxisCorrExt
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project with AxisCorrExt
+
+RSI 6.x's `AxisCorrExt_1` object is present in the `.rsix` but its limits
+are **not** managed by `RSI_6.x/rsi_helper.src`'s `ROS_SetAxisCorrLimits` —
+that function only ever sets limits on the Standard `AxisCorr_1` object.
+This is not specific to our port: the vendor's own upstream `rsi_helper`
+template (both classic KSS and iiQKA.OS2) never manages `AxisCorrExt`
+limits either — classic KSS's ext_axis variant shares the exact same
+`rsi_helper` as Standard/GPIO, unmodified. If external-axis limit
+management is ever needed, it requires writing new KRL, not something
+missing from this port specifically.
 
 **Features:**
 - ✅ 6 robot axes (A1-A6)
@@ -159,12 +171,14 @@ DEF_Delay  - Late packet counter
 
 **Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/gpios/` (KSS 8.6) or
 `Config/User/Common/SensorInterface/rsi_4.0.x/gpios/` (KSS 8.5) or
-`Config/User/Common/SensorInterface/rsi_3.3.x/gpios/` (KSS 8.3, 8.4), plus
-the shared `Config/User/Common/SensorInterface/common/gpios/`
+`Config/User/Common/SensorInterface/rsi_3.3.x/gpios/` (KSS 8.3, 8.4) or
+`Config/User/Common/SensorInterface/rsi_6.x/gpios/` (KSS 9.2.2, iiQKA.OS2 —
+imported via iiQWorks.Sim, not `deploy.bat`), plus the shared
+`Config/User/Common/SensorInterface/common/gpios/`
 
 **Files:**
-- `common/gpios/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with GPIO (same for all RSI versions)
-- RSI 4.0.x / 4.1.x (KSS 8.5 / 8.6): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with GPIO blocks
+- `common/gpios/b_ctrldbox_rsi_eth.xml` - Ethernet configuration with GPIO (same for all RSI versions, including 6.x — confirmed byte-identical mod line endings). This is the project's actual customized GPIO signal set (suction/retract/extend cylinder + contact-check signals), not the vendor's generic `GPIO.01`/`GPIO.02` placeholders.
+- RSI 4.0.x / 4.1.x / 6.x (KSS 8.5 / 8.6 / 9.2.2): `b_ctrldbox_rsi.rsix` - packed RSI Visual project with GPIO blocks
 - RSI 3.3.x (KSS 8.3, 8.4): `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` - split RSI Visual project with GPIO blocks
 
 **Features:**
@@ -355,15 +369,21 @@ not shared files.
   iiQKA.OS2 imports contexts as project artifacts through iiQWorks.Sim, and
   it's not confirmed the naming works the same way. Check this when
   importing.
-- **Deliberately deferred:** only the **Standard** configuration (6 axes, no
-  external axis, no GPIO) is ported, matching MauRob's current needs. The
-  upstream `iiqka_os2` template has External Axis/GPIO equivalents
-  (`rsi_ext_axis_ethernet.xml`, `rsi_ext_axis_example.rsix`,
-  `rsi_gpio_ethernet.xml`, `rsi_gpio_joint_pos.rsix`) that can be ported the
-  same way once Standard is confirmed working on the real controller — don't
-  port them speculatively before that.
-- **Tested on a real controller** — KSS 9.2.2, RSI 6.2.1.4. See "Tested
-  Combinations" above.
+- **External Axis and GPIO are now ported too** (`rsi_6.x/ext_axis/`,
+  `rsi_6.x/gpios/`), from the upstream `iiqka_os2` template's
+  `rsi_ext_axis_example.rsix` and `rsi_gpio_joint_pos.rsix` — same
+  customization pattern as Standard (`ConfigFile` reference updated to
+  `b_ctrldbox_rsi_eth.xml`, no internal object renaming). Their ethernet
+  configs reuse `common/ext_axis/` and `common/gpios/` — confirmed
+  byte-identical (mod line endings) to the upstream `kss` template's own
+  ext_axis/gpio ethernet configs, same finding as Standard's shared file.
+  **Not yet tested on real hardware** — only Standard (see "Tested
+  Combinations" above) has been run on the real controller so far.
+- **Tested on a real controller** — KSS 9.2.2, RSI 6.2.1.4, **Standard
+  configuration only**. See "Tested Combinations" above. External Axis and
+  GPIO are ported (compatible per the packaging format) but not yet run on
+  real hardware — same compatible-vs-tested distinction this doc already
+  draws for the classic KSS versions.
 - `deploy.bat` (raw file-copy deployment via `xcopy` to Windows filesystem
   paths like `C:\KRC\ROBOTER\...`) does **not** apply here — iiQKA.OS2 has
   no such filesystem, it deploys via iiQWorks.Sim project import (see
@@ -383,28 +403,39 @@ not shared files.
 
 ### Import steps (per `iiqka_os2_setup.md`)
 
-iiQWorks.Sim accepts a whole folder as one import, not just single files.
-Import each folder below directly instead of picking files one by one — each
-folder contains exactly the one file that belongs at its target location (no
-ext_axis/gpio files to accidentally pull in, since only Standard is ported).
-This is manual import either way, so unifying the folder structure into this
-same repo doesn't change how you import, only where the source files live.
+iiQWorks.Sim accepts a whole folder as one import, not just single files —
+but import folders **non-recursively**: pick the one subfolder matching the
+configuration you want, the same way classic KSS's `ext_axis`/`gpios`
+subfolders sit alongside the Standard files without deploy.bat pulling them
+in by accident. This is manual import either way, so unifying the folder
+structure into this same repo doesn't change how you import, only where the
+source files live.
 
-1. Import the `Config/User/Common/SensorInterface/rsi_6.x/` folder (contains
-   `b_ctrldbox_rsi.rsix`) under **Option packages >
-   iiQKA.RobotSensorInterface > Context**.
-2. Import the `Config/User/Common/SensorInterface/common/` folder (contains
-   `b_ctrldbox_rsi_eth.xml`, shared with RSI 4.0.x/4.1.x) under the same
-   option package's **Ethernet configurations**.
+1. Import the RSI context folder matching your configuration — pick one:
+   - Standard: `Config/User/Common/SensorInterface/rsi_6.x/`
+   - External Axis: `Config/User/Common/SensorInterface/rsi_6.x/ext_axis/`
+   - GPIO: `Config/User/Common/SensorInterface/rsi_6.x/gpios/`
+
+   under **Option packages > iiQKA.RobotSensorInterface > Context**.
+2. Import the matching ethernet-config folder — pick the one under the
+   shared `common/` tree, same file name (`b_ctrldbox_rsi_eth.xml`) in each:
+   - Standard: `Config/User/Common/SensorInterface/common/`
+   - External Axis: `Config/User/Common/SensorInterface/common/ext_axis/`
+   - GPIO: `Config/User/Common/SensorInterface/common/gpios/`
+
+   under the same option package's **Ethernet configurations**.
 3. Import the `Config/User/Common/EthernetKRL/iiqka_os2/` folder (contains
    `b_ctrldbox_EkiKSSinterface.xml`) under **Option packages >
-   iiQKA.EthernetKRL > Context**.
+   iiQKA.EthernetKRL > Context**. Same for all three configurations —
+   EKI doesn't vary by RSI variant.
 4. Import the `KRC/R1/Program/RSI_6.x/` and `KRC/R1/Program/EKIServer_6.x/`
    folders (version-suffixed siblings of `RSI_kss/`/`EKIServer_kss/` —
    genuinely different KRL/EKI implementation per platform, not unified)
    into `KRC/R1/Program` (into a `b_ctrldbox` subfolder if iiQWorks.Sim
    supports it, matching classic KSS — not yet confirmed either way, see
-   above).
+   above). Same program files for all three configurations — variant
+   selection only affects which context/ethernet-config pair you loaded in
+   steps 1-2, not the KRL program.
 5. Deploy the project onto the controller.
 
 ---

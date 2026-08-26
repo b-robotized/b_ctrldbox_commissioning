@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  Copyright (c) 2026, b-robotized Group
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Source of this file is https://github.com/b-robotized/ros_team_workspace repository.
+
+  Author: Sachin
+-->
+
+<launch>
+    <!-- Launch Arguments with Defaults -->
+    <arg name="hostname" default="localhost" /> <!-- Replace with the hostname -->
+    <arg name="username" default="user" /> <!-- Replace with the Username -->
+    <arg name="password" default="strongpwd" /> <!-- Replace with your password -->
+    <arg name="enable_relock" default="true" /> <!-- Relock the brakes on exit -->
+    <arg name="wait_web_ui" default="true" /> <!-- Wait in case the robot web UI is currently in use -->
+    <arg name="request_physical_access" default="true" /> <!-- Request control by confirming physical access to the robot in case the robot web UI is currently in use -->
+    <arg name="enable_fci" default="true" /> <!-- Activate the FCI -->
+    <arg name="robot_type" default="fr3" /> <!-- options: fr3, panda -->
+    <arg name="log_level" default="debug" /> <!-- log level -->
+
+    <include file="$(find-pkg-share franka_lock_unlock)/launch/franka_lock_unlock.launch.xml">
+        <arg name="hostname" value="$(var hostname)" />
+        <arg name="username" value="$(var username)" />
+        <arg name="password" value="$(var password)" />
+        <arg name="enable_relock" value="$(var enable_relock)" />
+        <arg name="wait_web_ui" value="$(var wait_web_ui)" />
+        <arg name="request_physical_access" value="$(var request_physical_access)" />
+        <arg name="enable_fci" value="$(var enable_fci)" />
+        <arg name="robot_type" value="$(var robot_type)" />
+    </include>
+
+</launch>

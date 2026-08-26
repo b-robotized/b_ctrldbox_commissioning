@@ -13,6 +13,9 @@
 
   <exec_depend>franka_hardware</exec_depend>
   <exec_depend>franka_description</exec_depend>
+  <exec_depend>foreman</exec_depend>
+  <exec_depend>cubic_spline_smoothing_adapter</exec_depend>
+  <exec_depend>franka_lock_unlock</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

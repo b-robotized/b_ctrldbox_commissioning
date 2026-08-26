@@ -35,7 +35,14 @@ joint_state_broadcaster:
 fr3_left_joint_trajectory_controller:
   ros__parameters:
     type: joint_trajectory_controller/JointTrajectoryController
-    update_rate: 1000
+    is_async: true
+    async_parameters:
+      scheduling_policy: slave
+      slave_to_hardware: fr3_FrankaHardwareInterface
+      thread_priority: 70
+      cpu_affinity: [2, 3] # cores 2 and 3 are real time
+      thread_name: ros_ctrl_jtc
+      execution_rate: 1000
     command_interfaces:
       - effort
     state_interfaces:
@@ -70,7 +77,14 @@ fr3_left_joint_trajectory_controller:
 fr3_right_joint_trajectory_controller:
   ros__parameters:
     type: joint_trajectory_controller/JointTrajectoryController
-    update_rate: 1000
+    is_async: true
+    async_parameters:
+      scheduling_policy: slave
+      slave_to_hardware: fr3_right_FrankaHardwareInterface
+      thread_priority: 70
+      cpu_affinity: [2, 3] # cores 2 and 3 are real time
+      thread_name: ros_ctrl_jtc
+      execution_rate: 1000
     command_interfaces:
       - effort
     state_interfaces:
@@ -105,7 +119,14 @@ fr3_right_joint_trajectory_controller:
 fr3_joint_trajectory_controller:
   ros__parameters:
     type: joint_trajectory_controller/JointTrajectoryController
-    update_rate: 1000
+    is_async: true
+    async_parameters:
+      scheduling_policy: slave
+      slave_to_hardware: fr3_left_FrankaHardwareInterface
+      thread_priority: 70
+      cpu_affinity: [2, 3] # cores 2 and 3 are real time
+      thread_name: ros_ctrl_jtc
+      execution_rate: 1000
     command_interfaces:
       - effort
     state_interfaces:

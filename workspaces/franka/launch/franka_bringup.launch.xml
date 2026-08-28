@@ -19,24 +19,23 @@
 -->
 
 <launch>
+  <arg name="robot_prefix" default="fr3" description="Arm ID of the robot."/>
+  <arg name="robot_ip" default="10.42.0.203" description="IP address of the robot."/>
+  <arg name="ros2_control_hardware_type" default="real" description="mock/real"/>
 
-  <arg name="description_package" default="b_robotized_franka_demo" description="Description package with robot URDF/xacro files. Usually not set, it enables use of a custom description."/>
+  <arg name="configuration_package" default="b_robotized_franka_demo" description="Description package with robot URDF/xacro files. Usually not set, it enables use of a custom description."/>
   <arg name="description_file" default="franka" description="URDF/XACRO description file with the robot."/>
-
   <let name="cm_name" value="b_controlled_box_cm"/>
   <let name="controllers_yaml_dir" value="$(find-pkg-share b_robotized_franka_demo)/config"/>
 
-  <arg name="ros2_control_hardware_type" default="real" description="mock/real"/>
+  <arg name="is_async" default="true" description="Run Franka driver in a separate thread (Necessary for real robot control)"/>
+  <arg name="cpu_affinity" default="[2,3]" description="Pin Franka driver to RT cores (cores 2,3 on CtrlX)"/>
+  <arg name="thread_priority" default="70" description="Set Franka Driver Priority"/>
+  <arg name="scheduling_policy" default="slave" description="Franka Driver scheduling polic. Slave - wait on robot signal to start read/write"/>
 
-  <arg name="arm_id" default="fr3" description="Arm ID of the robot."/>
-  <arg name="robot_ip" default="10.42.0.203" description="IP address of the robot."/>
-  <arg name="is_async" default="true" description=""/>
-  <arg name="cpu_affinity" default="[2,3]" description=""/>
-  <arg name="thread_priority" default="70" description=""/>
-  <arg name="scheduling_policy" default="slave" description="Async hw interface scheduling policy"/>
-
-  <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var description_package))/urdf/$(var description_file).urdf.xacro \
-                                        arm_prefix:=fr3 \
+  <!-- DESCRIPTION -->
+  <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var configuration_package))/urdf/$(var description_file).urdf.xacro \
+                                        robot_prefix:=$(var robot_prefix) \
                                         ros2_control_hardware_type:=$(var ros2_control_hardware_type) \
                                         robot_ip:=$(var robot_ip) \
                                         is_async:=$(var is_async) \
@@ -49,21 +48,19 @@
   </node>
 
   <!-- CONTROLLERS -->
-  <node pkg="controller_manager" exec="spawner" name="jsb_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
-        args="joint_state_broadcaster -c $(var cm_name) -p scenario_controllers.yaml --inactive"/>
+  <let name="controllers_file" value="scenario_controllers.yaml" if="$(equals $(var ros2_control_hardware_type) real)" />
+  <let name="controllers_file" value="scenario_controllers_mock.yaml" if="$(equals $(var ros2_control_hardware_type) mock)" />
+  <node pkg="controller_manager" exec="spawner" name="jsb_spawner" cwd="$(var controllers_yaml_dir)" output="screen"  
+        args="joint_state_broadcaster -c $(var cm_name) -p $(var controllers_file) --inactive"/>
   <node pkg="controller_manager" exec="spawner" name="fr3_joint_trajectory_controller_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
-        args="fr3_joint_trajectory_controller -c $(var cm_name) -p scenario_controllers.yaml --inactive"/>
+        args="fr3_joint_trajectory_controller -c $(var cm_name) -p $(var controllers_file) --inactive"/>
 
 
   <!-- FOREMAN -->
-  <let name="foreman_config_path" value="$(find-pkg-share $(var description_package))/config/foreman/franka.yaml"/>
+  <let name="foreman_config_path" value="$(find-pkg-share $(var configuration_package))/config/foreman/franka.yaml"/>
   <node name="foreman" pkg="foreman" exec="foreman_node" cwd="$(var controllers_yaml_dir)" output="screen">
     <param name="config_path" value="$(var foreman_config_path)"/>
     <param name="controller_manager" value="$(var cm_name)"/>
   </node>
-
-  <!-- LOCK-UNLOCK node for Franka -->
-  <include file="$(find-pkg-share b_robotized_franka_demo)/launch/franka_lock_unlock.launch.xml">
-  </include>
 
 </launch>

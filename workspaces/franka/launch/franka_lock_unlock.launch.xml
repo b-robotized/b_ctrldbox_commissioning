@@ -22,9 +22,9 @@
 
 <launch>
     <!-- Launch Arguments with Defaults -->
-    <arg name="hostname" default="localhost" /> <!-- Replace with the hostname -->
-    <arg name="username" default="user" /> <!-- Replace with the Username -->
-    <arg name="password" default="strongpwd" /> <!-- Replace with your password -->
+    <arg name="hostname" default="10.50.50.1" /> <!-- Replace with the hostname -->
+    <arg name="username" default="franka" /> <!-- Replace with the Username -->
+    <arg name="password" default="franka123" /> <!-- Replace with your password -->
     <arg name="enable_relock" default="true" /> <!-- Relock the brakes on exit -->
     <arg name="wait_web_ui" default="true" /> <!-- Wait in case the robot web UI is currently in use -->
     <arg name="request_physical_access" default="true" /> <!-- Request control by confirming physical access to the robot in case the robot web UI is currently in use -->

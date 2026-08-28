@@ -9,7 +9,7 @@
         - default_planning_request_adapters/CheckStartStateBounds
         - default_planning_request_adapters/CheckStartStateCollision
       response_adapters:
-        - cubic_spline_smoothing_adapter/CubicSplineSmoothingAdapter
+        - b_robotized_moveit_plugins/CubicSplineSmoothingAdapter
         - default_planning_response_adapters/ValidateSolution
         - default_planning_response_adapters/DisplayMotionPath
 

@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="franka">
 
     <xacro:arg name="robot_type" default="fr3"/>
-    <xacro:arg name="arm_prefix" default="fr3"/>
+    <xacro:arg name="robot_prefix" default="fr3"/>
     <xacro:arg name="robot_ip" default="10.42.0.203"/>
     
     <xacro:arg name="ros2_control_hardware_type" default="mock"/>
@@ -23,7 +23,7 @@
                         kinematics="${xacro.load_yaml('$(find franka_description)/robots/fr3/kinematics.yaml')}"
                         dynamics="${xacro.load_yaml('$(find franka_description)/robots/fr3/dynamics.yaml')}"
                         hand="false"
-                        arm_prefix="$(arg arm_prefix)"
+                        arm_prefix="$(arg robot_prefix)"
                         ros2_control="true"
                         robot_ip="$(arg robot_ip)"
                         fake_sensor_commands="$(arg mock_sensor_commands)"
@@ -36,10 +36,10 @@
     </xacro:franka_robot>
 
     <!-- ============= TOOL MOUNT ================ -->
-    <link name="$(arg robot_type)_tool0"/>
-    <joint name="$(arg robot_type)_tool0_joint" type="fixed">
-        <parent link="$(arg robot_type)_link8"/>
-        <child link="$(arg robot_type)_tool0"/>
+    <link name="$(arg robot_prefix)_tool0"/>
+    <joint name="$(arg robot_prefix)_tool0_joint" type="fixed">
+        <parent link="$(arg robot_prefix)_link8"/>
+        <child link="$(arg robot_prefix)_tool0"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 

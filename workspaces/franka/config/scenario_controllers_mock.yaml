@@ -69,7 +69,7 @@ fr3_left_joint_trajectory_controller:
 
 fr3_right_joint_trajectory_controller:
   ros__parameters:
-    type: joint_trajectarm_idory_controller/JointTrajectoryController
+    type: joint_trajectory_controller/JointTrajectoryController
     update_rate: 100
     command_interfaces:
       - position

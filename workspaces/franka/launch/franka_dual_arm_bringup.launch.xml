@@ -1,0 +1,86 @@
+<!--
+  Copyright (c) 2025, b-robotized Group
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Source of this file is https://github.com/b-robotized/ros_team_workspace repository.
+
+  Author: Dr. Denis
+-->
+
+<launch>
+
+  <arg name="configuration_package" default="b_robotized_franka_demo" description="Description package with robot URDF/xacro files. Usually not set, it enables use of a custom description."/>
+  <arg name="description_file" default="franka_dual_arm" description="URDF/XACRO description file with the robot."/>
+
+  <arg name="robot_1_ros2_control_hardware_type" default="real" description="mock/real"/>
+  <arg name="robot_1_prefix" default="fr3_left" description="Arm ID of the robot."/>
+  <arg name="robot_1_ip" default="10.42.0.203" description="IP address of the left robot."/>
+  <arg name="robot_1_is_async" default="true" description="Run Franka driver in a separate thread (Necessary for real robot control)"/>
+  <arg name="robot_1_cpu_affinity" default="[2,3]" description="Pin Franka driver to RT cores (cores 2,3 on CtrlX)"/>
+  <arg name="robot_1_thread_priority" default="70" description="Set Franka Driver Priority"/>
+  <arg name="robot_1_scheduling_policy" default="slave" description="Franka Driver scheduling polic. Slave - wait on robot signal to start read/write"/>
+  
+  <arg name="robot_2_ros2_control_hardware_type" default="real" description="mock/real"/>
+  <arg name="robot_2_prefix" default="fr3_right" description="Arm ID of the robot."/>
+  <arg name="robot_2_ip" default="10.42.0.204" description="IP address of the right robot."/>
+  <arg name="robot_2_is_async" default="true" description="Run Franka driver in a separate thread (Necessary for real robot control)"/>
+  <arg name="robot_2_cpu_affinity" default="[2,3]" description="Pin Franka driver to RT cores (cores 2,3 on CtrlX)"/>
+  <arg name="robot_2_thread_priority" default="70" description="Set Franka Driver Priority"/>
+  <arg name="robot_2_scheduling_policy" default="slave" description="Franka Driver scheduling polic. Slave - wait on robot signal to start read/write"/>
+
+  <!-- DESCRIPTION -->
+  <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var configuration_package))/urdf/$(var description_file).urdf.xacro \
+                                        robot_1_ros2_control_hardware_type:=$(var robot_1_ros2_control_hardware_type) \
+                                        robot_1_prefix:=$(var robot_1_prefix) \
+                                        robot_1_ip:=$(var robot_1_ip) \
+                                        robot_1_is_async:=$(var robot_1_is_async) \
+                                        robot_1_cpu_affinity:=$(var robot_1_cpu_affinity) \
+                                        robot_1_thread_priority:=$(var robot_1_thread_priority) \
+                                        robot_1_scheduling_policy:=$(var robot_1_scheduling_policy) \
+                                        robot_2_ros2_control_hardware_type:=$(var robot_2_ros2_control_hardware_type) \
+                                        robot_2_prefix:=$(var robot_2_prefix) \
+                                        robot_2_ip:=$(var robot_2_ip) \
+                                        robot_2_is_async:=$(var robot_2_is_async) \
+                                        robot_2_cpu_affinity:=$(var robot_2_cpu_affinity) \
+                                        robot_2_thread_priority:=$(var robot_2_thread_priority) \
+                                        robot_2_scheduling_policy:=$(var robot_2_scheduling_policy)')"/>
+
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
+    <param name="robot_description" value="$(var robot_description)"/>
+  </node>
+
+  <!-- CONTROLLERS -->
+  <!-- Currently, we only bring both robots as real or mock. If either of robots is mock, we are spawning mock. -->
+  <let name="controllers_file" value="scenario_controllers.yaml" />
+  <let name="controllers_file" value="scenario_controllers_mock.yaml" if="$(equals $(var robot_1_ros2_control_hardware_type) mock)" />
+  <let name="controllers_file" value="scenario_controllers_mock.yaml" if="$(equals $(var robot_2_ros2_control_hardware_type) mock)" />
+
+  <let name="cm_name" value="b_controlled_box_cm"/>
+  <let name="controllers_yaml_dir" value="$(find-pkg-share b_robotized_franka_demo)/config"/>
+
+  <node pkg="controller_manager" exec="spawner" name="jsb_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
+        args="joint_state_broadcaster -c $(var cm_name) -p $(var controllers_file) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" name="fr3_left_joint_trajectory_controller_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
+        args="fr3_left_joint_trajectory_controller -c $(var cm_name) -p $(var controllers_file) --inactive"/>
+  <node pkg="controller_manager" exec="spawner" name="fr3_right_joint_trajectory_controller_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
+        args="fr3_right_joint_trajectory_controller -c $(var cm_name) -p $(var controllers_file) --inactive"/>
+
+  <!-- FOREMAN -->
+  <let name="foreman_config_path" value="$(find-pkg-share $(var configuration_package))/config/foreman/franka_dual_arm.yaml"/>
+  <node name="foreman" pkg="foreman" exec="foreman_node" cwd="$(var controllers_yaml_dir)" output="screen">
+    <param name="config_path" value="$(var foreman_config_path)"/>
+    <param name="controller_manager" value="$(var cm_name)"/>
+  </node>
+
+</launch>

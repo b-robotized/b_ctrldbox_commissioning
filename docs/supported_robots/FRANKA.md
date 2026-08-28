@@ -116,3 +116,16 @@ If the Franka robot becomes locked, its hardware interface reverts to unconfigur
    ros2 service call /foreman/set_goal foreman_msgs/srv/SetGoal "{goal: 'inactive'}"
    ros2 service call /foreman/set_goal foreman_msgs/srv/SetGoal "{goal: 'active'}"
    ```
+
+### Franka Web UI Multi-User Access
+ 
+The Franka Desk Web UI does not support simultaneous control by multiple users — only one user can control the robot at a time.
+ 
+If you want to switch control to the ROS 2 lifecycle node, go to **Admin** and click **Release**. This releases your control, after which the robot can be controlled by another user or by the ROS 2 lifecycle node.
+ 
+![Franka Release Control](../assets/franka/release_control.png)
+![Franka Web UI Take Control](../assets/franka/franka_web_ui_take_control.png)
+ 
+If you're not sure who currently has control, you can request access instead. The user currently connected to the Franka Web UI will get a pop-up prompting them to grant you access; once they approve it, you can take control.
+ 
+Alternatively, you can use the **force** option: physically press the button on the Franka robot to gain access to the dashboard.

@@ -1,0 +1,36 @@
+# Example command to transition states:
+#
+# ros2 action send_goal --feedback /foreman/set_profile foreman_msgs/action/SetProfile "{profile: 'inactive'}"
+#
+
+hardware:
+  - fr3_FrankaHardwareInterface
+
+controllers:
+  fr3_joint_trajectory_controller:
+    requires: [fr3_FrankaHardwareInterface, active]
+  joint_state_broadcaster:
+    requires: [fr3_FrankaHardwareInterface, inactive]
+
+profiles:
+
+  unconfigured:
+    controllers:
+      fr3_joint_trajectory_controller: unconfigured
+      joint_state_broadcaster: unconfigured
+    hardware:
+      fr3_FrankaHardwareInterface: unconfigured
+
+  inactive:
+    controllers:
+      fr3_joint_trajectory_controller: inactive
+      joint_state_broadcaster: active
+    hardware:
+      fr3_FrankaHardwareInterface: inactive
+
+  active:
+    controllers:
+      fr3_joint_trajectory_controller: active
+      joint_state_broadcaster: active
+    hardware:
+      fr3_FrankaHardwareInterface: active

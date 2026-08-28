@@ -25,14 +25,11 @@
   <arg name="semantic_description_file_path"
        default="$(find-pkg-share $(var configuration_package))/srdf/franka.srdf.xacro"
        description="URDF/XACRO semantic description file with the robot."/>
-  <arg name="arm_id"
-       default="fr3"
-       description="Arm ID of the robot."/>
   <arg name="start_rviz"
        default="true"
        description="Launch RViz visualization with MoveIt2 config?"/>
   <arg name="rviz_file_path"
-       default="$(find-pkg-share $(var configuration_package))/config/franka.rviz"
+       default="$(find-pkg-share $(var configuration_package))/config/franka_moveit.rviz"
        description="Rviz2 configuration file of the visualization."/>
   <!-- moveit -->
   <arg name="move_group_config_file_path"
@@ -64,7 +61,7 @@
   </arg>
 
   <let name="robot_description_semantic_content"
-       value="$(command '$(find-exec xacro) $(var semantic_description_file_path) arm_id:=$(var arm_id)')"/>
+       value="$(command '$(find-exec xacro) $(var semantic_description_file_path) ')"/>
 
   <node pkg="moveit_ros_move_group" exec="move_group" output="screen">
     <env name="LC_ALL" value="en_US.UTF-8"/>

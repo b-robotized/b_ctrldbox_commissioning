@@ -18,25 +18,20 @@
   Author: Dr. Denis
 -->
 <launch>
-  <arg name="configuration_package" default="b_robotized_franka_demo" description="The ROS package where we find the configuration files."/>
-
-  <arg name="arm_id" default="fr3" description="Arm ID of the robot."/>
   <arg name="start_rviz" default="false" description="Launch RViz visualization?"/>
-
-  <let name="controllers_file_path" value="$(find-pkg-share $(var configuration_package))/config/scenario_controllers_mock.yaml"/>
-
-  <include file="$(find-pkg-share $(var configuration_package))/launch/franka_description.launch.xml">
-    <arg name="use_mock_hardware" value="true"/>
-    <arg name="arm_id" value="$(var arm_id)"/>
-    <arg name="scheduling_policy" value="detached"/>
-  </include>
-
-  <node pkg="controller_manager" exec="ros2_control_node" name="b_controlled_box_cm" output="both">
-    <param from="$(var controllers_file_path)"/>
+  
+  <arg name="configuration_package" default="b_robotized_franka_demo" description="The ROS package where we find the configuration files."/>
+  
+  <let name="controllers_yaml_dir" value="$(find-pkg-share b_robotized_franka_demo)/config"/>
+  <node pkg="controller_manager" exec="ros2_control_node" name="b_controlled_box_cm" cwd="$(var controllers_yaml_dir)" output="both">
+    <param from="$(var controllers_yaml_dir)/scenario_controllers_mock.yaml"/>
   </node>
 
-  <node pkg="controller_manager" exec="spawner" name="joint_state_broadcaster_spawner" output="screen" args="joint_state_broadcaster -c /b_controlled_box_cm"/>
-  <node pkg="controller_manager" exec="spawner" name="franka_joint_trajectory_controller_spawner" output="screen" args="fr3_joint_trajectory_controller -c /b_controlled_box_cm"/>
+  <include file="$(find-pkg-share $(var configuration_package))/launch/franka_bringup.launch.xml">
+    <arg name="ros2_control_hardware_type" value="mock"/>
+    <arg name="arm_prefix" value="fr3"/>
+    <arg name="is_async" value="false"/>
+  </include>
 
   <node if="$(var start_rviz)" pkg="rviz2" exec="rviz2" name="rviz2" output="both" args="-d $(find-pkg-share $(var configuration_package))/config/franka.rviz --ros-args --log-level fatal"/>
 

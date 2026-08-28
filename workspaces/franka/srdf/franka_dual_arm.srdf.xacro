@@ -4,21 +4,16 @@
 
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.srdf.xacro"/>
     <xacro:franka_arm_srdf 
-            arm_id="fr3_left"
+            robot_type="fr3"
             hand="false"
-            ee_id=""
             no_prefix="false"
-            arm_prefix=""
-            tip_link="link8"/>
+            arm_prefix="fr3_left"/>
 
-    <xacro:include filename="$(find franka_description)/robots/common/franka_arm.srdf.xacro"/>
     <xacro:franka_arm_srdf 
-            arm_id="fr3_right"
+            robot_type="fr3"
             hand="false"
-            ee_id=""
             no_prefix="false"
-            arm_prefix=""
-            tip_link="link8"/>
+            arm_prefix="fr3_right"/>
 
     <group name="dual_arm">
         <group name="fr3_left_arm"/>

@@ -21,7 +21,7 @@ the interface connected to `XF10`. Avoid these reserved addresses:
 
 | Address           | Reserved for                                                                                     |
 | ------------------ | ------------------------------------------------------------------------------------------------- |
-| `192.168.28.7`     | ctrlX CORE device default (see [SETUP_COMMMISSIONING.md](SETUP_COMMMISSIONING.md))                |
+| `192.168.28.x`     | b»controlled box default (see [SETUP_COMMMISSIONING.md](SETUP_COMMMISSIONING.md))                |
 | `192.168.28.28`    | zenoh router / ROS 2 middleware (see [SETUP_CTRLX.md](SETUP_CTRLX.md), [SETUP_ZENOH.md](SETUP_ZENOH.md)) |
 | `192.168.28.201`   | dev/ROS 2 PC — typically also runs the NTP server, see [SETUP_NTP_SERVER.md](SETUP_NTP_SERVER.md) |
 | `192.168.28.202`   | commissioning Docker container (see [SETUP_COMMMISSIONING.md](SETUP_COMMMISSIONING.md))           |

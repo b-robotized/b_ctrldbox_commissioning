@@ -28,6 +28,8 @@ Tip: For a general introduction to the ctrlX OS interface, see the official [Rex
 3. Go to the `IPv4` tab and add as additional IP address `192.168.28.28` with subnet mask `255.255.255.0`.
 4. To validate the connection, navigate to `Settings > Network Diagnostics` and ping your robot.
 
+> Need to reach the robot's own configuration/engineering interface (e.g. WorkVisual, smartHMI, iiQWorks.Sim) from your engineering PC, not just ROS 2? See [SETUP_ENGINEERING_ACCESS.md](SETUP_ENGINEERING_ACCESS.md) for setting up routing through the Firewall App.
+
 ### 1.2 Configure Robot Network Interface
 ***IMPORTANT:*** Section is only applicable if you did not get the device directly from b»robotized.
 

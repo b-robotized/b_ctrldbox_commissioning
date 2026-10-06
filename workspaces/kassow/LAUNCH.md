@@ -1,150 +1,125 @@
-
 # KASSOW ROS 2 Startup Procedure
 
-This guide outlines the steps to launch the Kuka KRC4 driver, spawn the necessary controllers, and activate the system for operation.
+This guide outlines the steps to launch the hardware drivers, spawn the necessary controllers, and activate the system for operation using the Foreman profile manager.
 
+## Supported Robot Models
+The KORD bringup currently supports two Kassow robot models:
+* **`kr810`** (Default)
+* **`kr1018`**
 
-# Single Kassow robot
+You can specify the model during the launch process by passing the corresponding argument. If no argument is provided, the system defaults to the `kr810`.
 
+## Single Kassow Robot
 
-### Step 0: Observe controller manager activity
-
-In one terminal output the `activity` topic of the controller manager to observe the internal states of the system:
-   ```
-   ros2 topic echo /b_controlled_box_cm/activity
-   ```
-
-### Step 1: Launch the Robot Description
-
-First, launch the description for the Kassow robot. This command loads the robot's description (URDF) to CtrlX and starts the Kassow hardware driver.
-
+### Step 0: Observe Controller Manager Activity
+In one terminal, output the `activity` topic of the controller manager to observe the internal states of the system:
 ```bash
-ros2 launch kassow_kord_bringup kassow_kord_description.launch.xml \
-  use_mock_hardware:=false \
-  ip_address:=10.23.23.238 \
-  port:=28283
+ros2 topic echo /b_controlled_box_cm/activity
+```
+
+### Step 1: Launch the Robot Bringup
+Launch the bringup file for the Kassow robot. This command loads the robot's description (URDF), starts the hardware driver, and initializes Foreman. Pass the `robot_model` argument to specify the exact robot model.
+
+**For Real Hardware:**
+```bash
+ros2 launch kassow_kord_bringup kassow_kord_bringup.launch.xml \
+  robot_model:=kr1018
+```
+
+**For Mock Hardware:**
+```bash
+ros2 launch kassow_kord_bringup kassow_kord_bringup_mock.launch.xml \
+  robot_model:=kr1018
 ```
 
 ### Step 2: Set ctrlX to OPERATIONAL Mode
+⚠️️ **IMPORTANT:** For real-time performance on physical hardware, switch the ctrlX controller to OPERATIONAL mode before proceeding.
 
-⚠️ ***IMPORTANT:*** For real-time performance, switch the ctrlX controller to OPERATIONAL mode before proceeding.
-
-### Step 3: Activate the Robot
-
-In third terminal load the controllers and active the whole system. For this enter the `scripts` folder of the `kassow_kord_bringup` package.
+### Step 3: Activate the Robot via Foreman
+In a new terminal, use Foreman to load the controllers and activate the system by setting the profile to `active`:
 ```bash
-rosd kassow_kord_bringup && cd scripts
-./activate_kassow_robot.bash
+ros2 service call /foreman/set_profile foreman_msgs/srv/SetProfile "{profile: 'active'}"
 ```
-   *As components are getting activated you will see new output on the `activity` topic.*
+*As components are activated, you will see new output on the `activity` topic.*
 
 ### Step 4: Run MoveIt
-
-Start path planning framework MoveIt2 and visualization software `rviz2` using:
-```
-ros2 launch kassow_kord_bringup kassow_kord_moveit.launch.xml
-```
-
-
-
-
-# Dual Kassow robot
-
-The process for activation two robots is similar.
-
-### Step 0: Observe controller manager activity
-
-In one terminal output the `activity` topic of the controller manager to observe the internal states of the system:
-   ```
-   ros2 topic echo /b_controlled_box_cm/activity
-   ```
-
-### Step 1: Launch the Robot Description
-
-First, launch the description for the Kassow robot. This command loads the robot's description (URDF) to CtrlX and starts the Kassow hardware driver.
-
-Here, we differentiate between "`kassow_left`" and "`kassow_right`" robot.
-
+Start the planning framework MoveIt2 and visualization software `rviz2`. Pass the same `robot_model` argument to ensure correct SRDF is loaded:
 ```bash
-ros2 launch kassow_kord_bringup kassow_kord_dual_arm_description.launch.xml \
-  use_mock_hardware:=false \
-  left_ip_address:=10.23.23.238 \
-  left_port:=28283 \
-  right_ip_address:=10.23.23.205 \
-  right_port:=28284
+ros2 launch kassow_kord_bringup kassow_kord_moveit.launch.xml \
+  robot_model:=kr1018
+```
+
+---
+
+## Dual Kassow Robot
+
+The process for activating two robots follows the same Foreman-based profile structure. You can mix and match robot models by specifying `robot_1_model` (left arm) and `robot_2_model` (right arm) independently.
+
+### Step 0: Observe Controller Manager Activity
+In one terminal, output the `activity` topic of the controller manager to observe the internal states of the system:
+```bash
+ros2 topic echo /b_controlled_box_cm/activity
+```
+
+### Step 1: Launch the Dual Robot Bringup
+Launch the dual-arm bringup configuration. This loads the descriptions and hardware interfaces for both the `kassow_left` and `kassow_right` robots.
+
+**For Real Hardware:**
+```bash
+ros2 launch kassow_kord_bringup kassow_kord_dual_arm_bringup.launch.xml \
+  robot_1_model:=kr810 \
+  robot_2_model:=kr1018
+```
+
+**For Mock Hardware:**
+```bash
+ros2 launch kassow_kord_bringup kassow_kord_dual_arm_bringup_mock.launch.xml \
+  robot_1_model:=kr810 \
+  robot_2_model:=kr1018
 ```
 
 ### Step 2: Set ctrlX to OPERATIONAL Mode
+⚠️ **IMPORTANT:** For real-time performance on physical hardware, switch the ctrlX controller to OPERATIONAL mode before proceeding.
 
-⚠️ ***IMPORTANT:*** For real-time performance, switch the ctrlX controller to OPERATIONAL mode before proceeding.
-
-### Step 3: Activate the Robot
-
-In third terminal load the controllers and active the whole system. For this enter the `scripts` folder of the `kassow_kord_bringup` package.
-
+### Step 3: Activate the Robots via Foreman
+In a new terminal, activate the hardware interfaces and controllers for both robots simultaneously using Foreman:
 ```bash
-rosd kassow_kord_bringup && cd scripts
+ros2 service call /foreman/set_profile foreman_msgs/srv/SetProfile "{profile: 'active'}"
 ```
-*As components are getting activated you will see new output on the `activity` topic.*
 
-#### Activate hardware interfaces
-```bash
-./dual_activate_hardware.bash
-```
-#### Activate controllers
-```bash
-./dual_activate_controllers.bash
-```
-   
 ### Step 4: Run MoveIt
-
-Start path planning framework MoveIt2 and visualization software `rviz2` using:
+Start the dual-arm path planning framework MoveIt2 and visualization software `rviz2`. Make sure to pass the matching `robot_1_model` and `robot_2_model` parameters:
+```bash
+ros2 launch kassow_kord_bringup kassow_kord_dual_arm_moveit.launch.xml \
+  robot_1_model:=kr810 \
+  robot_2_model:=kr1018
 ```
-ros2 launch kassow_kord_bringup kassow_kord_dual_arm_moveit.launch.xml
-```
 
+---
 
-
-# Troubleshooting
+## Troubleshooting
 
 ### Recovering from a CBun Error
-- limit break, communication timeout or other.
-This breaks the communication of the robot and we have to deactivate and reconfigure it.
+A limit break, communication timeout, or other issue will break the communication of the robot. Foreman handles the state transitions to cleanly deactivate and reconfigure the controllers.
 
-0. Clear the errors on the robot teach pendant and re-activate CBun.
-
-1. deactivate the robot hardware and controllers.
-```
-rosd kassow_kord_bringup && cd scripts
-./deactivate_kassow_robot.bash
-```
-2. unconfigure the controllers
-```
-ros2 control set_controller_state -c b_controlled_box_cm joint_state_broadcaster unconfigured
-ros2 control set_controller_state -c b_controlled_box_cm kassow_joint_trajectory_controller unconfigured
-```
-3. unconfigure the hardware
-```
-ros2 control set_hardware_component_state -c b_controlled_box_cm kassow unconfigured
-```
-4. reactivate the robot
-```
-./activate_kassow_robot.bash
-```
+1. Clear the errors on the robot teach pendant and re-activate CBun.
+2. Deactivate the robot hardware and controllers using Foreman:
+   ```bash
+   ros2 service call /foreman/set_profile foreman_msgs/srv/SetProfile "{profile: 'inactive'}"
+   ```
+3. Reactivate the robot:
+   ```bash
+   ros2 service call /foreman/set_profile foreman_msgs/srv/SetProfile "{profile: 'active'}"
+   ```
 
 ### Controller Switching
-During operation, some controller activation service might fail. In that case, specific controllers can be switched to active or inactive state with the following commands:
+If specific controllers fail or require manual intervention outside of Foreman's automated profiles, they can still be switched directly via the controller manager:
+```bash
+ros2 control switch_controllers -c /b_controlled_box_cm --activate joint_state_broadcaster
 ```
-ros2 control switch_controllers -c /b_controlled_box_cm \
-  --activate joint_state_broadcaster
+```bash
+ros2 control switch_controllers -c /b_controlled_box_cm --deactivate joint_state_broadcaster
 ```
-```
-ros2 control switch_controllers -c /b_controlled_box_cm \
-  --deactivate joint_state_broadcaster
-```
-It is possible to activate/deactivate more than one controllers in the same command
 
-### Connection issues when trying to set the robot to `inactive` state.
-Make sure that the IP addresses are set correctly and you can ping the robot.
-To ping it choose `Setting` » `Network Diagnostics` » `Ping` on the ctrlX CORE and enter the address of the robot controller in the `Address` filed.
-
+### Connection Issues
+If there are connection issues when trying to set the robot to the `inactive` state, ensure the IP addresses are correct and the robot is pingable. To ping it, navigate to **Settings » Network Diagnostics » Ping** on the ctrlX CORE and enter the address of the robot controller in the `Address` field.

@@ -1,0 +1,52 @@
+# RSI XML message configuration for the "extended" variant (RSI 4.1.x / KSS 8.6).
+#
+# Pass this file to the driver with `rsi_xml_config_file:=<absolute path>`.
+# It is also the single source of truth for the controller-side ethernet config:
+#
+#   ros2 run kuka_rsi_driver generate_krc_rsi_config.py --config extended.yaml \
+#     --client-ip 10.23.23.28 --client-port 28283 --output b_ctrldbox_rsi_eth.xml
+#
+# Regenerate kss_deployment/Config/User/Common/SensorInterface/common/extended/b_ctrldbox_rsi_eth.xml
+# whenever this file changes. Elements without an INDX ("DEF_*") are KRC built-ins; elements
+# with an INDX must be wired to the matching Ethernet_1 input in the .rsix.
+
+rsi_xml_config:
+  motion_state:                    # robot -> PC
+    cartesian:                     # actual TCP pose (active $TOOL in active $BASE) -> read_cartesian_pose:=true
+      enabled: true
+      xml_element: RIst            # DEF_RIst, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    cartesian_setpoint:            # setpoint pose -> read_cartesian_setpoint:=true
+      enabled: true                # disabled by default, must be set explicitly
+      xml_element: RSol            # DEF_RSol, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    joints:
+      positions:                   # DEF_AIPos, built-in
+        - {joint_identifier: joint_1, xml_element: AIPos, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: AIPos, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: AIPos, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: AIPos, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: AIPos, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: AIPos, xml_attribute: A6}
+      currents:                    # motor currents, DEF_MACur, built-in -> joint "current" state interface
+        - {joint_identifier: joint_1, xml_element: MACur, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: MACur, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: MACur, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: MACur, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: MACur, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: MACur, xml_attribute: A6}
+      torques:                     # GearTorque_1 (Measured, Gear) -> INDX 1-6 -> joint "effort" state interface
+        - {joint_identifier: joint_1, xml_element: GearTorque, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: GearTorque, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: GearTorque, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: GearTorque, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: GearTorque, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: GearTorque, xml_attribute: A6}
+    robot_status:                  # Status_1 (ProState_R) -> INDX 7, OV_PRO_1 -> INDX 8 -> read_robot_status:=true
+      program_state: {xml_element: ProgStatus, xml_attribute: R, type: LONG}  # $PRO_STATE1
+      speed_scaling: {xml_element: OvPro, xml_attribute: R}                   # $OV_PRO
+
+  control_signal:                  # PC -> robot
+    joints:
+      xml_element: AK
+      xml_attributes: [A1, A2, A3, A4, A5, A6]

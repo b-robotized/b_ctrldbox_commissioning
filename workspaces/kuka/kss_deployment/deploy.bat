@@ -48,10 +48,8 @@ echo Select RSI configuration:
 echo   1. Standard (6 robot axes only)
 echo   2. External Axis (6 robot axes + external axes support)
 echo   3. GPIO (6 robot axes + GPIO support)
-echo   4. Extended (Standard + torques, motor currents, program status, setpoint pose) - RSI 4.1.x only
-echo   5. Extended + GPIO (Extended + 8 digital inputs / 12 digital outputs) - RSI 4.1.x only
 echo.
-set /p rsi_config="Enter selection (1/2/3/4/5): "
+set /p rsi_config="Enter selection (1/2/3): "
 
 if "!rsi_config!"=="2" (
     set "RSI_VARIANT=ext_axis"
@@ -61,36 +59,31 @@ if "!rsi_config!"=="2" (
     set "RSI_VARIANT=gpios"
     echo.
     echo Selected: GPIO configuration
-) else if "!rsi_config!"=="4" (
-    set "RSI_VARIANT=extended"
-    echo.
-    echo Selected: Extended configuration
-) else if "!rsi_config!"=="5" (
-    set "RSI_VARIANT=extended_gpios"
-    echo.
-    echo Selected: Extended + GPIO configuration
 ) else (
     set "RSI_VARIANT="
     echo.
     echo Selected: Standard configuration
 )
 
-REM The Extended variants only exist (and are only tested) for RSI 4.1.x
-set "IS_EXTENDED=0"
-if "!RSI_VARIANT!"=="extended" set "IS_EXTENDED=1"
-if "!RSI_VARIANT!"=="extended_gpios" set "IS_EXTENDED=1"
-if "!IS_EXTENDED!"=="1" (
-    if not "!KSS_VERSION_DIR!"=="rsi_4.1.x" (
-        echo.
-        echo ERROR: The Extended configurations are only available for RSI 4.1.x ^(KSS 8.6^).
-        echo        Re-run deploy.bat and select RSI version 3.
+REM The shared ethernet configs (common\) match the RSI 4.1.x contexts only.
+REM The RSI 3.3.x / 4.0.x contexts have not been updated to the current message layout yet.
+if not "!KSS_VERSION_DIR!"=="rsi_4.1.x" (
+    echo.
+    echo WARNING: The ethernet configuration in common\ matches the RSI 4.1.x contexts only.
+    echo          The !KSS_VERSION_DIR! context does not contain the objects it expects
+    echo          ^(GearTorque, Status, OV_PRO^) - see RSI_CONFIGURATIONS.md.
+    set /p old_confirm="Deploy anyway? (Y/N): "
+    if /i not "!old_confirm!"=="Y" (
+        echo Deployment cancelled.
         pause
         exit /b 1
     )
-    echo.
-    echo NOTE: Start the driver with rsi_xml_config_file pointing to
-    echo       workspaces\kuka\rsi_xml_config\!RSI_VARIANT!.yaml - see RSI_CONFIGURATIONS.md.
 )
+echo.
+echo NOTE: Start the driver with rsi_xml_config_file pointing to
+echo       workspaces\kuka\rsi_xml_config\b_ctrldbox_rsi_xml_config.yaml
+if "!RSI_VARIANT!"=="ext_axis" echo       with the lines tagged [EXT_AXIS] uncommented - see LAUNCH.md.
+if "!RSI_VARIANT!"=="gpios" echo       with the lines tagged [GPIO] uncommented - see LAUNCH.md.
 
 REM ============================================
 REM PATH CONFIGURATION - Update these as needed

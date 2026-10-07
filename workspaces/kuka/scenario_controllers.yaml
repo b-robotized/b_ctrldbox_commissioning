@@ -63,7 +63,7 @@ kss_message_handler:
   ros__parameters:
     type: kuka_controllers/KssMessageHandler
 
-# Extended RSI configurations only (see kss_deployment/RSI_CONFIGURATIONS.md, configurations 4 and 5).
+# Robot status and Cartesian pose broadcasters (see kss_deployment/RSI_CONFIGURATIONS.md).
 # Not spawned by default - spawn them explicitly, see LAUNCH.md.
 robot_status_broadcaster:
   ros__parameters:

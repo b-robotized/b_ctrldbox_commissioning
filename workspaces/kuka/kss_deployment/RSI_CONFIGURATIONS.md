@@ -46,6 +46,7 @@ far:
 |---|---|---|---|
 | KSS 8.5.5 | RSI 4.0.6 | KUKA.EthernetKRL 3.1.2 | ✅ Tested on real controller |
 | KSS 8.6.5 | RSI 4.1.6 | *(not recorded)* | ✅ Tested on real controller |
+| KSS 8.6.8 | RSI 4.1.3 | *(not recorded)* | ✅ Tested on real controller (KR 210 R3100-2, `rsi_only`): Standard and **Extended** configurations. Extended + GPIO deployed files are generated from the same tested setup, but the GPIO part itself is ⬜ not yet tested |
 | KSS 8.3, 8.4 | RSI 3.3.x | *(not recorded)* | ⬜ Not yet tested |
 | KSS 9.2.2 (iiQKA.OS2) | RSI 6.2.1.4 | KUKA.EthernetKRL 6.1.2.12 | ✅ Tested on real controller — config in `rsi_6.x/`, import steps in "iiQKA.OS2 (RSI 6.x) Deployment" below |
 
@@ -60,6 +61,12 @@ The b_ctrldbox RSI setup supports three different configurations:
 1. **Standard** - Basic 6-axis robot control
 2. **External Axis** - 6-axis robot + external axes (e.g., linear rails, positioners)
 3. **GPIO** - 6-axis robot + GPIO digital I/O support
+4. **Extended** - Standard + joint torques, motor currents, program status/speed scaling and setpoint pose (RSI 4.1.x only, needs the driver's `rsi_xml_config_file`)
+5. **Extended + GPIO** - Extended + the 8 digital inputs / 12 digital outputs of the GPIO configuration (RSI 4.1.x only, needs the driver's `rsi_xml_config_file`)
+
+Configurations 1-3 use the driver's default XML element names and work without any extra
+driver configuration. Configurations 4 and 5 add elements the driver only reads when it is
+given the matching RSI XML config YAML from `workspaces/kuka/rsi_xml_config/`.
 
 ## Configuration Details
 
@@ -171,23 +178,29 @@ the shared `Config/User/Common/SensorInterface/common/gpios/`
 - ✅ 6 robot axes (A1-A6)
 - ✅ Stop signal
 - ✅ Digital I/O synchronized with RSI cycle
-- ✅ GPIO.01, GPIO.02 for real-time I/O
+- ✅ 8 digital inputs (`DigIn` → `$IN[132]`..`$IN[139]`) and 12 digital outputs (`Map2DigOut` → `$OUT[33]`..`$OUT[36]`, `$OUT[39]`..`$OUT[46]`)
+
+The signal names (`input_01`..`input_08`, `output_01`..`output_12`) are generic placeholders
+and the robot I/O numbers are an example mapping. Adapt both to your application in RSI
+Visual and in the ethernet XML; the names must match the GPIO interfaces declared in
+the driver's robot description (`gpio_config.xacro`).
 
 **RECEIVE Elements (XML):**
 ```xml
 Index 1: Stop (BOOL)
 Index 2-7: AK.A1 - AK.A6 (robot joint corrections)
-Index 8: GPIO.01 (digital input from external controller)
+Index 8-11: GPIO.output_01 - GPIO.output_04 (-> $OUT[33]..$OUT[36])
+Index 12-19: GPIO.output_05 - GPIO.output_12 (-> $OUT[39]..$OUT[46])
 ```
 
 **SEND Elements (XML):**
 ```xml
 DEF_RIst   - Cartesian position (actual)
 DEF_AIPos  - Joint position (actual)
-DEF_EIPos  - External axis position (with GPIO info)
+DEF_EIPos  - External axis position
 DEF_Delay  - Late packet counter
-GPIO.01    - Digital output to external controller
-GPIO.02    - Digital output to external controller
+Index 1-8: GPIO.input_01 - GPIO.input_08
+           (<- $IN[132]..$IN[139])
 ```
 
 **Use Cases:**
@@ -199,7 +212,132 @@ GPIO.02    - Digital output to external controller
 **GPIO Capabilities:**
 - Bidirectional digital I/O
 - Synchronized with RSI cycle (4ms or 12ms)
-- Up to 2 GPIO channels (expandable)
+- 8 inputs / 12 outputs (expandable, up to 64 Ethernet ports per direction)
+
+---
+
+### 4. Extended Configuration
+
+**Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/extended/` (KSS 8.6 only), plus
+the shared `Config/User/Common/SensorInterface/common/extended/`
+
+**Files:**
+- `common/extended/b_ctrldbox_rsi_eth.xml` - Ethernet configuration, **generated** from the driver YAML (see below)
+- `rsi_4.1.x/extended/b_ctrldbox_rsi.rsix` - packed RSI Visual project with `GearTorque`, `Status` and `OV_PRO` objects
+- `workspaces/kuka/rsi_xml_config/extended.yaml` - driver-side RSI XML config (**not** deployed to the controller)
+
+Only RSI 4.1.x is provided - it is the only version this configuration was tested on. Don't
+port it to RSI 3.3.x/4.0.x/6.x before it can be tested there.
+
+**Features:**
+- ✅ Everything from the Standard configuration
+- ✅ Joint torques (`GearTorque`, measured, gear side) → joint `effort` state interfaces
+- ✅ Motor currents (`DEF_MACur`) → joint `current` state interfaces
+- ✅ Program state (`$PRO_STATE1`) and program override (`$OV_PRO`) → `robot_status` sensor
+- ✅ Actual (`DEF_RIst`) and setpoint (`DEF_RSol`) Cartesian pose → `cartesian_pose` / `cartesian_setpoint` sensors
+
+**RECEIVE Elements (XML):** unchanged from Standard
+```xml
+Index 1: Stop (BOOL)
+Index 2-7: AK.A1 - AK.A6 (robot joint corrections)
+```
+
+**SEND Elements (XML):**
+```xml
+DEF_RIst       - Cartesian position (actual)
+DEF_RSol       - Cartesian position (setpoint)
+DEF_AIPos      - Joint position (actual)
+Index 1-6:     GearTorque.A1 - GearTorque.A6   (<- GearTorque_1, TorqueSource=Measured, LocationOnJoint=Gear)
+DEF_MACur      - Motor currents A1-A6
+Index 7:       ProgStatus.R (LONG)             (<- Status_1, Type=ProState_R)
+Index 8:       OvPro.R                         (<- OV_PRO_1)
+DEF_Delay      - Late packet counter
+```
+
+`DEF_EIPos` is not sent - this configuration has no external axes.
+
+**Driver side:**
+
+The YAML is the single source of truth - regenerate the ethernet XML from it whenever it
+changes, so the driver and the controller always agree on the message layout:
+
+```bash
+ros2 run kuka_rsi_driver generate_krc_rsi_config.py \
+  --config workspaces/kuka/rsi_xml_config/extended.yaml \
+  --client-ip 10.23.23.28 --client-port 28283 \
+  --output workspaces/kuka/kss_deployment/Config/User/Common/SensorInterface/common/extended/b_ctrldbox_rsi_eth.xml
+```
+
+Launch arguments (tested with `startup.launch.py`, see `workspaces/kuka/LAUNCH.md`):
+
+```
+rsi_xml_config_file:=<absolute path to extended.yaml>
+read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true
+```
+
+Motor current state interfaces are always exported by the robot description; joint torques
+need no extra flag.
+
+**Notes from testing (KSS 8.6.8 / RSI 4.1.3):**
+- Positions of both Cartesian poses are published in metres (driver converts from KUKA mm).
+- The Cartesian pose is the TCP of the **active `$TOOL` in the active `$BASE`**, not the flange.
+  Select tool 0 / base 0 in the RSI program if it should match `base_link` → `tool0`.
+- The setpoint pose (`RSol`) did not follow the motion commanded through RSI corrections - it
+  stayed at the pose where `RSI_MOVECORR()` was entered. Under investigation; don't rely on it
+  as a commanded-pose feedback yet.
+
+**Use Cases:**
+- Monitoring joint loads and motor currents (collision/overload detection, diagnostics)
+- Speed scaling / program state aware applications
+- Cartesian pose feedback directly from the controller
+
+---
+
+### 5. Extended + GPIO Configuration
+
+**Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/extended_gpios/` (KSS 8.6 only),
+plus the shared `Config/User/Common/SensorInterface/common/extended_gpios/`
+
+**Files:**
+- `common/extended_gpios/b_ctrldbox_rsi_eth.xml` - Ethernet configuration, **generated** from the driver YAML
+- `rsi_4.1.x/extended_gpios/b_ctrldbox_rsi.rsix` - Extended project plus the GPIO configuration's `DigIn`/`Map2DigOut` objects
+- `workspaces/kuka/rsi_xml_config/extended_gpios.yaml` - driver-side RSI XML config (**not** deployed to the controller)
+
+**Features:**
+- ✅ Everything from the Extended configuration
+- ✅ The 8 digital inputs / 12 digital outputs of the GPIO configuration (same signals and robot I/O numbers)
+
+**RECEIVE Elements (XML):**
+```xml
+Index 1: Stop (BOOL)
+Index 2-7: AK.A1 - AK.A6 (robot joint corrections)
+Index 8-11: GPIO.output_01 - GPIO.output_04 (-> $OUT[33]..$OUT[36])
+Index 12-19: GPIO.output_05 - GPIO.output_12 (-> $OUT[39]..$OUT[46])
+```
+
+**SEND Elements (XML):**
+```xml
+DEF_RIst, DEF_RSol, DEF_AIPos
+Index 1-6:   GearTorque.A1 - GearTorque.A6
+DEF_MACur
+Index 7-14:  GPIO.input_01 - GPIO.input_08
+             (<- $IN[132]..$IN[139])
+Index 15:    ProgStatus.R (LONG)
+Index 16:    OvPro.R
+DEF_Delay
+```
+
+⚠️ The indices of `ProgStatus.R`/`OvPro.R` differ from the Extended configuration (15/16
+instead of 7/8) because the driver emits GPIO fields before the robot status fields. Always
+use the `.rsix` and ethernet XML from the **same** configuration folder.
+
+**Driver side:** same as Extended, with `extended_gpios.yaml`, plus `use_gpio:=true`. The
+robot description must declare exactly these 8 GPIO state and 12 GPIO command interfaces
+(in `gpio_config.xacro`) - the driver refuses to start if the number of GPIO states does
+not match the YAML. RSI writes the mapped outputs every cycle while RSI is active; don't
+write the same `$OUT` from KRL at the same time.
+
+**Status:** ⬜ the GPIO part is not yet tested on a real controller.
 
 ---
 
@@ -226,9 +364,13 @@ Select RSI configuration:
   1. Standard (6 robot axes only)
   2. External Axis (6 robot axes + external axes support)
   3. GPIO (6 robot axes + GPIO support)
+  4. Extended (Standard + torques, motor currents, program status, setpoint pose) - RSI 4.1.x only
+  5. Extended + GPIO (Extended + 8 digital inputs / 12 digital outputs) - RSI 4.1.x only
 
-Enter selection (1/2/3):
+Enter selection (1/2/3/4/5):
 ```
+
+Options 4 and 5 are refused unless RSI version 3 (RSI 4.1.x) was selected.
 
 The RSI version determines *how* the RSI context is packaged (RSI 4.0.x and
 4.1.x use a single `.rsix` file; RSI 3.3.x requires the RSIVisual project
@@ -250,6 +392,8 @@ Based on your selections:
 | **RSI 4.1.x** | 8.6 | 1 (Standard) | `.../rsi_4.1.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 2 (External Axis) | `.../rsi_4.1.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 3 (GPIO) | `.../rsi_4.1.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 4 (Extended) | `.../rsi_4.1.x/extended/` | Extended version | `.../common/extended/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 5 (Extended + GPIO) | `.../rsi_4.1.x/extended_gpios/` | Extended + GPIO version | `.../common/extended_gpios/` | `b_ctrldbox_rsi_eth.xml` |
 
 (`.../` = `Config/User/Common/SensorInterface/`. Both the version-specific and
 shared source folders are copied into the same destination on the
@@ -472,6 +616,21 @@ copy Config\User\Common\SensorInterface\common\gpios\b_ctrldbox_rsi_eth.xml C:\K
 copy Config\User\Common\SensorInterface\rsi_3.3.x\gpios\*.rsi* C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
 ```
 
+**For Extended (RSI 4.1.x / KSS 8.6 only):**
+```batch
+copy Config\User\Common\SensorInterface\common\extended\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.1.x\extended\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+```
+
+**For Extended + GPIO (RSI 4.1.x / KSS 8.6 only):**
+```batch
+copy Config\User\Common\SensorInterface\common\extended_gpios\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+copy Config\User\Common\SensorInterface\rsi_4.1.x\extended_gpios\b_ctrldbox_rsi.rsix C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
+```
+
+Remember to switch the driver's `rsi_xml_config_file` to the matching YAML (or remove it when
+going back to configurations 1-3).
+
 **Back to Standard (RSI 4.0.x / KSS 8.5):**
 ```batch
 copy Config\User\Common\SensorInterface\common\b_ctrldbox_rsi_eth.xml C:\KRC\ROBOTER\Config\User\Common\SensorInterface\
@@ -562,14 +721,17 @@ If you're upgrading from an older b_ctrldbox version:
 
 ## Summary Table
 
-| Feature | Standard | External Axis | GPIO |
-|---------|----------|---------------|------|
-| **Robot Axes** | A1-A6 | A1-A6 | A1-A6 |
-| **External Axes** | ❌ | ✅ E1-E6 | ❌ |
-| **GPIO** | ❌ | ❌ | ✅ 2 channels |
-| **RECEIVE Indices** | 1-7 (Stop + A1-A6) | 1-8 (Stop + A1-A6 + E1) | 1-8 (Stop + A1-A6 + GPIO.01) |
-| **Monitor Channels** | 6 | 12 | 6+ |
-| **Use Case** | Standard robot | Robot + rail/positioner | Robot + synchronized I/O |
+| Feature | Standard | External Axis | GPIO | Extended | Extended + GPIO |
+|---------|----------|---------------|------|----------|-----------------|
+| **Robot Axes** | A1-A6 | A1-A6 | A1-A6 | A1-A6 | A1-A6 |
+| **External Axes** | ❌ | ✅ E1-E6 | ❌ | ❌ | ❌ |
+| **GPIO** | ❌ | ❌ | ✅ 8 in / 12 out | ❌ | ✅ 8 in / 12 out |
+| **Torques / currents / status / setpoint pose** | ❌ | ❌ | ❌ | ✅ | ✅ |
+| **RSI versions** | 3.3.x, 4.0.x, 4.1.x, 6.x | 3.3.x, 4.0.x, 4.1.x | 3.3.x, 4.0.x, 4.1.x | 4.1.x | 4.1.x |
+| **Driver `rsi_xml_config_file`** | not needed | not needed | not needed | `extended.yaml` | `extended_gpios.yaml` |
+| **RECEIVE Indices** | 1-7 (Stop + A1-A6) | 1-8 (Stop + A1-A6 + E1) | 1-19 (Stop + A1-A6 + 12 GPIO) | 1-7 (Stop + A1-A6) | 1-19 (Stop + A1-A6 + 12 GPIO) |
+| **Monitor Channels** | 6 | 12 | 6+ | 12 | 12 |
+| **Use Case** | Standard robot | Robot + rail/positioner | Robot + synchronized I/O | Robot + load/state monitoring | Monitoring + synchronized I/O |
 
 ---
 

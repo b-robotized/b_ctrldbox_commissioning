@@ -62,3 +62,21 @@ event_broadcaster:
 kss_message_handler:
   ros__parameters:
     type: kuka_controllers/KssMessageHandler
+
+# Extended RSI configurations only (see kss_deployment/RSI_CONFIGURATIONS.md, configurations 4 and 5).
+# Not spawned by default - spawn them explicitly, see LAUNCH.md.
+robot_status_broadcaster:
+  ros__parameters:
+    type: kuka_controllers/RobotStatusBroadcaster
+
+cartesian_pose_broadcaster:
+  ros__parameters:
+    type: pose_broadcaster/PoseBroadcaster
+    pose_name: cartesian_pose        # actual TCP pose (RIst), needs read_cartesian_pose:=true
+    frame_id: base_link
+
+cartesian_setpoint_broadcaster:
+  ros__parameters:
+    type: pose_broadcaster/PoseBroadcaster
+    pose_name: cartesian_setpoint    # setpoint pose (RSol), needs read_cartesian_setpoint:=true
+    frame_id: base_link

@@ -1,57 +1,38 @@
 <?xml version="1.0" ?>
 <ROOT>
-  <!--
-    RSI ethernet configuration - Standard configuration (b_ctrldbox, RSI 4.1.x).
-    Loaded by the Ethernet_1 object of b_ctrldbox_rsi.rsix (parameter ConfigFile).
-    Generated from workspaces/kuka/rsi_xml_config/b_ctrldbox_rsi_xml_config.yaml with
-    generate_krc_rsi_config.py - change the YAML and regenerate instead of editing this file
-    (regenerating removes these comments).
-
-    CONFIG   : network settings of the RSI connection.
-    SEND     : values the robot controller sends to the driver every cycle.
-    RECEIVE  : values the driver sends back to the robot controller every cycle.
-    ELEMENT attributes:
-      TAG    : XML element.attribute in the telegram (e.g. AK.A1 = <AK A1="..."/>).
-               DEF_* tags are KRC built-ins that send a whole element (e.g. DEF_AIPos = <AIPos A1..A6/>).
-      TYPE   : data type (DOUBLE, LONG, BOOL).
-      INDX   : INTERNAL = built-in value, no wiring needed. A number = port of the Ethernet_1
-               object in the .rsix this value is connected to (SEND: input, RECEIVE: output).
-      HOLDON : RECEIVE only. 1 = keep the last received value if a telegram lacks it,
-               0 = reset to 0 (used for Stop).
-  -->
   <CONFIG>
-    <IP_NUMBER>10.23.23.28</IP_NUMBER>  <!-- IP of the driver PC on the RSI network (driver argument client_ip) -->
-    <PORT>28283</PORT>  <!-- UDP port of the driver (driver argument client_port) -->
-    <SENTYPE>KROSHU</SENTYPE>  <!-- Type attribute of the <Sen> telegram sent by the driver - KROSHU for kuka_rsi_driver -->
-    <ONLYSEND>FALSE</ONLYSEND>  <!-- FALSE = the robot expects a reply from the driver every cycle -->
+    <IP_NUMBER>10.23.23.28</IP_NUMBER>
+    <PORT>28283</PORT>
+    <SENTYPE>KROSHU</SENTYPE>
+    <ONLYSEND>FALSE</ONLYSEND>
   </CONFIG>
-  <SEND>  <!-- robot controller -> driver -->
+  <SEND>
     <ELEMENTS>
-      <ELEMENT TAG="DEF_RIst" TYPE="DOUBLE" INDX="INTERNAL"/>  <!-- actual Cartesian TCP pose X,Y,Z [mm], A,B,C [deg] (active $TOOL in active $BASE) -->
-      <ELEMENT TAG="DEF_RSol" TYPE="DOUBLE" INDX="INTERNAL"/>  <!-- setpoint Cartesian TCP pose -->
-      <ELEMENT TAG="DEF_AIPos" TYPE="DOUBLE" INDX="INTERNAL"/>  <!-- actual joint positions A1-A6 [deg] -->
-      <ELEMENT TAG="GearTorque.A1" TYPE="DOUBLE" INDX="1"/>  <!-- measured gear torque A1 (GearTorque_1) -->
-      <ELEMENT TAG="GearTorque.A2" TYPE="DOUBLE" INDX="2"/>  <!-- measured gear torque A2 (GearTorque_1) -->
-      <ELEMENT TAG="GearTorque.A3" TYPE="DOUBLE" INDX="3"/>  <!-- measured gear torque A3 (GearTorque_1) -->
-      <ELEMENT TAG="GearTorque.A4" TYPE="DOUBLE" INDX="4"/>  <!-- measured gear torque A4 (GearTorque_1) -->
-      <ELEMENT TAG="GearTorque.A5" TYPE="DOUBLE" INDX="5"/>  <!-- measured gear torque A5 (GearTorque_1) -->
-      <ELEMENT TAG="GearTorque.A6" TYPE="DOUBLE" INDX="6"/>  <!-- measured gear torque A6 (GearTorque_1) -->
-      <ELEMENT TAG="DEF_MACur" TYPE="DOUBLE" INDX="INTERNAL"/>  <!-- motor currents A1-A6 -->
-      <ELEMENT TAG="DEF_ASPos" TYPE="DOUBLE" INDX="INTERNAL"/>  <!-- axis-specific setpoint positions A1-A6 [deg] -->
-      <ELEMENT TAG="ProgStatus.R" TYPE="LONG" INDX="7"/>  <!-- program state $PRO_STATE1 (Status_1, Type=ProState_R) -->
-      <ELEMENT TAG="OvPro.R" TYPE="DOUBLE" INDX="8"/>  <!-- program override $OV_PRO [%] (OV_PRO_1) -->
-      <ELEMENT TAG="DEF_Delay" TYPE="LONG" INDX="INTERNAL"/>  <!-- number of late (missed) driver replies -->
+      <ELEMENT TAG="DEF_RIst" TYPE="DOUBLE" INDX="INTERNAL"/>
+      <ELEMENT TAG="DEF_RSol" TYPE="DOUBLE" INDX="INTERNAL"/>
+      <ELEMENT TAG="DEF_AIPos" TYPE="DOUBLE" INDX="INTERNAL"/>
+      <ELEMENT TAG="GearTorque.A1" TYPE="DOUBLE" INDX="1"/>
+      <ELEMENT TAG="GearTorque.A2" TYPE="DOUBLE" INDX="2"/>
+      <ELEMENT TAG="GearTorque.A3" TYPE="DOUBLE" INDX="3"/>
+      <ELEMENT TAG="GearTorque.A4" TYPE="DOUBLE" INDX="4"/>
+      <ELEMENT TAG="GearTorque.A5" TYPE="DOUBLE" INDX="5"/>
+      <ELEMENT TAG="GearTorque.A6" TYPE="DOUBLE" INDX="6"/>
+      <ELEMENT TAG="DEF_MACur" TYPE="DOUBLE" INDX="INTERNAL"/>
+      <ELEMENT TAG="DEF_ASPos" TYPE="DOUBLE" INDX="INTERNAL"/>
+      <ELEMENT TAG="ProgStatus.R" TYPE="LONG" INDX="7"/>
+      <ELEMENT TAG="OvPro.R" TYPE="DOUBLE" INDX="8"/>
+      <ELEMENT TAG="DEF_Delay" TYPE="LONG" INDX="INTERNAL"/>
     </ELEMENTS>
   </SEND>
-  <RECEIVE>  <!-- driver -> robot controller -->
+  <RECEIVE>
     <ELEMENTS>
-      <ELEMENT TAG="Stop" TYPE="BOOL" INDX="1" HOLDON="0"/>  <!-- stop request from the driver (Stop_1) -->
-      <ELEMENT TAG="AK.A1" TYPE="DOUBLE" INDX="2" HOLDON="1"/>  <!-- joint correction A1 (AxisCorr_1) -->
-      <ELEMENT TAG="AK.A2" TYPE="DOUBLE" INDX="3" HOLDON="1"/>  <!-- joint correction A2 (AxisCorr_1) -->
-      <ELEMENT TAG="AK.A3" TYPE="DOUBLE" INDX="4" HOLDON="1"/>  <!-- joint correction A3 (AxisCorr_1) -->
-      <ELEMENT TAG="AK.A4" TYPE="DOUBLE" INDX="5" HOLDON="1"/>  <!-- joint correction A4 (AxisCorr_1) -->
-      <ELEMENT TAG="AK.A5" TYPE="DOUBLE" INDX="6" HOLDON="1"/>  <!-- joint correction A5 (AxisCorr_1) -->
-      <ELEMENT TAG="AK.A6" TYPE="DOUBLE" INDX="7" HOLDON="1"/>  <!-- joint correction A6 (AxisCorr_1) -->
+      <ELEMENT TAG="Stop" TYPE="BOOL" INDX="1" HOLDON="0"/>
+      <ELEMENT TAG="AK.A1" TYPE="DOUBLE" INDX="2" HOLDON="1"/>
+      <ELEMENT TAG="AK.A2" TYPE="DOUBLE" INDX="3" HOLDON="1"/>
+      <ELEMENT TAG="AK.A3" TYPE="DOUBLE" INDX="4" HOLDON="1"/>
+      <ELEMENT TAG="AK.A4" TYPE="DOUBLE" INDX="5" HOLDON="1"/>
+      <ELEMENT TAG="AK.A5" TYPE="DOUBLE" INDX="6" HOLDON="1"/>
+      <ELEMENT TAG="AK.A6" TYPE="DOUBLE" INDX="7" HOLDON="1"/>
     </ELEMENTS>
   </RECEIVE>
 </ROOT>

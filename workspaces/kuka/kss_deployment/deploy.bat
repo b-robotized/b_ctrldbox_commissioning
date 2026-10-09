@@ -29,15 +29,15 @@ set /p rsi_version="Enter selection (1/2/3): "
 if "!rsi_version!"=="1" (
     set "KSS_VERSION_DIR=rsi_3.3.x"
     echo.
-    echo Selected: RSI 3.3.x (KSS 8.3, 8.4)
+    echo Selected: RSI 3.3.x ^(KSS 8.3, 8.4^)
 ) else if "!rsi_version!"=="3" (
     set "KSS_VERSION_DIR=rsi_4.1.x"
     echo.
-    echo Selected: RSI 4.1.x (KSS 8.6)
+    echo Selected: RSI 4.1.x ^(KSS 8.6^)
 ) else (
     set "KSS_VERSION_DIR=rsi_4.0.x"
     echo.
-    echo Selected: RSI 4.0.x (KSS 8.5)
+    echo Selected: RSI 4.0.x ^(KSS 8.5^)
 )
 
 REM ============================================

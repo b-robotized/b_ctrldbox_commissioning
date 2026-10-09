@@ -16,7 +16,7 @@ There should already exist an interface named Windows interface. For example:
 * Windows interface checkbox should be checked.
 
 Adjust the IP address too `10.28.23.240` for everything to work out of the box.
-If you want to use differnet IP, make sure to add IP in the same range on X12 interface of CtrlX Core device and update the address in file `b_ctrldbox_EkiKSSinterface.xml` before data are copied to KUKA controller. For KUKA KSS version `>= v8.5` use `workspaces/kuka/KSS_above_v8.5/Config/User/Common/EthernetKRL/` and for KSS version `< v8.5` use `workspaces/kuka/KSS_under_v8.5/Config/User/Common/EthernetKRL/`
+If you want to use a different IP, make sure to add an IP in the same range on the X12 interface of the ctrlX CORE device and update the address in `b_ctrldbox_EkiKSSinterface.xml` before the files are copied to the KUKA controller: `workspaces/kuka/kss_deployment/Config/User/Common/EthernetKRL/kss/` for classic KSS (8.x), `.../EthernetKRL/iiqka_os2/` for KSS 9.2.2 (iiQKA.OS2).
 
 <p align="center">
 <img src="../assets/kuka/version_KRC5.jpg" alt="KUKA KRC version to know which configuration to install." width="60%">
@@ -30,7 +30,7 @@ If you want to use differnet IP, make sure to add IP in the same range on X12 in
 
   * **Address type:** Select Mixed IP address. This automatically creates the necessary real-time receive tasks.
 
-  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](workspaces/kuka/KSS_above_v8.5/Config/User/Common/SensorInterface/b_ctrldbox_rsi_eth.xml).
+  * **IP address**: Assign a static IP on the same subnet as CtrlX CORE device. For example `10.23.23.201` if the default b»controlled box real-time interface [is configured for `10.23.23.28`](../../workspaces/kuka/kss_deployment/Config/User/Common/SensorInterface/common/b_ctrldbox_rsi_eth.xml).
 
   * **Subnet mask:** `255.255.255.0.`
 
@@ -38,43 +38,60 @@ If you want to use differnet IP, make sure to add IP in the same range on X12 in
 <img src="../assets/kuka/krc5_new_interface.jpg" alt="RSI Interface configuration." width="60%">
 </p>
 
-## 2. Prepare KRL Configuration Files
+## 2. Prepare the Configuration Files
 
-The **Kuka Robot Language** programs define the communication parameters. You must modify them to match your network setup before transferring them to the controller.
-**If you are using recommended IPs, you don't have to edit these files.**
+All controller-side files are in `workspaces/kuka/kss_deployment/` (also available in the
+commissioning Docker container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/workspaces/kuka`).
+**If you are using the recommended IPs, you don't have to edit any file.**
 
+***IMPORTANT: Pick the RSI version matching the KSS version from Step 1:***
 
-***IMPORTANT: Make sure you use the correct configuration, depending on your `KSS` version from Step 1:***
--  `workspaces/kuka/KSS_under_v8.5/` configuration for `KSS < 8.5`
--  `workspaces/kuka/KSS_above_v8.5/` configuration for `KSS >= 8.5`
+| KSS version | RSI version | Folder |
+| :---------- | :---------- | :----- |
+| 8.3, 8.4 | RSI 3.3.x | `Config/User/Common/SensorInterface/rsi_3.3.x/` |
+| 8.5 | RSI 4.0.x | `Config/User/Common/SensorInterface/rsi_4.0.x/` |
+| 8.6 | RSI 4.1.x | `Config/User/Common/SensorInterface/rsi_4.1.x/` |
+| 9.2.2 (iiQKA.OS2) | RSI 6.x | `Config/User/Common/SensorInterface/rsi_6.x/` - imported via iiQWorks.Sim, see [`RSI_CONFIGURATIONS.md`](../../workspaces/kuka/kss_deployment/RSI_CONFIGURATIONS.md) |
 
-The files can be found in the [kuka branch of `b_ctrldbox_commissioning`](https://github.com/b-robotized/b_ctrldbox_commissioning/tree/kuka-master) repository, and are present in the commissioning Docker Container under `~/commissioning/ros2_jazzy/src/b_ctrldbox_commissioning/workspaces/kuka`
+Each folder contains the configurations Standard, External Axis (`ext_axis/`) and GPIO
+(`gpios/`). **Only the RSI 4.1.x contexts match the current ethernet configs** (which also stream
+torques, currents, setpoint positions and program status); the other versions still need to be
+updated. All configurations share the driver YAML `workspaces/kuka/rsi_xml_config/b_ctrldbox_rsi_xml_config.yaml`. See
+[`RSI_CONFIGURATIONS.md`](../../workspaces/kuka/kss_deployment/RSI_CONFIGURATIONS.md) for what
+each configuration contains, and [`LAUNCH.md`](../../workspaces/kuka/LAUNCH.md) for how the files
+work together.
 
-- `b_ctrldbox_rsi_eth.xml:`
+- `Config/User/Common/SensorInterface/common/<config>/b_ctrldbox_rsi_eth.xml` (ethernet config):
 
-  - Edit the default IP `10.23.23.28` to match the IP address of the IP address of the real-time interface for Robot on the CtrlX device.
+  - Edit the default IP `10.23.23.28` if the real-time interface of the ctrlX CORE uses another address.
 
-- `b_ctrldbox_rsi.rsix:`
+- `Config/User/Common/SensorInterface/rsi_<version>/<config>/b_ctrldbox_rsi.rsix` (RSI context):
 
-  - This file contains safety limits. The default values are typically sufficient to start.
+  - Contains the RSI signal flow and correction limits. The default values are typically sufficient to start.
 
-  - Pay attention to the `<Timeout>` parameter under `ETHERNET` object. RSI operates in discrete time steps (e.g., 4ms), and the controller expects a valid response from the PC for each step. If you experience frequent disconnects, you may need to adjust properly the scheduler rate in for the b»controlled box in the CtrlX. See [CtrlX setup](../SETUP_CTRLX.md) for more details.
+  - Pay attention to the `Timeout` parameter of the `ETHERNET` object. RSI operates in discrete time steps (e.g., 4ms), and the controller expects a valid response from the PC for each step. If you experience frequent disconnects, you may need to adjust the scheduler rate of the b»controlled box in the ctrlX. See [CtrlX setup](../SETUP_CTRLX.md) for more details.
 
-- `b_ctrldbox_rsi.src:`
+- `KRC/R1/Program/RSI_kss/rsi_joint_pos_4ms.src` (RSI program, 4 ms; `rsi_joint_pos_12ms.src` for 12 ms):
 
-  - This file defines the robot's starting position. Adjust if necessary.
+  - Loads the context `b_ctrldbox_rsi` and starts the sensor-guided motion. It starts from the robot's **current** position (`PTP $AXIS_ACT_MEAS`), so no start position has to be configured.
 
 ## 3. Transfer Files to Robot Controller
 
-1. Copy the modified files to a USB drive.
+1. Copy the whole `kss_deployment` folder to a USB drive and plug it into the controller.
 
-2. Log in as Expert on the teach pendant.
+2. Log in as Expert on the teach pendant and minimize the SmartHMI (`Start-up > Service > Minimize HMI`).
 
-3. Copy the files to the following directories:
+3. Run `backup.bat` from the `kss_deployment` folder. It saves the current controller files that will be overwritten into `kss_deployment\Backup\<timestamp>\`.
 
-  * b_ctrldbox_rsi.src -> `KRC:\R1\Program\`
+4. Run `deploy.bat`, select the RSI version and the configuration, and confirm each copy step. It copies:
 
-  * All other files (`.xml`, `.rsix`) -> `C:\KRC\ROBOTER\Config\User\Common\SensorInterface\`
+  * ethernet config and RSI context -> `C:\KRC\ROBOTER\Config\User\Common\SensorInterface\`
+
+  * RSI and EKI programs -> `C:\KRC\ROBOTER\KRC\R1\Program\b_ctrldbox\`
+
+  * EKI config -> `C:\KRC\ROBOTER\Config\User\Common\EthernetKRL\`
+
+Manual copy commands for every configuration are listed in [`RSI_CONFIGURATIONS.md`](../../workspaces/kuka/kss_deployment/RSI_CONFIGURATIONS.md) ("Switching Between Configurations").
 
 <p align="center">
 <img src="../assets/kuka/KRL_upload.jpg" alt="Description of image" width="60%">
@@ -117,29 +134,49 @@ Then, activate the RSI program on the robot.
 
 1. On the teach pendant, select **T1 mode**. _This is only for testing, later you can execute the program in the `AUTO` mode._
 
-2. Navigate to the `b_ctrldbox_rsi.src` program and **press the run/play button** while holding an enabling switch. The robot will move to its start position.
+2. Navigate to `KRC:\R1\Program\b_ctrldbox\rsi_joint_pos_4ms.src` and **press the run/play button** while holding an enabling switch. The robot moves to its current position (no visible motion).
 
 3. Press and hold the buttons again. A warning, `!!! Attention - Sensor correction goes active !!!`, will appear.
 
 4. Confirm the warning. The program is now running and attempting to connect to the commissioning PC.
 
+With the `eki_rsi` driver version, you don't start the program manually: set the pendant to `EXT`
+mode and the EKI server selects and starts it when the driver is activated.
+
 ## Next Steps
 
-The KUKA robot is now configured. Proceed to the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md) to launch the ROS 2 environment and start controlling the robot.
+The KUKA robot is now configured. Proceed to the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md) to launch the ROS 2 environment, and follow [`LAUNCH.md`](../../workspaces/kuka/LAUNCH.md) to start the driver, move the robot and extend the setup (external axis, GPIOs, extended data).
+
+To test the robot with the driver running on the ctrlX CORE, follow the steps in [`TEST_CTRLX.md`](../../workspaces/kuka/TEST_CTRLX.md).
 
 # Troubleshooting
 
-`test_joint_trajectory_controller.launch.xml` command fails - if the robot is not in the configured position. *TBA: Show how to reconfigure and rebuild the thing. Mention that in the future versions this will not be an issue.*
+### Driver activation times out ("Failed to receive motion state")
 
-### Launch Fails Due to Incorrect Start Position
+The driver waits 10 s for the first RSI telegram after `activate`.
 
-Problem: The control software fails to connect, often with timeout errors, because the robot is not physically at the start position defined in the KRL program.
-Cause: Mismatch between the robot's actual position and the hardcoded PTP coordinates in b_ctrldbox_rsi.src.
-Solution:
+- `rsi_only`: start `rsi_joint_pos_4ms.src` on the pendant within these 10 s (see Section 6).
+- `eki_rsi`: the pendant must be in `EXT` mode and no other program may be selected.
+- Check the network (Section 5) and that the ethernet config's `IP_NUMBER`/`PORT` match the driver's `client_ip`/`client_port`.
 
-In T1 mode, jog the robot to a safe, desired starting position.
-On the teach pendant, go to Display > Actual position and record the angular values for axes A1 through A6.
-Edit the b_ctrldbox_rsi.src file on your PC. Locate the PTP {A1 ..., A2 ..., ...} line and replace the values with the ones you just recorded.
-Re-transfer only the modified .src file to KRC:\R1\Program\ on the controller.
-Run the program again. The robot will now use this new start position.
-  Note: In future versions, this dependency on a hardcoded start position may be relaxed for a more flexible startup procedure.
+### Activation fails with "Received XML is missing configured ..."
+
+The telegram sent by the controller doesn't match what the driver expects: the deployed ethernet
+config/context and the driver settings come from different configurations (e.g. External Axis
+files on the controller, but the `[EXT_AXIS]` lines of the driver YAML still commented out, or no `rsi_xml_config_file` given to the driver). Deploy and launch the same
+configuration, see [`LAUNCH.md`](../../workspaces/kuka/LAUNCH.md).
+
+After a failed activation, recover without relaunching the driver:
+
+```bash
+ros2 lifecycle set robot_manager cleanup
+ros2 lifecycle set robot_manager configure
+ros2 lifecycle set robot_manager activate
+```
+
+### RSI stops during motion ("Stop by $correction function", "Commanded motor/gear torque")
+
+The commanded motion was too aggressive (jump in the setpoints) or the payload data (`$LOAD`) is
+wrong. RSI applies every setpoint directly - send smooth trajectories (single action goals or
+MoveIt with low velocity/acceleration scaling, not `rqt_joint_trajectory_controller`) and check the
+tool load data. Reset the program on the pendant before activating again.

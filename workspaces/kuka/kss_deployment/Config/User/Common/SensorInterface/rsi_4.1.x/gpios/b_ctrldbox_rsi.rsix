@@ -6,14 +6,22 @@
    <RsiObjects xmlns="RsiDriver">
       <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="Ethernet_1">
          <Inputs>
-            <Input InIdx="0" OutObjId="DigIn_132" OutIdx="0" />
-            <Input InIdx="1" OutObjId="DigIn_133" OutIdx="0" />
-            <Input InIdx="2" OutObjId="DigIn_134" OutIdx="0" />
-            <Input InIdx="3" OutObjId="DigIn_135" OutIdx="0" />
-            <Input InIdx="4" OutObjId="DigIn_136" OutIdx="0" />
-            <Input InIdx="5" OutObjId="DigIn_137" OutIdx="0" />
-            <Input InIdx="6" OutObjId="DigIn_138" OutIdx="0" />
-            <Input InIdx="7" OutObjId="DigIn_139" OutIdx="0" />
+            <Input InIdx="0" OutObjId="GearTorque_1" OutIdx="0" />
+            <Input InIdx="1" OutObjId="GearTorque_1" OutIdx="1" />
+            <Input InIdx="2" OutObjId="GearTorque_1" OutIdx="2" />
+            <Input InIdx="3" OutObjId="GearTorque_1" OutIdx="3" />
+            <Input InIdx="4" OutObjId="GearTorque_1" OutIdx="4" />
+            <Input InIdx="5" OutObjId="GearTorque_1" OutIdx="5" />
+            <Input InIdx="6" OutObjId="DigIn_132" OutIdx="0" />
+            <Input InIdx="7" OutObjId="DigIn_133" OutIdx="0" />
+            <Input InIdx="8" OutObjId="DigIn_134" OutIdx="0" />
+            <Input InIdx="9" OutObjId="DigIn_135" OutIdx="0" />
+            <Input InIdx="10" OutObjId="DigIn_136" OutIdx="0" />
+            <Input InIdx="11" OutObjId="DigIn_137" OutIdx="0" />
+            <Input InIdx="12" OutObjId="DigIn_138" OutIdx="0" />
+            <Input InIdx="13" OutObjId="DigIn_139" OutIdx="0" />
+            <Input InIdx="14" OutObjId="Status_1" OutIdx="0" />
+            <Input InIdx="15" OutObjId="OV_PRO_1" OutIdx="0" />
          </Inputs>
          <Parameters>
             <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
@@ -94,7 +102,18 @@
             <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
          </Parameters>
       </RsiObject>
-      <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+      <RsiObject ObjTypeId="46" ObjType="GearTorque" ObjId="GearTorque_1">
+         <Parameters>
+            <Parameter Name="TorqueSource" ParamId="0" ParamValue="0" />
+            <Parameter Name="LocationOnJoint" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="62" ObjType="Status" ObjId="Status_1">
+         <Parameters>
+            <Parameter Name="Type" ParamId="0" ParamValue="2" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="63" ObjType="OV_PRO" ObjId="OV_PRO_1" />
       <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_132">
          <Parameters>
             <Parameter Name="Index" ParamId="0" ParamValue="132" />
@@ -143,7 +162,6 @@
             <Parameter Name="DataType" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>
-      <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
       <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_33">
          <Inputs>
             <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="7" />
@@ -180,7 +198,6 @@
             <Parameter Name="DataType" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>
-      <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
       <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_39">
          <Inputs>
             <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="11" />
@@ -2565,16 +2582,24 @@
       </BlueprintCollection>
    </BlueprintCollections>
    <Constructs xmlns="RsiConstruct">
-      <Construct Name="Ethernet_1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="400,370">
+      <Construct Name="Ethernet_1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="400,0">
          <Inputs>
-            <Input Name="In1" SourceObject="DigIn_132" SourcePort="Out1" Points="176.08,955.9;188.08,955.9;200.08,955.9;200.08,389.5;366,389.5;382,389.5" />
-            <Input Name="In2" SourceObject="DigIn_133" SourcePort="Out1" Points="176.08,1015.9;188.08,1015.9;200.08,1015.9;200.08,419.5;366,419.5;382,419.5" />
-            <Input Name="In3" SourceObject="DigIn_134" SourcePort="Out1" Points="176.08,1075.9;188.08,1075.9;200.08,1075.9;200.08,449.5;366,449.5;382,449.5" />
-            <Input Name="In4" SourceObject="DigIn_135" SourcePort="Out1" Points="176.08,1135.9;188.08,1135.9;200.08,1135.9;200.08,479.5;366,479.5;382,479.5" />
-            <Input Name="In5" SourceObject="DigIn_136" SourcePort="Out1" Points="176.08,1195.9;188.08,1195.9;200.08,1195.9;200.08,509.5;366,509.5;382,509.5" />
-            <Input Name="In6" SourceObject="DigIn_137" SourcePort="Out1" Points="176.08,1255.9;188.08,1255.9;200.08,1255.9;200.08,539.5;366,539.5;382,539.5" />
-            <Input Name="In7" SourceObject="DigIn_138" SourcePort="Out1" Points="176.08,1315.9;188.08,1315.9;200.08,1315.9;200.08,569.5;366,569.5;382,569.5" />
-            <Input Name="In8" SourceObject="DigIn_139" SourcePort="Out1" Points="176.08,1375.9;188.08,1375.9;200.08,1375.9;200.08,599.5;366,599.5;382,599.5" />
+            <Input Name="In1" SourceObject="GearTorque_1" SourcePort="A1" Points="169,19.5;217,19.5;265,19.5;265,19.5;366,19.5;382,19.5" />
+            <Input Name="In2" SourceObject="GearTorque_1" SourcePort="A2" Points="169,49.5;217,49.5;265,49.5;265,49.5;366,49.5;382,49.5" />
+            <Input Name="In3" SourceObject="GearTorque_1" SourcePort="A3" Points="169,79.5;217,79.5;265,79.5;265,79.5;366,79.5;382,79.5" />
+            <Input Name="In4" SourceObject="GearTorque_1" SourcePort="A4" Points="169,109.5;217,109.5;265,109.5;265,109.5;366,109.5;382,109.5" />
+            <Input Name="In5" SourceObject="GearTorque_1" SourcePort="A5" Points="169,139.5;217,139.5;265,139.5;265,139.5;366,139.5;382,139.5" />
+            <Input Name="In6" SourceObject="GearTorque_1" SourcePort="A6" Points="169,169.5;217,169.5;265,169.5;265,169.5;366,169.5;382,169.5" />
+            <Input Name="In7" SourceObject="DigIn_132" SourcePort="Out1" Points="176.08,259.5;188.08,259.5;200.08,259.5;200.08,199.5;366,199.5;382,199.5" />
+            <Input Name="In8" SourceObject="DigIn_133" SourcePort="Out1" Points="176.08,319.5;188.08,319.5;200.08,319.5;200.08,229.5;366,229.5;382,229.5" />
+            <Input Name="In9" SourceObject="DigIn_134" SourcePort="Out1" Points="176.08,379.5;188.08,379.5;200.08,379.5;200.08,259.5;366,259.5;382,259.5" />
+            <Input Name="In10" SourceObject="DigIn_135" SourcePort="Out1" Points="176.08,439.5;188.08,439.5;200.08,439.5;200.08,289.5;366,289.5;382,289.5" />
+            <Input Name="In11" SourceObject="DigIn_136" SourcePort="Out1" Points="176.08,499.5;188.08,499.5;200.08,499.5;200.08,319.5;366,319.5;382,319.5" />
+            <Input Name="In12" SourceObject="DigIn_137" SourcePort="Out1" Points="176.08,559.5;188.08,559.5;200.08,559.5;200.08,349.5;366,349.5;382,349.5" />
+            <Input Name="In13" SourceObject="DigIn_138" SourcePort="Out1" Points="176.08,619.5;188.08,619.5;200.08,619.5;200.08,379.5;366,379.5;382,379.5" />
+            <Input Name="In14" SourceObject="DigIn_139" SourcePort="Out1" Points="176.08,679.5;188.08,679.5;200.08,679.5;200.08,409.5;366,409.5;382,409.5" />
+            <Input Name="In15" SourceObject="Status_1" SourcePort="Stat" Points="189.576666666667,739.5;201.576666666667,739.5;213.576666666667,739.5;213.576666666667,439.5;366,439.5;382,439.5" />
+            <Input Name="In16" SourceObject="OV_PRO_1" SourcePort="Out1" Points="107.08,809.5;119.08,809.5;131.08,809.5;131.08,469.5;366,469.5;382,469.5" />
          </Inputs>
          <Parameters>
             <StringParameter Name="ConfigFile" Value="b_ctrldbox_rsi_eth.xml" />
@@ -2583,14 +2608,14 @@
             <IntParameter Name="Precision" Value="4" />
          </Parameters>
       </Construct>
-      <Construct Name="AxisCorr_1" BlueprintName="AxisCorr" BlueprintCollection="RSI" Location="800,370">
+      <Construct Name="AxisCorr_1" BlueprintName="AxisCorr" BlueprintCollection="RSI" Location="800,113.3">
          <Inputs>
-            <Input Name="CorrA1" SourceObject="Ethernet_1" SourcePort="Out2" Points="578.516666666667,419.5;598.516666666667,419.5;618.516666666667,419.5;618.516666666667,389.5;766,389.5;782,389.5" />
-            <Input Name="CorrA2" SourceObject="Ethernet_1" SourcePort="Out3" Points="578.516666666667,449.5;606.516666666667,449.5;634.516666666667,449.5;634.516666666667,419.5;766,419.5;782,419.5" />
-            <Input Name="CorrA3" SourceObject="Ethernet_1" SourcePort="Out4" Points="578.516666666667,479.5;614.516666666667,479.5;650.516666666667,479.5;650.516666666667,449.5;766,449.5;782,449.5" />
-            <Input Name="CorrA4" SourceObject="Ethernet_1" SourcePort="Out5" Points="578.516666666667,509.5;622.516666666667,509.5;666.516666666667,509.5;666.516666666667,479.5;766,479.5;782,479.5" />
-            <Input Name="CorrA5" SourceObject="Ethernet_1" SourcePort="Out6" Points="578.516666666667,539.5;630.516666666667,539.5;682.516666666667,539.5;682.516666666667,509.5;766,509.5;782,509.5" />
-            <Input Name="CorrA6" SourceObject="Ethernet_1" SourcePort="Out7" Points="578.516666666667,569.5;638.516666666667,569.5;698.516666666667,569.5;698.516666666667,539.5;766,539.5;782,539.5" />
+            <Input Name="CorrA1" SourceObject="Ethernet_1" SourcePort="Out2" Points="578.516666666667,49.5;626.516666666667,49.5;674.516666666667,49.5;674.516666666667,132.8;766,132.8;782,132.8" />
+            <Input Name="CorrA2" SourceObject="Ethernet_1" SourcePort="Out3" Points="578.516666666667,79.5;618.516666666667,79.5;658.516666666667,79.5;658.516666666667,162.8;766,162.8;782,162.8" />
+            <Input Name="CorrA3" SourceObject="Ethernet_1" SourcePort="Out4" Points="578.516666666667,109.5;610.516666666667,109.5;642.516666666667,109.5;642.516666666667,192.8;766,192.8;782,192.8" />
+            <Input Name="CorrA4" SourceObject="Ethernet_1" SourcePort="Out5" Points="578.516666666667,139.5;602.516666666667,139.5;626.516666666667,139.5;626.516666666667,222.8;766,222.8;782,222.8" />
+            <Input Name="CorrA5" SourceObject="Ethernet_1" SourcePort="Out6" Points="578.516666666667,169.5;594.516666666667,169.5;610.516666666667,169.5;610.516666666667,252.8;766,252.8;782,252.8" />
+            <Input Name="CorrA6" SourceObject="Ethernet_1" SourcePort="Out7" Points="578.516666666667,199.5;586.516666666667,199.5;594.516666666667,199.5;594.516666666667,282.8;766,282.8;782,282.8" />
          </Inputs>
          <Parameters>
             <DoubleParameter Name="LowerLimA1" CanBeSetFromKrl="true" Value="-180" />
@@ -2607,12 +2632,12 @@
             <DoubleParameter Name="UpperLimA6" CanBeSetFromKrl="true" Value="180" />
          </Parameters>
       </Construct>
-      <Construct Name="Stop_1" BlueprintName="Stop" BlueprintCollection="RSI" Location="800,709.8">
+      <Construct Name="Stop_1" BlueprintName="Stop" BlueprintCollection="RSI" Location="800,0">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out1" Points="578.516666666667,389.5;642.516666666667,389.5;706.516666666667,389.5;706.516666666667,729.3;766,729.3;782,729.3" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out1" Points="578.516666666667,19.5;634.516666666667,19.5;690.516666666667,19.5;690.516666666667,19.5;766,19.5;782,19.5" />
          </Inputs>
       </Construct>
-      <Construct Name="AxisCorrMon_1" BlueprintName="AxisCorrMon" BlueprintCollection="RSI" Location="0,0">
+      <Construct Name="AxisCorrMon_1" BlueprintName="AxisCorrMon" BlueprintCollection="RSI" Location="400,640">
          <Parameters>
             <DoubleParameter Name="MaxA1" CanBeSetFromKrl="true" Value="180" />
             <DoubleParameter Name="MaxA2" CanBeSetFromKrl="true" Value="180" />
@@ -2628,153 +2653,160 @@
             <DoubleParameter Name="MaxE6" CanBeSetFromKrl="true" Value="2000" />
          </Parameters>
       </Construct>
-      <Construct Name="Monitor_1" BlueprintName="Monitor" BlueprintCollection="RSI" Location="400,0">
+      <Construct Name="Monitor_1" BlueprintName="Monitor" BlueprintCollection="RSI" Location="800,640">
          <Inputs>
-            <Input Name="In1" SourceObject="AxisCorrMon_1" SourcePort="A1" Points="169,19.5;217,19.5;265,19.5;265,19.5;366,19.5;382,19.5" />
-            <Input Name="In2" SourceObject="AxisCorrMon_1" SourcePort="A2" Points="169,49.5;209,49.5;249,49.5;249,49.5;366,49.5;382,49.5" />
-            <Input Name="In3" SourceObject="AxisCorrMon_1" SourcePort="A3" Points="169,79.5;201,79.5;233,79.5;233,79.5;366,79.5;382,79.5" />
-            <Input Name="In4" SourceObject="AxisCorrMon_1" SourcePort="A4" Points="169,109.5;193,109.5;217,109.5;217,109.5;366,109.5;382,109.5" />
-            <Input Name="In5" SourceObject="AxisCorrMon_1" SourcePort="A5" Points="169,139.5;185,139.5;201,139.5;201,139.5;366,139.5;382,139.5" />
-            <Input Name="In6" SourceObject="AxisCorrMon_1" SourcePort="A6" Points="169,169.5;177,169.5;185,169.5;185,169.5;366,169.5;382,169.5" />
-            <Input Name="In7" SourceObject="AxisCorrMon_1" SourcePort="E1" Points="169,199.5;169,199.5;169,199.5;169,199.5;366,199.5;382,199.5" />
-            <Input Name="In8" SourceObject="AxisCorrMon_1" SourcePort="E2" Points="169,229.5;161,229.5;153,229.5;153,229.5;366,229.5;382,229.5" />
-            <Input Name="In9" SourceObject="AxisCorrMon_1" SourcePort="E3" Points="169,259.5;153,259.5;137,259.5;137,259.5;366,259.5;382,259.5" />
-            <Input Name="In10" SourceObject="AxisCorrMon_1" SourcePort="E4" Points="169,289.5;145,289.5;121,289.5;121,289.5;366,289.5;382,289.5" />
-            <Input Name="In11" SourceObject="AxisCorrMon_1" SourcePort="E5" Points="169,319.5;137,319.5;105,319.5;105,319.5;366,319.5;382,319.5" />
-            <Input Name="In12" SourceObject="AxisCorrMon_1" SourcePort="E6" Points="169,349.5;129,349.5;89,349.5;89,349.5;366,349.5;382,349.5" />
+            <Input Name="In1" SourceObject="AxisCorrMon_1" SourcePort="A1" Points="569,659.5;617,659.5;665,659.5;665,659.5;766,659.5;782,659.5" />
+            <Input Name="In2" SourceObject="AxisCorrMon_1" SourcePort="A2" Points="569,689.5;609,689.5;649,689.5;649,689.5;766,689.5;782,689.5" />
+            <Input Name="In3" SourceObject="AxisCorrMon_1" SourcePort="A3" Points="569,719.5;601,719.5;633,719.5;633,719.5;766,719.5;782,719.5" />
+            <Input Name="In4" SourceObject="AxisCorrMon_1" SourcePort="A4" Points="569,749.5;593,749.5;617,749.5;617,749.5;766,749.5;782,749.5" />
+            <Input Name="In5" SourceObject="AxisCorrMon_1" SourcePort="A5" Points="569,779.5;585,779.5;601,779.5;601,779.5;766,779.5;782,779.5" />
+            <Input Name="In6" SourceObject="AxisCorrMon_1" SourcePort="A6" Points="569,809.5;577,809.5;585,809.5;585,809.5;766,809.5;782,809.5" />
+            <Input Name="In7" SourceObject="AxisCorrMon_1" SourcePort="E1" Points="569,839.5;569,839.5;569,839.5;569,839.5;766,839.5;782,839.5" />
+            <Input Name="In8" SourceObject="AxisCorrMon_1" SourcePort="E2" Points="569,869.5;561,869.5;553,869.5;553,869.5;766,869.5;782,869.5" />
+            <Input Name="In9" SourceObject="AxisCorrMon_1" SourcePort="E3" Points="569,899.5;553,899.5;537,899.5;537,899.5;766,899.5;782,899.5" />
+            <Input Name="In10" SourceObject="AxisCorrMon_1" SourcePort="E4" Points="569,929.5;545,929.5;521,929.5;521,929.5;766,929.5;782,929.5" />
+            <Input Name="In11" SourceObject="AxisCorrMon_1" SourcePort="E5" Points="569,959.5;537,959.5;505,959.5;505,959.5;766,959.5;782,959.5" />
+            <Input Name="In12" SourceObject="AxisCorrMon_1" SourcePort="E6" Points="569,989.5;529,989.5;489,989.5;489,989.5;766,989.5;782,989.5" />
          </Inputs>
       </Construct>
-      <Construct Name="DigIn_132" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,936.4">
+      <Construct Name="GearTorque_1" BlueprintName="GearTorque" BlueprintCollection="RSI" Location="0,0" />
+      <Construct Name="Status_1" BlueprintName="Status" BlueprintCollection="RSI" Location="0,720">
+         <Parameters>
+            <EnumParameter Name="Type" Value="ProState_R" />
+         </Parameters>
+      </Construct>
+      <Construct Name="OV_PRO_1" BlueprintName="OV_PRO" BlueprintCollection="RSI" Location="0,790" />
+      <Construct Name="DigIn_132" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,240">
          <Parameters>
             <IntParameter Name="Index" Value="132" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_133" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,996.4">
+      <Construct Name="DigIn_133" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,300">
          <Parameters>
             <IntParameter Name="Index" Value="133" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_134" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1056.4">
+      <Construct Name="DigIn_134" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,360">
          <Parameters>
             <IntParameter Name="Index" Value="134" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_135" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1116.4">
+      <Construct Name="DigIn_135" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,420">
          <Parameters>
             <IntParameter Name="Index" Value="135" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_136" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1176.4">
+      <Construct Name="DigIn_136" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,480">
          <Parameters>
             <IntParameter Name="Index" Value="136" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_137" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1236.4">
+      <Construct Name="DigIn_137" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,540">
          <Parameters>
             <IntParameter Name="Index" Value="137" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_138" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1296.4">
+      <Construct Name="DigIn_138" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,600">
          <Parameters>
             <IntParameter Name="Index" Value="138" />
          </Parameters>
       </Construct>
-      <Construct Name="DigIn_139" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,1356.4">
+      <Construct Name="DigIn_139" BlueprintName="DigIn" BlueprintCollection="RSI" Location="0,660">
          <Parameters>
             <IntParameter Name="Index" Value="139" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_33" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,823.1">
+      <Construct Name="Map2DigOut_33" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,0">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out8" Points="578.516666666667,599.5;586.516666666667,599.5;594.516666666667,599.5;594.516666666667,842.6;766,842.6;782,842.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out8" Points="578.516666666667,229.5;590.516666666667,229.5;602.516666666667,229.5;602.516666666667,19.5;1166,19.5;1182,19.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="33" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_34" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,883.1">
+      <Construct Name="Map2DigOut_34" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,50">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out9" Points="578.516666666667,629.5;586.516666666667,629.5;594.516666666667,629.5;594.516666666667,902.6;766,902.6;782,902.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out9" Points="578.516666666667,259.5;590.516666666667,259.5;602.516666666667,259.5;602.516666666667,69.5;1166,69.5;1182,69.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="34" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_35" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,943.1">
+      <Construct Name="Map2DigOut_35" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,100">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out10" Points="578.516666666667,659.5;586.516666666667,659.5;594.516666666667,659.5;594.516666666667,962.6;766,962.6;782,962.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out10" Points="578.516666666667,289.5;590.516666666667,289.5;602.516666666667,289.5;602.516666666667,119.5;1166,119.5;1182,119.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="35" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_36" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1003.1">
+      <Construct Name="Map2DigOut_36" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,150">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out11" Points="578.516666666667,689.5;586.516666666667,689.5;594.516666666667,689.5;594.516666666667,1022.6;766,1022.6;782,1022.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out11" Points="578.516666666667,319.5;590.516666666667,319.5;602.516666666667,319.5;602.516666666667,169.5;1166,169.5;1182,169.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="36" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_39" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1063.1">
+      <Construct Name="Map2DigOut_39" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,200">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out12" Points="578.516666666667,719.5;586.516666666667,719.5;594.516666666667,719.5;594.516666666667,1082.6;766,1082.6;782,1082.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out12" Points="578.516666666667,349.5;590.516666666667,349.5;602.516666666667,349.5;602.516666666667,219.5;1166,219.5;1182,219.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="39" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_40" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1123.1">
+      <Construct Name="Map2DigOut_40" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,250">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out13" Points="578.516666666667,749.5;586.516666666667,749.5;594.516666666667,749.5;594.516666666667,1142.6;766,1142.6;782,1142.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out13" Points="578.516666666667,379.5;590.516666666667,379.5;602.516666666667,379.5;602.516666666667,269.5;1166,269.5;1182,269.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="40" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_41" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1183.1">
+      <Construct Name="Map2DigOut_41" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,300">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out14" Points="578.516666666667,779.5;586.516666666667,779.5;594.516666666667,779.5;594.516666666667,1202.6;766,1202.6;782,1202.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out14" Points="578.516666666667,409.5;590.516666666667,409.5;602.516666666667,409.5;602.516666666667,319.5;1166,319.5;1182,319.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="41" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_42" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1243.1">
+      <Construct Name="Map2DigOut_42" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,350">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out15" Points="578.516666666667,809.5;586.516666666667,809.5;594.516666666667,809.5;594.516666666667,1262.6;766,1262.6;782,1262.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out15" Points="578.516666666667,439.5;590.516666666667,439.5;602.516666666667,439.5;602.516666666667,369.5;1166,369.5;1182,369.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="42" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_43" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1303.1">
+      <Construct Name="Map2DigOut_43" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,400">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out16" Points="578.516666666667,839.5;586.516666666667,839.5;594.516666666667,839.5;594.516666666667,1322.6;766,1322.6;782,1322.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out16" Points="578.516666666667,469.5;590.516666666667,469.5;602.516666666667,469.5;602.516666666667,419.5;1166,419.5;1182,419.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="43" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_44" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1363.1">
+      <Construct Name="Map2DigOut_44" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,450">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out17" Points="578.516666666667,869.5;586.516666666667,869.5;594.516666666667,869.5;594.516666666667,1382.6;766,1382.6;782,1382.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out17" Points="578.516666666667,499.5;590.516666666667,499.5;602.516666666667,499.5;602.516666666667,469.5;1166,469.5;1182,469.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="44" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_45" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1423.1">
+      <Construct Name="Map2DigOut_45" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,500">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out18" Points="578.516666666667,899.5;586.516666666667,899.5;594.516666666667,899.5;594.516666666667,1442.6;766,1442.6;782,1442.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out18" Points="578.516666666667,529.5;590.516666666667,529.5;602.516666666667,529.5;602.516666666667,519.5;1166,519.5;1182,519.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="45" />
          </Parameters>
       </Construct>
-      <Construct Name="Map2DigOut_46" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="800,1483.1">
+      <Construct Name="Map2DigOut_46" BlueprintName="Map2DigOut" BlueprintCollection="RSI" Location="1200,550">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out19" Points="578.516666666667,929.5;586.516666666667,929.5;594.516666666667,929.5;594.516666666667,1502.6;766,1502.6;782,1502.6" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out19" Points="578.516666666667,559.5;590.516666666667,559.5;602.516666666667,559.5;602.516666666667,569.5;1166,569.5;1182,569.5" />
          </Inputs>
          <Parameters>
             <IntParameter Name="Index" Value="46" />

@@ -29,15 +29,15 @@ set /p rsi_version="Enter selection (1/2/3): "
 if "!rsi_version!"=="1" (
     set "KSS_VERSION_DIR=rsi_3.3.x"
     echo.
-    echo Selected: RSI 3.3.x (KSS 8.3, 8.4)
+    echo Selected: RSI 3.3.x ^(KSS 8.3, 8.4^)
 ) else if "!rsi_version!"=="3" (
     set "KSS_VERSION_DIR=rsi_4.1.x"
     echo.
-    echo Selected: RSI 4.1.x (KSS 8.6)
+    echo Selected: RSI 4.1.x ^(KSS 8.6^)
 ) else (
     set "KSS_VERSION_DIR=rsi_4.0.x"
     echo.
-    echo Selected: RSI 4.0.x (KSS 8.5)
+    echo Selected: RSI 4.0.x ^(KSS 8.5^)
 )
 
 REM ============================================
@@ -64,6 +64,26 @@ if "!rsi_config!"=="2" (
     echo.
     echo Selected: Standard configuration
 )
+
+REM The shared ethernet configs (common\) match the RSI 4.1.x contexts only.
+REM The RSI 3.3.x / 4.0.x contexts have not been updated to the current message layout yet.
+if not "!KSS_VERSION_DIR!"=="rsi_4.1.x" (
+    echo.
+    echo WARNING: The ethernet configuration in common\ matches the RSI 4.1.x contexts only.
+    echo          The !KSS_VERSION_DIR! context does not contain the objects it expects
+    echo          ^(GearTorque, Status, OV_PRO^) - see RSI_CONFIGURATIONS.md.
+    set /p old_confirm="Deploy anyway? (Y/N): "
+    if /i not "!old_confirm!"=="Y" (
+        echo Deployment cancelled.
+        pause
+        exit /b 1
+    )
+)
+echo.
+echo NOTE: Start the driver with rsi_xml_config_file pointing to
+echo       workspaces\kuka\rsi_xml_config\b_ctrldbox_rsi_xml_config.yaml
+if "!RSI_VARIANT!"=="ext_axis" echo       with the lines tagged [EXT_AXIS] uncommented - see LAUNCH.md.
+if "!RSI_VARIANT!"=="gpios" echo       with the lines tagged [GPIO] uncommented - see LAUNCH.md.
 
 REM ============================================
 REM PATH CONFIGURATION - Update these as needed

@@ -48,8 +48,9 @@ echo Select RSI configuration:
 echo   1. Standard (6 robot axes only)
 echo   2. External Axis (6 robot axes + external axes support)
 echo   3. GPIO (6 robot axes + GPIO support)
+echo   4. GPIO 51 test (6 robot axes + $IN[51] and $OUT[51], RSI 4.1.x only)
 echo.
-set /p rsi_config="Enter selection (1/2/3): "
+set /p rsi_config="Enter selection (1/2/3/4): "
 
 if "!rsi_config!"=="2" (
     set "RSI_VARIANT=ext_axis"
@@ -59,6 +60,10 @@ if "!rsi_config!"=="2" (
     set "RSI_VARIANT=gpios"
     echo.
     echo Selected: GPIO configuration
+) else if "!rsi_config!"=="4" (
+    set "RSI_VARIANT=gpio_51"
+    echo.
+    echo Selected: GPIO 51 test configuration
 ) else (
     set "RSI_VARIANT="
     echo.
@@ -84,6 +89,7 @@ echo NOTE: Start the driver with rsi_xml_config_file pointing to
 echo       workspaces\kuka\rsi_xml_config\b_ctrldbox_rsi_xml_config.yaml
 if "!RSI_VARIANT!"=="ext_axis" echo       with the lines tagged [EXT_AXIS] uncommented - see LAUNCH.md.
 if "!RSI_VARIANT!"=="gpios" echo       with the lines tagged [GPIO] uncommented - see LAUNCH.md.
+if "!RSI_VARIANT!"=="gpio_51" echo       Use b_ctrldbox_rsi_xml_config_gpio_51.yaml instead - input_01 = $IN[51], output_01 = $OUT[51].
 
 REM ============================================
 REM PATH CONFIGURATION - Update these as needed

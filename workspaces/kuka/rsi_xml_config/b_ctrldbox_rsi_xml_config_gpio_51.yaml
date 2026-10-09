@@ -1,0 +1,70 @@
+# RSI XML message configuration for kuka_rsi_driver (RSI 4.1.x / KSS 8.6) - GPIO test with
+# one digital input and one digital output.
+#
+# Same as the Standard configuration in b_ctrldbox_rsi_xml_config.yaml, plus:
+#   input_01  <- $IN[51]   (robot -> PC, gpio state interface)
+#   output_01 -> $OUT[51]  (PC -> robot, gpio command interface)
+#
+# Deploy to the controller (kss_deployment/Config/User/Common/SensorInterface/), deploy.bat option 4:
+#   common/gpio_51/b_ctrldbox_rsi_eth.xml + rsi_4.1.x/gpio_51/b_ctrldbox_rsi.rsix
+# Launch with use_gpio:=true. The GPIO names must match gpio_config.xacro.
+#
+# While RSI is active, RSI writes $OUT[51] every cycle - don't write it from KRL at the same time.
+
+rsi_xml_config:
+  motion_state:                    # robot -> PC
+    cartesian:                     # actual TCP pose (active $TOOL in active $BASE) -> read_cartesian_pose:=true
+      enabled: true
+      xml_element: RIst            # DEF_RIst, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    cartesian_setpoint:            # setpoint pose -> read_cartesian_setpoint:=true
+      enabled: true                # disabled by default, must be set explicitly
+      xml_element: RSol            # DEF_RSol, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    joints:
+      # One entry per joint in every list.
+      positions:                   # DEF_AIPos / DEF_EIPos, built-in -> joint "position" state interface
+        - {joint_identifier: joint_1, xml_element: AIPos, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: AIPos, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: AIPos, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: AIPos, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: AIPos, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: AIPos, xml_attribute: A6}
+      currents:                    # motor currents, DEF_MACur / DEF_MECur, built-in -> joint "current" state interface
+        - {joint_identifier: joint_1, xml_element: MACur, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: MACur, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: MACur, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: MACur, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: MACur, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: MACur, xml_attribute: A6}
+      torques:                     # GearTorque_1 (Measured, Gear) -> INDX 1-6 -> joint "effort" state interface
+        - {joint_identifier: joint_1, xml_element: GearTorque, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: GearTorque, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: GearTorque, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: GearTorque, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: GearTorque, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: GearTorque, xml_attribute: A6}
+      setpoint_positions:          # axis-specific setpoints, DEF_ASPos / DEF_ESPos, built-in -> joint "position_setpoint" state interface
+        - {joint_identifier: joint_1, xml_element: ASPos, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: ASPos, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: ASPos, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: ASPos, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: ASPos, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: ASPos, xml_attribute: A6}
+    robot_status:                  # Status_1 (ProState_R) / OV_PRO_1 -> read_robot_status:=true
+      # INDX 8/9 in this configuration
+      program_state: {xml_element: ProgStatus, xml_attribute: R, type: LONG}  # $PRO_STATE1
+      speed_scaling: {xml_element: OvPro, xml_attribute: R}                   # $OV_PRO
+    gpio:                          # digital input -> INDX 7 (DigIn_51)
+      xml_element: GPIO
+      xml_attributes:              # names = gpio state interfaces in gpio_config.xacro
+        - input_01                 # $IN[51]
+
+  control_signal:                  # PC -> robot
+    joints:                        # joint corrections AK.A1-A6 -> AxisCorr_1 (INDX 2-7, INDX 1 = Stop)
+      xml_element: AK
+      xml_attributes: [A1, A2, A3, A4, A5, A6]
+    gpio:                          # digital output -> INDX 8 (Map2DigOut_51)
+      xml_element: GPIO
+      xml_attributes:              # names = gpio command interfaces in gpio_config.xacro
+        - output_01                # $OUT[51]

@@ -44,12 +44,11 @@ gpio_controller:
     command_interfaces:
       gpio:
         interfaces:
-           - "01"
+           - output_01
     state_interfaces:
       gpio:
         interfaces:
-           - "01"
-           - "02"
+           - input_01
 
 control_mode_handler:
   ros__parameters:

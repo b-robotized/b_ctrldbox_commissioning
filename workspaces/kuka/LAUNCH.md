@@ -152,6 +152,9 @@ e.g. `AIPos.A1` → `joint_1/position`, `GearTorque.A1` → `joint_1/effort`, `M
 
 > **Note:** On the ctrlX CORE we currently support only the `eki_rsi` driver version.
 
+> **Test steps:** for a step-by-step test on the ctrlX CORE with the single scenario launch file
+> (`scenario_eki_rsi.launch.xml`, with and without external axis), see [`TEST_CTRLX.md`](TEST_CTRLX.md).
+
 **Step 1: Launch the robot driver.** This loads the robot description (URDF) and starts the RSI
 hardware interface. The arguments have the same meaning as in the Linux PC table below.
 

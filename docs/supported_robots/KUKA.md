@@ -147,6 +147,8 @@ mode and the EKI server selects and starts it when the driver is activated.
 
 The KUKA robot is now configured. Proceed to the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md) to launch the ROS 2 environment, and follow [`LAUNCH.md`](../../workspaces/kuka/LAUNCH.md) to start the driver, move the robot and extend the setup (external axis, GPIOs, extended data).
 
+To test the robot with the driver running on the ctrlX CORE, follow the steps in [`TEST_CTRLX.md`](../../workspaces/kuka/TEST_CTRLX.md).
+
 # Troubleshooting
 
 ### Driver activation times out ("Failed to receive motion state")

@@ -1,0 +1,13 @@
+repositories:
+  kuka-external-control-sdk:
+    type: git
+    url: https://github.com/kroshu/kuka-external-control-sdk.git
+    version: master
+  kuka_drivers:
+    type: git
+    url: https://github.com/b-robotized-forks/kuka_drivers
+    version: b-controlled-box/jazzy
+  kuka_robot_descriptions:
+    type: git
+    url: https://github.com/b-robotized-forks/kuka_robot_descriptions.git
+    version: b-controlled-box/jazzy

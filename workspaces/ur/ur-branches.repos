@@ -1,0 +1,17 @@
+repositories:
+  Universal_Robots_Client_Library:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_Client_Library.git
+    version: master
+  Universal_Robots_ROS2_Description:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+    version: jazzy
+  Universal_Robots_ROS2_Driver:
+    type: git
+    url: https://github.com/b-robotized-forks/Universal_Robots_ROS2_Driver.git
+    version: b-controlled-box/jazzy
+  ur_msgs:
+    type: git
+    url: https://github.com/ros-industrial/ur_msgs.git
+    version: humble-devel

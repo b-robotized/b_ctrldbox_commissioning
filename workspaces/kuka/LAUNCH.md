@@ -400,6 +400,12 @@ context in RSI Visual if they moved. Deploy the context and the ethernet config 
 
 ## 6. Next steps: adding or renaming a GPIO
 
+> **Step-by-step guide:** [`ADD_GPIO.md`](ADD_GPIO.md) explains where each file lives (this
+> repository, the ctrlX CORE, the KUKA controller), the order of the changes, how to deploy and
+> test, and troubleshooting - with the `gpio_51` test configuration (`$IN[51]` / `$OUT[51]`) as the
+> example. Declare GPIO interfaces as `data_type="double"`: `bool` interfaces fail at activation
+> with "value_ptr_ is null".
+
 A GPIO name appears in up to five places; all of them must use the same name. Example: add a
 digital input `vacuum_ok` on `$IN[140]` and a digital output `light` on `$OUT[47]` to the GPIO
 configuration.
@@ -412,20 +418,20 @@ The driver exports one `ros2_control` interface per GPIO. They are declared in
 
 ```xml
 <gpio name="gpio">
-  <state_interface name="input_01" data_type="bool">
-    <param name="initial_value">false</param>
+  <state_interface name="input_01" data_type="double">
+    <param name="initial_value">0.0</param>
   </state_interface>
   <!-- ... input_02 .. input_08 ... -->
-  <state_interface name="vacuum_ok" data_type="bool">          <!-- new input -->
-    <param name="initial_value">false</param>
+  <state_interface name="vacuum_ok" data_type="double">          <!-- new input -->
+    <param name="initial_value">0.0</param>
   </state_interface>
 
-  <command_interface name="output_01" data_type="bool">
-    <param name="initial_value">false</param>
+  <command_interface name="output_01" data_type="double">
+    <param name="initial_value">0.0</param>
   </command_interface>
   <!-- ... output_02 .. output_12 ... -->
-  <command_interface name="light" data_type="bool">            <!-- new output -->
-    <param name="initial_value">false</param>
+  <command_interface name="light" data_type="double">            <!-- new output -->
+    <param name="initial_value">0.0</param>
   </command_interface>
 </gpio>
 ```

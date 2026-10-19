@@ -149,6 +149,8 @@ The KUKA robot is now configured. Proceed to the [Commissioning PC Setup](../SET
 
 To test the robot with the driver running on the ctrlX CORE, follow the steps in [`TEST_CTRLX.md`](../../workspaces/kuka/TEST_CTRLX.md).
 
+To add digital inputs/outputs (GPIOs) to the RSI telegram, see [`ADD_GPIO.md`](../../workspaces/kuka/ADD_GPIO.md).
+
 # Troubleshooting
 
 ### Driver activation times out ("Failed to receive motion state")

@@ -114,3 +114,9 @@ Then configure, activate, check and shut down as in sections 3-6 (wait 10 second
 `configure`). `/joint_states` contains `rail_joint_1` in addition to `joint_1`..`joint_6`
 (position in metres). A trajectory sent to `/joint_trajectory_controller/follow_joint_trajectory`
 must list all seven joints.
+
+## 8. GPIO example
+
+To test digital inputs and outputs (e.g. `$IN[51]` / `$OUT[51]` with the `gpio_51` configuration)
+and to add new GPIOs, follow [`ADD_GPIO.md`](ADD_GPIO.md). Launch as in section 2 with
+`rsi_xml_config:=b_ctrldbox_rsi_xml_config_gpio_51.yaml use_gpio:=true`.

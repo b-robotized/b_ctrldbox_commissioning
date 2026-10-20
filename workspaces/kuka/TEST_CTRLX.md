@@ -13,11 +13,55 @@ Tested: KR 210 R3100-2, KSS 8.6, RSI 4.1.
   [`LAUNCH.md`](LAUNCH.md), section 2.3).
 - Driver YAML uploaded to the ctrlX in
   `/var/snap/rexroth-automationcore/common/solutions/activeConfiguration/b-controlled-box/`
-  (here `b_ctrldbox_rsi_xml_config2.yaml`). It must describe the same layout as the configuration
-  deployed on the KUKA - see [`LAUNCH.md`](LAUNCH.md), section 5.
+  (here `b_ctrldbox_rsi_xml_config2.yaml`), see section 1.1. It must describe the same layout as
+  the configuration deployed on the KUKA - see [`LAUNCH.md`](LAUNCH.md), section 5.
 - ctrlX in **OPERATIONAL** mode.
 - KUKA pendant in **EXT** mode, no program selected. Otherwise `activate` fails with
   `KRC not in EXT. Switch to EXT to activate.` in the ctrlX log.
+
+### 1.1 Upload the driver YAML to the ctrlX
+
+The driver reads the RSI XML config YAML on the ctrlX, from the active configuration folder
+`b-controlled-box`. The launch file selects it by file name (`rsi_xml_config:=<file name>`).
+Upload it through the ctrlX OS web interface. The same steps apply to `scenario_controllers.yaml`
+(controller parameters, e.g. the `gpio_controller` section).
+
+1. Open **Manage app data** (folder icon in the top bar).
+
+   <p align="center">
+   <img src="../../docs/assets/kuka/ctrlx-upload-file1.png" alt="ctrlX OS top bar: Manage app data icon" width="60%">
+   </p>
+
+2. Under **Active** (b-controlled box), click **Open file view**.
+
+   <p align="center">
+   <img src="../../docs/assets/kuka/ctrlx-upload-file2.png" alt="App Data: Open file view of the active configuration" width="80%">
+   </p>
+
+3. Open the **b-controlled-box** folder.
+
+   <p align="center">
+   <img src="../../docs/assets/kuka/ctrlx-upload-file3.png" alt="Active configuration files: b-controlled-box folder" width="80%">
+   </p>
+
+4. Click **Uploads file** (arrow icon at the top right) and select the YAML file from your PC,
+   e.g. `workspaces/kuka/rsi_xml_config/b_ctrldbox_rsi_xml_config.yaml`.
+
+   <p align="center">
+   <img src="../../docs/assets/kuka/ctrlx-upload-file4.png" alt="Uploads file button" width="60%">
+   </p>
+
+5. The file is now listed in `b-controlled-box`. Click it to check or edit the content in the
+   browser, then **Save**.
+
+   <p align="center">
+   <img src="../../docs/assets/kuka/ctrlx-upload-file5.png" alt="Uploaded b_ctrldbox_rsi_xml_config.yaml in the b-controlled-box folder" width="90%">
+   </p>
+
+Use the uploaded file name in the launch command, e.g.
+`rsi_xml_config:=b_ctrldbox_rsi_xml_config.yaml`. The driver reads the file when the controller
+manager loads the hardware: after changing it, restart the ctrlX app and relaunch so the new content
+is used.
 
 ## 2. Launch
 

@@ -204,7 +204,8 @@ configured".
 2. **ctrlX:** upload `scenario_controllers.yaml` and
    `rsi_xml_config/b_ctrldbox_rsi_xml_config_gpio_51.yaml` to
    `/var/snap/rexroth-automationcore/common/solutions/activeConfiguration/b-controlled-box/`, then
-   restart the ctrlX app.
+   restart the ctrlX app. How to upload through the ctrlX OS web interface:
+   [`TEST_CTRLX.md`](TEST_CTRLX.md), section 1.1.
 3. **KUKA pendant:** EXT mode, no program selected, no simulated inputs/outputs left on.
 4. **PC:** launch, wait 10 seconds, then configure and activate:
 

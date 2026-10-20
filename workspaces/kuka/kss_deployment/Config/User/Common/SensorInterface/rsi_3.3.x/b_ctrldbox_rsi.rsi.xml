@@ -25,6 +25,16 @@
     </Parameters>
   </RSIObject>
   <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">
+    <Inputs>
+      <Input InIdx="1" OutObjID="GearTorque_1" OutIdx="1" />
+      <Input InIdx="2" OutObjID="GearTorque_1" OutIdx="2" />
+      <Input InIdx="3" OutObjID="GearTorque_1" OutIdx="3" />
+      <Input InIdx="4" OutObjID="GearTorque_1" OutIdx="4" />
+      <Input InIdx="5" OutObjID="GearTorque_1" OutIdx="5" />
+      <Input InIdx="6" OutObjID="GearTorque_1" OutIdx="6" />
+      <Input InIdx="7" OutObjID="Status_1" OutIdx="1" />
+      <Input InIdx="8" OutObjID="OV_PRO_1" OutIdx="1" />
+    </Inputs>
     <Parameters>
       <Parameter Name="ConfigFile" ParamID="1" ParamValue="b_ctrldbox_rsi_eth.xml" IsRuntime="false" />
       <Parameter Name="Timeout" ParamID="1" ParamValue="100" />
@@ -57,4 +67,13 @@
       <Parameter Name="Channel" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
+  <!-- Gear torques A1-A6 -> Ethernet inputs 1-6 -->
+  <RSIObject ObjType="GEARTORQUE" ObjTypeID="46" ObjID="GearTorque_1" />
+  <!-- $PRO_STATE1 (ProState_R) and $OV_PRO -> Ethernet inputs 7/8 -->
+  <RSIObject ObjType="STATUS" ObjTypeID="62" ObjID="Status_1">
+    <Parameters>
+      <Parameter Name="Type" ParamID="1" ParamValue="2" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="OV_PRO" ObjTypeID="63" ObjID="OV_PRO_1" />
 </RSIObjects>

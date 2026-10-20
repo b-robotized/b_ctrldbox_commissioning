@@ -5,6 +5,16 @@
 <RsiContext xsi:schemaLocation="RsiContext RsiContext.xsd" SchemaVersion="2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="RsiContext">
    <RsiObjects xmlns="RsiDriver">
       <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="ETHERNET1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="GearTorque_1" OutIdx="0" SignalName="GearTorque_1|A1" />
+            <Input InIdx="1" OutObjId="GearTorque_1" OutIdx="1" SignalName="GearTorque_1|A2" />
+            <Input InIdx="2" OutObjId="GearTorque_1" OutIdx="2" SignalName="GearTorque_1|A3" />
+            <Input InIdx="3" OutObjId="GearTorque_1" OutIdx="3" SignalName="GearTorque_1|A4" />
+            <Input InIdx="4" OutObjId="GearTorque_1" OutIdx="4" SignalName="GearTorque_1|A5" />
+            <Input InIdx="5" OutObjId="GearTorque_1" OutIdx="5" SignalName="GearTorque_1|A6" />
+            <Input InIdx="6" OutObjId="Status_1" OutIdx="0" SignalName="Status_1|Stat" />
+            <Input InIdx="7" OutObjId="OV_PRO_1" OutIdx="0" SignalName="OV_PRO_1|Out1" />
+         </Inputs>
          <Parameters>
             <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
             <Parameter Name="Timeout" ParamId="0" ParamValue="100" />
@@ -61,6 +71,18 @@
             <Parameter IsRuntime="false" Name="MaxE6" ParamId="11" ParamValue="6" />
          </Parameters>
       </RsiObject>
+      <RsiObject ObjTypeId="46" ObjType="GearTorque" ObjId="GearTorque_1">
+         <Parameters>
+            <Parameter Name="TorqueSource" ParamId="0" ParamValue="0" />
+            <Parameter Name="LocationOnJoint" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="62" ObjType="Status" ObjId="Status_1">
+         <Parameters>
+            <Parameter Name="Type" ParamId="0" ParamValue="2" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="63" ObjType="OV_PRO" ObjId="OV_PRO_1" />
    </RsiObjects>
    <BlueprintCollections SchemaVersion="2.0.0" xmlns="RsiBlueprint">
       <BlueprintCollection Name="RSI" Version="3.1.0">
@@ -2479,6 +2501,16 @@
    </BlueprintCollections>
    <Constructs xmlns="RsiConstruct">
       <Construct Name="ETHERNET1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="0,0">
+         <Inputs>
+            <Input Name="In1" SourceObject="GearTorque_1" SourcePort="A1" />
+            <Input Name="In2" SourceObject="GearTorque_1" SourcePort="A2" />
+            <Input Name="In3" SourceObject="GearTorque_1" SourcePort="A3" />
+            <Input Name="In4" SourceObject="GearTorque_1" SourcePort="A4" />
+            <Input Name="In5" SourceObject="GearTorque_1" SourcePort="A5" />
+            <Input Name="In6" SourceObject="GearTorque_1" SourcePort="A6" />
+            <Input Name="In7" SourceObject="Status_1" SourcePort="Stat" />
+            <Input Name="In8" SourceObject="OV_PRO_1" SourcePort="Out1" />
+         </Inputs>
          <Parameters>
             <StringParameter Name="ConfigFile" Value="b_ctrldbox_rsi_eth.xml" />
             <IntParameter Name="Timeout" Value="100" />
@@ -2525,5 +2557,12 @@
             <DoubleParameter Name="MaxA6" Value="1000" />
          </Parameters>
       </Construct>
+      <Construct Name="GearTorque_1" BlueprintName="GearTorque" BlueprintCollection="RSI" Location="800,0" />
+      <Construct Name="Status_1" BlueprintName="Status" BlueprintCollection="RSI" Location="800,140">
+         <Parameters>
+            <EnumParameter Name="Type" Value="ProState_R" />
+         </Parameters>
+      </Construct>
+      <Construct Name="OV_PRO_1" BlueprintName="OV_PRO" BlueprintCollection="RSI" Location="800,220" />
    </Constructs>
 </RsiContext>

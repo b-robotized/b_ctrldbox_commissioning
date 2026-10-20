@@ -67,7 +67,7 @@
       <Parameter Name="Channel" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+  <!-- DigIn objects: digital inputs $IN[132..139] -->
   <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_132">
     <Parameters>
       <Parameter Name="Index" ParamID="1" ParamValue="132" />
@@ -116,7 +116,7 @@
       <Parameter Name="DataType" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
+  <!-- Map2DigOut objects: digital outputs $OUT[33..36] -->
   <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_33">
     <Inputs>
       <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="8" />
@@ -153,7 +153,7 @@
       <Parameter Name="DataType" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
+  <!-- Map2DigOut objects: digital outputs $OUT[39..46] -->
   <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_39">
     <Inputs>
       <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="12" />

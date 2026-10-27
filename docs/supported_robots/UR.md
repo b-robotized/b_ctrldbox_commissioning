@@ -28,6 +28,55 @@ Lastly, exit the menu and toggle remote control ON
 
 ![home-pos](../assets/ur/ur_remote_control_toggle.png)
 
+### 4. Set the payload
+
+Set the payload mass and center of gravity on the pendant, for example with `Installation -> General -> Payload -> Payload Estimation`.
+Force and torque control need this step. The robot controller uses this payload to compensate gravity.
+
+## Force and torque control
+
+Torque control needs PolyScope 5.23.0 or newer, and friction scales need 5.25.1 or newer.
+We tested this section on a UR10e with PolyScope 5.26.2.
+
+### Check the safety limits first
+
+The safety configuration is always active, also in Freedrive and in force or torque control.
+Near a safety plane or a joint limit, the arm pushes back.
+If the arm exceeds a speed, force, power, or momentum limit, the robot does a protective stop.
+Before you configure a force controller, read the limits under `Settings -> Safety` (`Robot Limits`, `Joint Limits`, `Planes`) and check them against the task:
+
+- Keep fixtures and goal poses at a margin from the safety planes.
+- Make sure the expected contact forces and speeds are below the force, power, and speed limits, in Normal and in Reduced mode.
+
+Dashboard server and RTDE report only the safety mode. They do not report the limit values.
+The active installation file `/programs/<name>.installation` (gzipped XML) contains all values.
+To get the file, save the installation to a USB stick on the pendant.
+Or enable SSH under `Settings -> Security -> Services` and copy the file with SCP.
+Write down the safety checksum on the pendant. If the checksum changes, read the limits again.
+
+### External control URScript with torque mode
+
+The b»Controlled Box loads `external_control.urscript` from its active configuration (`/var/snap/rexroth-automationcore/common/solutions/activeConfiguration/b-controlled-box/`).
+For torque control, this script must support `MODE_TORQUE`:
+
+```bash
+grep -c MODE_TORQUE external_control.urscript   # must be greater than 0
+```
+
+Use the script from the same `ur_client_library` version that runs on the box.
+A script from another version fails with `Variable '..._REPLACE' not found`.
+
+### Do not compensate gravity in the controller
+
+`direct_torque()` expects torques without gravity. The robot adds the gravity torques itself, with the payload from step 4.
+On the real robot, disable gravity compensation in the controller (for example `use_gravity_compensation: false`).
+Enable it only in simulation.
+If the controller also compensates gravity, the arm moves up fast when the controller activates.
+
+### Friction
+
+You can read out the joint friction parameters from the robot controller.
+For instructions, see [UR robot inertia matrix and friction parameter identification](https://industrialmonitordirect.com/blogs/knowledgebase/ur-robot-inertia-matrix-and-friction-parameter-identification#section-18) (third-party guide, not UR documentation).
 
 
 

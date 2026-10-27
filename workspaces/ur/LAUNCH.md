@@ -112,6 +112,6 @@ To ping it choose `Setting` » `Network Diagnostics` » `Ping` on the ctrlX CORE
 See [Force and torque control](../../docs/supported_robots/UR.md#force-and-torque-control) in the UR setup guide.
 - Effort commands have no effect: the `external_control.urscript` on the box does not support `MODE_TORQUE`.
 - `Variable '..._REPLACE' not found`: the URScript and the `ur_client_library` versions do not match.
-- The arm moves up fast when the controller activates: gravity is compensated twice. Disable gravity compensation in the controller.
-- Protective stop or the arm pushes back near a pose: a safety limit is reached. Check the safety configuration.
+- The arm moves up fast when the controller activates: the controller and the robot both compensate gravity. Disable gravity compensation in the controller.
+- Protective stop or the arm pushes back near a pose: the arm reached a safety limit. Check the safety configuration.
 

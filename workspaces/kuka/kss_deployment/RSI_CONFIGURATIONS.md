@@ -22,13 +22,28 @@ configuration under `common/` and is shared by all RSI versions; only the RSI
 Visual project itself (`.rsix` or `.rsi`/`.rsi.diagram`/`.rsi.xml`) differs
 between RSI versions.
 
-> ⚠️ **Only the RSI 4.1.x contexts match the current ethernet configs.** The
-> configurations now send joint torques, motor currents, program status and setpoint
+> ⚠️ **Status of the RSI contexts against the current ethernet configs.** The
+> configurations send joint torques, motor currents, program status and setpoint
 > positions, which need the `GearTorque`, `Status` and `OV_PRO` objects (and
-> `GearTorqueExt`/`AxisCorrExt` for the external axis) in the context. The RSI 3.3.x,
-> 4.0.x and 6.x contexts have not been updated yet - they don't contain these objects,
-> so deploying them together with the current `common/` files gives a mismatching setup
-> (`deploy.bat` warns about this). Port the 4.1.x objects to them before using them.
+> `GearTorqueExt`/`AxisCorrExt` for the external axis, `DigIn`/`Map2DigOut` for the GPIO
+> configurations) in the context.
+>
+> | RSI version | Contexts | Status |
+> |---|---|---|
+> | RSI 4.1.x | Standard, External Axis, GPIO, GPIO 51 test | ✅ match, tested on a real controller (see "Tested Combinations") |
+> | RSI 3.3.x | Standard, External Axis, GPIO, GPIO 51 test | ⚠️ match, ported from the 4.1.x contexts - **not yet tested** on a real controller |
+> | RSI 6.x | Standard, External Axis, GPIO, GPIO 51 test | ⚠️ match, ported from the 4.1.x contexts - **not yet tested** on a real controller |
+> | RSI 4.0.x | Standard, External Axis, GPIO | ❌ not updated - the objects above are missing (`deploy.bat` warns about this) |
+>
+> Assumptions in the ported contexts, to check on the first test (open the files in RSI
+> Visual / iiQWorks, or run the RSI program):
+> - RSI 3.3.x uses 1-based port and parameter indices (RSI 4.x/6.x: 0-based). The
+>   `GEARTORQUE`/`GEARTORQUEEXT` objects have no parameters (relying on the defaults
+>   Measured/Gear, as in RSI 4.1), and `STATUS` uses `Type = 2` (`ProState_R`), assuming the
+>   same value order as in RSI 4.1. The `.rsi.diagram` layouts are regenerated.
+> - RSI 6.x: the object definitions in the 6.2 context are identical to RSI 4.1; the new
+>   connections have no line routing in the diagram, RSI Visual routes them. The 4.1.x
+>   `Monitor_1` object is not included.
 
 **KSS 9.2.2 (iiQKA.OS2) is a different platform with a different deployment
 mechanism, even though its config files now live in this same folder tree.**
@@ -53,8 +68,8 @@ far:
 | KSS 8.5.5 | RSI 4.0.6 | KUKA.EthernetKRL 3.1.2 | ✅ Tested on real controller |
 | KSS 8.6.5 | RSI 4.1.6 | *(not recorded)* | ✅ Tested on real controller |
 | KSS 8.6.8 | RSI 4.1.3 | *(not recorded)* | ✅ Tested on real controller (KR 210 R3100-2, `rsi_only`): Standard configuration (torques, currents, status, Cartesian pose). Setpoint positions (`DEF_ASPos`/`DEF_ESPos`) tested with a simulated controller only. External Axis: driver side tested without a physical axis. GPIO part ⬜ not yet tested |
-| KSS 8.3, 8.4 | RSI 3.3.x | *(not recorded)* | ⬜ Not yet tested |
-| KSS 9.2.2 (iiQKA.OS2) | RSI 6.2.1.4 | KUKA.EthernetKRL 6.1.2.12 | ✅ Tested on real controller — config in `rsi_6.x/`, import steps in "iiQKA.OS2 (RSI 6.x) Deployment" below |
+| KSS 8.3, 8.4 | RSI 3.3.x | *(not recorded)* | ⬜ Not yet tested - contexts ported from RSI 4.1.x |
+| KSS 9.2.2 (iiQKA.OS2) | RSI 6.2.1.4 | KUKA.EthernetKRL 6.1.2.12 | ✅ Tested on real controller with the basic message layout (before torques/status were added) — config in `rsi_6.x/`, import steps in "iiQKA.OS2 (RSI 6.x) Deployment" below. ⬜ Current contexts (ported from RSI 4.1.x) not yet tested |
 
 Update this table with the exact patch versions once validated — don't widen
 a row to a whole KSS range until every version in that range has actually
@@ -232,6 +247,46 @@ while RSI is active; don't write the same `$OUT` from KRL at the same time.
 
 ---
 
+### 4. GPIO 51 Test Configuration
+
+A minimal GPIO configuration for a first I/O test: one digital input and one digital output.
+
+**Location:** `Config/User/Common/SensorInterface/rsi_4.1.x/gpio_51/` (KSS 8.6),
+`rsi_3.3.x/gpio_51/` (KSS 8.3/8.4) and `rsi_6.x/gpio_51/` (iiQKA.OS2), plus the shared
+`Config/User/Common/SensorInterface/common/gpio_51/`
+
+**Files:**
+- `common/gpio_51/b_ctrldbox_rsi_eth.xml` - Ethernet configuration, generated from `b_ctrldbox_rsi_xml_config_gpio_51.yaml`; the two `GPIO.` elements are set to `TYPE="DOUBLE"` by hand (see `ADD_GPIO.md`)
+- `rsi_<version>/gpio_51/` - Standard project plus `DigIn_51` and `Map2DigOut_51`
+- `workspaces/kuka/rsi_xml_config/b_ctrldbox_rsi_xml_config_gpio_51.yaml` - complete driver YAML for this configuration (no lines to uncomment)
+
+**RECEIVE Elements (XML):**
+```xml
+Index 1: Stop (BOOL)
+Index 2-7: AK.A1 - AK.A6 (robot joint corrections)
+Index 8: GPIO.output_01 (-> $OUT[51])
+```
+
+**SEND Elements (XML):**
+```xml
+DEF_RIst, DEF_RSol, DEF_AIPos
+Index 1-6:   GearTorque.A1 - GearTorque.A6
+DEF_MACur, DEF_ASPos
+Index 7:     GPIO.input_01 (<- $IN[51])
+Index 8:     ProgStatus.R (LONG)
+Index 9:     OvPro.R
+DEF_Delay
+```
+
+**Driver:** `use_gpio:=true` and `b_ctrldbox_rsi_xml_config_gpio_51.yaml`. The robot description
+(`gpio_config.xacro`) declares `input_01`/`output_01` as `double`. Deploy with `deploy.bat`,
+configuration 4. To add more GPIOs, follow [`ADD_GPIO.md`](../ADD_GPIO.md).
+
+**Status:** ⬜ RSI 4.1.x: activation works; the GPIO data exchange is still being verified. RSI
+3.3.x / 6.x: not yet tested.
+
+---
+
 ## Deployment
 
 ### Using deploy.bat
@@ -255,12 +310,15 @@ Select RSI configuration:
   1. Standard (6 robot axes only)
   2. External Axis (6 robot axes + external axes support)
   3. GPIO (6 robot axes + GPIO support)
+  4. GPIO 51 test (6 robot axes + $IN[51] and $OUT[51], RSI 3.3.x and 4.1.x)
 
-Enter selection (1/2/3):
+Enter selection (1/2/3/4):
 ```
 
-If an RSI version other than 4.1.x is selected, `deploy.bat` warns that its context doesn't
-match the shared ethernet config and asks for confirmation. At the end it prints which driver
+If RSI 4.0.x is selected, `deploy.bat` warns that its context doesn't match the shared
+ethernet config and asks for confirmation. For RSI 3.3.x it prints a note that the contexts
+are not yet tested. If the selected configuration doesn't exist for the selected RSI version
+(GPIO 51 test with RSI 4.0.x), it stops with an error. At the end it prints which driver
 YAML to use (`b_ctrldbox_rsi_xml_config.yaml`, and which tagged lines to uncomment).
 
 The RSI version determines *how* the RSI context is packaged (RSI 4.0.x and
@@ -277,14 +335,17 @@ Based on your selections:
 | **RSI 3.3.x** | 8.3, 8.4 | 1 (Standard) | `.../rsi_3.3.x/` | `b_ctrldbox_rsi.rsi` + `.rsi.diagram` + `.rsi.xml` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 3.3.x** | 8.3, 8.4 | 2 (External Axis) | `.../rsi_3.3.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 3.3.x** | 8.3, 8.4 | 3 (GPIO) | `.../rsi_3.3.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 3.3.x** | 8.3, 8.4 | 4 (GPIO 51 test) | `.../rsi_3.3.x/gpio_51/` | GPIO 51 test versions | `.../common/gpio_51/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.0.x** | 8.5 | 1 (Standard) | `.../rsi_4.0.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.0.x** | 8.5 | 2 (External Axis) | `.../rsi_4.0.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.0.x** | 8.5 | 3 (GPIO) | `.../rsi_4.0.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 1 (Standard) | `.../rsi_4.1.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 2 (External Axis) | `.../rsi_4.1.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 3 (GPIO) | `.../rsi_4.1.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.1.x** | 8.6 | 4 (GPIO 51 test) | `.../rsi_4.1.x/gpio_51/` | GPIO 51 test versions | `.../common/gpio_51/` | `b_ctrldbox_rsi_eth.xml` |
 
-Only the RSI 4.1.x rows match the current shared ethernet configs (see the note at the top).
+The RSI 4.1.x and 3.3.x rows match the current shared ethernet configs; the RSI 4.0.x rows
+don't (see the note at the top).
 
 (`.../` = `Config/User/Common/SensorInterface/`. Both the version-specific and
 shared source folders are copied into the same destination on the
@@ -425,17 +486,19 @@ ext_axis/gpio files to accidentally pull in, since only Standard is ported).
 This is manual import either way, so unifying the folder structure into this
 same repo doesn't change how you import, only where the source files live.
 
-1. Import the `Config/User/Common/SensorInterface/rsi_6.x/` folder (contains
-   `b_ctrldbox_rsi.rsix`) under **Option packages >
-   iiQKA.RobotSensorInterface > Context**.
-2. Import the `Config/User/Common/SensorInterface/common/` folder (contains
-   `b_ctrldbox_rsi_eth.xml`, shared with RSI 4.0.x/4.1.x) under the same
-   option package's **Ethernet configurations**.
+1. Import the RSI context of the configuration you want under **Option packages >
+   iiQKA.RobotSensorInterface > Context**: `Config/User/Common/SensorInterface/rsi_6.x/`
+   (Standard), or its `ext_axis/`, `gpios/` or `gpio_51/` subfolder. Each contains a
+   `b_ctrldbox_rsi.rsix`.
+2. Import the ethernet config of the **same** configuration under the same
+   option package's **Ethernet configurations**: `Config/User/Common/SensorInterface/common/`
+   (Standard), or its `ext_axis/`, `gpios/` or `gpio_51/` subfolder (contains
+   `b_ctrldbox_rsi_eth.xml`, shared with the other RSI versions).
 
-   ⚠️ The shared `common/b_ctrldbox_rsi_eth.xml` now uses the extended message
-   layout (torques, status, ...), which the RSI 6.x context does not support yet.
-   Until the 6.x context is updated, use the basic ethernet config from the git
-   history of this file (before the extended layout) for iiQKA.OS2.
+   ⚠️ The RSI 6.x contexts for the current message layout (torques, status, ...)
+   were ported from RSI 4.1.x and are not yet tested on a real controller (see the
+   note at the top). The previously tested 6.x setup used the basic ethernet config
+   from the git history of `common/b_ctrldbox_rsi_eth.xml` (before the extended layout).
 3. Import the `Config/User/Common/EthernetKRL/iiqka_os2/` folder (contains
    `b_ctrldbox_EkiKSSinterface.xml`) under **Option packages >
    iiQKA.EthernetKRL > Context**.

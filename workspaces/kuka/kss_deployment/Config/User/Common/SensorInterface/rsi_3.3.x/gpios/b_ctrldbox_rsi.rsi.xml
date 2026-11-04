@@ -26,14 +26,22 @@
   </RSIObject>
   <RSIObject ObjType="ETHERNET" ObjTypeID="64" ObjID="ETHERNET1">
     <Inputs>
-      <Input InIdx="1" OutObjID="DigIn_132" OutIdx="1" />
-      <Input InIdx="2" OutObjID="DigIn_133" OutIdx="1" />
-      <Input InIdx="3" OutObjID="DigIn_134" OutIdx="1" />
-      <Input InIdx="4" OutObjID="DigIn_135" OutIdx="1" />
-      <Input InIdx="5" OutObjID="DigIn_136" OutIdx="1" />
-      <Input InIdx="6" OutObjID="DigIn_137" OutIdx="1" />
-      <Input InIdx="7" OutObjID="DigIn_138" OutIdx="1" />
-      <Input InIdx="8" OutObjID="DigIn_139" OutIdx="1" />
+      <Input InIdx="1" OutObjID="GearTorque_1" OutIdx="1" />
+      <Input InIdx="2" OutObjID="GearTorque_1" OutIdx="2" />
+      <Input InIdx="3" OutObjID="GearTorque_1" OutIdx="3" />
+      <Input InIdx="4" OutObjID="GearTorque_1" OutIdx="4" />
+      <Input InIdx="5" OutObjID="GearTorque_1" OutIdx="5" />
+      <Input InIdx="6" OutObjID="GearTorque_1" OutIdx="6" />
+      <Input InIdx="7" OutObjID="DigIn_132" OutIdx="1" />
+      <Input InIdx="8" OutObjID="DigIn_133" OutIdx="1" />
+      <Input InIdx="9" OutObjID="DigIn_134" OutIdx="1" />
+      <Input InIdx="10" OutObjID="DigIn_135" OutIdx="1" />
+      <Input InIdx="11" OutObjID="DigIn_136" OutIdx="1" />
+      <Input InIdx="12" OutObjID="DigIn_137" OutIdx="1" />
+      <Input InIdx="13" OutObjID="DigIn_138" OutIdx="1" />
+      <Input InIdx="14" OutObjID="DigIn_139" OutIdx="1" />
+      <Input InIdx="15" OutObjID="Status_1" OutIdx="1" />
+      <Input InIdx="16" OutObjID="OV_PRO_1" OutIdx="1" />
     </Inputs>
     <Parameters>
       <Parameter Name="ConfigFile" ParamID="1" ParamValue="b_ctrldbox_rsi_eth.xml" IsRuntime="false" />
@@ -67,7 +75,9 @@
       <Parameter Name="Channel" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- DigIn objects: digital inputs $IN[132..139] -->
+  <!-- Gear torques A1-A6 -> Ethernet inputs 1-6 -->
+  <RSIObject ObjType="GEARTORQUE" ObjTypeID="46" ObjID="GearTorque_1" />
+  <!-- Digital inputs -> Ethernet input(s) 7, 8, 9, 10, 11, 12, 13, 14 -->
   <RSIObject ObjType="DIGIN" ObjTypeID="29" ObjID="DigIn_132">
     <Parameters>
       <Parameter Name="Index" ParamID="1" ParamValue="132" />
@@ -116,7 +126,14 @@
       <Parameter Name="DataType" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- Map2DigOut objects: digital outputs $OUT[33..36] -->
+  <!-- $PRO_STATE1 (ProState_R) and $OV_PRO -> Ethernet inputs 15/16 -->
+  <RSIObject ObjType="STATUS" ObjTypeID="62" ObjID="Status_1">
+    <Parameters>
+      <Parameter Name="Type" ParamID="1" ParamValue="2" />
+    </Parameters>
+  </RSIObject>
+  <RSIObject ObjType="OV_PRO" ObjTypeID="63" ObjID="OV_PRO_1" />
+  <!-- Ethernet output(s) 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 -> digital outputs -->
   <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_33">
     <Inputs>
       <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="8" />
@@ -153,7 +170,6 @@
       <Parameter Name="DataType" ParamID="2" ParamValue="0" />
     </Parameters>
   </RSIObject>
-  <!-- Map2DigOut objects: digital outputs $OUT[39..46] -->
   <RSIObject ObjType="MAP2DIGOUT" ObjTypeID="14" ObjID="Map2DigOut_39">
     <Inputs>
       <Input InIdx="1" OutObjID="ETHERNET1" OutIdx="12" />

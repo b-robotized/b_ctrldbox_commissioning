@@ -5,9 +5,10 @@ starting with the Standard configuration and then extending it with an external 
 All configurations stream joint positions, torques, motor currents, setpoint positions, program
 status and the Cartesian pose to ROS 2.
 
-> ⚠️ The configurations are tested with **RSI 4.1.x (KSS 8.6)** only. The RSI 3.3.x/4.0.x/6.x
-> contexts in this repository don't match the current ethernet configs yet - see
-> [`RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md).
+> ⚠️ The configurations are tested with **RSI 4.1.x (KSS 8.6)** only. The RSI 3.3.x (KSS 8.3/8.4)
+> and RSI 6.x (KSS 9.2.2 / iiQKA.OS2) contexts were ported from the 4.1.x ones and match the current
+> ethernet configs, but are not yet tested on a real controller. The RSI 4.0.x contexts don't match
+> them yet - see [`RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md).
 
 - Controller network setup (RSI and EKI interfaces): [`docs/supported_robots/KUKA.md`](../../docs/supported_robots/KUKA.md)
 - Reference for every RSI configuration (indices, objects, tested versions): [`kss_deployment/RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md)

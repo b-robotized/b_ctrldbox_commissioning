@@ -22,13 +22,21 @@ configuration under `common/` and is shared by all RSI versions; only the RSI
 Visual project itself (`.rsix` or `.rsi`/`.rsi.diagram`/`.rsi.xml`) differs
 between RSI versions.
 
-> ⚠️ **Only the RSI 4.1.x contexts match the current ethernet configs.** The
+> ⚠️ **Only the RSI 4.1.x and 4.0.x contexts match the current ethernet configs.** The
 > configurations now send joint torques, motor currents, program status and setpoint
 > positions, which need the `GearTorque`, `Status` and `OV_PRO` objects (and
-> `GearTorqueExt`/`AxisCorrExt` for the external axis) in the context. The RSI 3.3.x,
-> 4.0.x and 6.x contexts have not been updated yet - they don't contain these objects,
+> `GearTorqueExt`/`AxisCorrExt` for the external axis) in the context. The RSI 3.3.x
+> and 6.x contexts have not been updated yet - they don't contain these objects,
 > so deploying them together with the current `common/` files gives a mismatching setup
 > (`deploy.bat` warns about this). Port the 4.1.x objects to them before using them.
+>
+> **RSI 4.0.x** (Standard, External Axis, GPIO, GPIO 51 test) is ported from the 4.1.x
+> contexts and **not yet tested** on a real controller. The object definitions are the same
+> as in RSI 4.1 (0-based indices); only the file format differs (`RsiContext Version="0.2.0"`,
+> no blueprints). The `GearTorque`/`GearTorqueExt` objects have no parameters (RSI 4.0
+> defaults). The existing objects and their parameters (limits, timeouts, `Monitor_1`) are
+> unchanged. The added connections have no line routing in the editor section; RSI Visual
+> routes them when the file is opened.
 
 **KSS 9.2.2 (iiQKA.OS2) is a different platform with a different deployment
 mechanism, even though its config files now live in this same folder tree.**
@@ -259,8 +267,9 @@ Select RSI configuration:
 Enter selection (1/2/3):
 ```
 
-If an RSI version other than 4.1.x is selected, `deploy.bat` warns that its context doesn't
-match the shared ethernet config and asks for confirmation. At the end it prints which driver
+If RSI 3.3.x is selected, `deploy.bat` warns that its context doesn't match the shared
+ethernet config and asks for confirmation. For RSI 4.0.x it prints a note that the contexts
+are ported and not yet tested. At the end it prints which driver
 YAML to use (`b_ctrldbox_rsi_xml_config.yaml`, and which tagged lines to uncomment).
 
 The RSI version determines *how* the RSI context is packaged (RSI 4.0.x and
@@ -280,11 +289,12 @@ Based on your selections:
 | **RSI 4.0.x** | 8.5 | 1 (Standard) | `.../rsi_4.0.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.0.x** | 8.5 | 2 (External Axis) | `.../rsi_4.0.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.0.x** | 8.5 | 3 (GPIO) | `.../rsi_4.0.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
+| **RSI 4.0.x** | 8.5 | 4 (GPIO 51 test) | `.../rsi_4.0.x/gpio_51/` | GPIO 51 test versions | `.../common/gpio_51/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 1 (Standard) | `.../rsi_4.1.x/` | `b_ctrldbox_rsi.rsix` | `.../common/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 2 (External Axis) | `.../rsi_4.1.x/ext_axis/` | External axis versions | `.../common/ext_axis/` | `b_ctrldbox_rsi_eth.xml` |
 | **RSI 4.1.x** | 8.6 | 3 (GPIO) | `.../rsi_4.1.x/gpios/` | GPIO versions | `.../common/gpios/` | `b_ctrldbox_rsi_eth.xml` |
 
-Only the RSI 4.1.x rows match the current shared ethernet configs (see the note at the top).
+Only the RSI 4.1.x and 4.0.x rows match the current shared ethernet configs; RSI 4.0.x is not yet tested on a real controller (see the note at the top).
 
 (`.../` = `Config/User/Common/SensorInterface/`. Both the version-specific and
 shared source folders are copied into the same destination on the

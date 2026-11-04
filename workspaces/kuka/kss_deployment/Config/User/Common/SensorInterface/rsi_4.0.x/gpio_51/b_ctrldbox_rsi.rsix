@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RsiContext Version="0.2.0"><RsiObjects>
+      <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="Ethernet_1">
+      <Inputs>
+         <Input InIdx="0" OutObjId="GearTorque_1" OutIdx="0" />
+         <Input InIdx="1" OutObjId="GearTorque_1" OutIdx="1" />
+         <Input InIdx="2" OutObjId="GearTorque_1" OutIdx="2" />
+         <Input InIdx="3" OutObjId="GearTorque_1" OutIdx="3" />
+         <Input InIdx="4" OutObjId="GearTorque_1" OutIdx="4" />
+         <Input InIdx="5" OutObjId="GearTorque_1" OutIdx="5" />
+         <Input InIdx="6" OutObjId="DigIn_51" OutIdx="0" />
+         <Input InIdx="7" OutObjId="Status_1" OutIdx="0" />
+         <Input InIdx="8" OutObjId="OV_PRO_1" OutIdx="0" />
+      </Inputs>
+      <Parameters>
+         <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
+         <Parameter Name="Timeout" ParamId="0" ParamValue="100" />
+         <Parameter Name="Flag" ParamId="3" ParamValue="1" />
+         <Parameter Name="Precision" ParamId="7" ParamValue="4" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="33" ObjType="AxisCorr" ObjId="AxisCorr_1">
+      <Inputs>
+         <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="1" />
+         <Input InIdx="1" OutObjId="Ethernet_1" OutIdx="2" />
+         <Input InIdx="2" OutObjId="Ethernet_1" OutIdx="3" />
+         <Input InIdx="3" OutObjId="Ethernet_1" OutIdx="4" />
+         <Input InIdx="4" OutObjId="Ethernet_1" OutIdx="5" />
+         <Input InIdx="5" OutObjId="Ethernet_1" OutIdx="6" />
+      </Inputs>
+      <Parameters>
+         <Parameter IsPublic="true" Name="LowerLimA1" ParamId="0" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="LowerLimA2" ParamId="1" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="LowerLimA3" ParamId="2" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="LowerLimA4" ParamId="3" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="LowerLimA5" ParamId="4" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="LowerLimA6" ParamId="5" ParamValue="-180" />
+         <Parameter IsPublic="true" Name="UpperLimA1" ParamId="6" ParamValue="180" />
+         <Parameter IsPublic="true" Name="UpperLimA2" ParamId="7" ParamValue="180" />
+         <Parameter IsPublic="true" Name="UpperLimA3" ParamId="8" ParamValue="180" />
+         <Parameter IsPublic="true" Name="UpperLimA4" ParamId="9" ParamValue="180" />
+         <Parameter IsPublic="true" Name="UpperLimA5" ParamId="10" ParamValue="180" />
+         <Parameter IsPublic="true" Name="UpperLimA6" ParamId="11" ParamValue="180" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="18" ObjType="Stop" ObjId="Stop_1">
+      <Inputs>
+         <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="0" />
+      </Inputs>
+      <Parameters>
+         <Parameter Name="Mode" ParamId="0" ParamValue="4" />
+         <Parameter Name="Channel" ParamId="1" ParamValue="0" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="82" ObjType="AxisCorrMon" ObjId="AxisCorrMon_1">
+      <Parameters>
+         <Parameter IsPublic="true" Name="MaxA1" ParamId="0" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxA2" ParamId="1" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxA3" ParamId="2" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxA4" ParamId="3" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxA5" ParamId="4" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxA6" ParamId="5" ParamValue="180" />
+         <Parameter IsPublic="true" Name="MaxE1" ParamId="6" ParamValue="2000" />
+         <Parameter IsPublic="true" Name="MaxE2" ParamId="7" ParamValue="2000" />
+         <Parameter IsPublic="true" Name="MaxE3" ParamId="8" ParamValue="2000" />
+         <Parameter IsPublic="true" Name="MaxE4" ParamId="9" ParamValue="2000" />
+         <Parameter IsPublic="true" Name="MaxE5" ParamId="10" ParamValue="2000" />
+         <Parameter IsPublic="true" Name="MaxE6" ParamId="11" ParamValue="2000" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="55" ObjType="Monitor" ObjId="Monitor_1">
+      <Inputs>
+         <Input InIdx="0" OutObjId="AxisCorrMon_1" OutIdx="0" />
+         <Input InIdx="1" OutObjId="AxisCorrMon_1" OutIdx="1" />
+         <Input InIdx="2" OutObjId="AxisCorrMon_1" OutIdx="2" />
+         <Input InIdx="3" OutObjId="AxisCorrMon_1" OutIdx="3" />
+         <Input InIdx="4" OutObjId="AxisCorrMon_1" OutIdx="4" />
+         <Input InIdx="5" OutObjId="AxisCorrMon_1" OutIdx="5" />
+         <Input InIdx="6" OutObjId="AxisCorrMon_1" OutIdx="6" />
+         <Input InIdx="7" OutObjId="AxisCorrMon_1" OutIdx="7" />
+         <Input InIdx="8" OutObjId="AxisCorrMon_1" OutIdx="8" />
+         <Input InIdx="9" OutObjId="AxisCorrMon_1" OutIdx="9" />
+         <Input InIdx="10" OutObjId="AxisCorrMon_1" OutIdx="10" />
+         <Input InIdx="11" OutObjId="AxisCorrMon_1" OutIdx="11" />
+      </Inputs>
+      <Parameters>
+         <Parameter Name="Refresh" ParamId="0" ParamValue="1" />
+         <Parameter Name="Timeout" ParamId="1" ParamValue="50" />
+         <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
+         <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.28.201" />
+         <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="46" ObjType="GearTorque" ObjId="GearTorque_1">
+         </RsiObject>
+      <RsiObject ObjTypeId="62" ObjType="Status" ObjId="Status_1">
+      <Parameters>
+         <Parameter Name="Type" ParamId="0" ParamValue="2" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="63" ObjType="OV_PRO" ObjId="OV_PRO_1" />
+      <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_51">
+      <Parameters>
+         <Parameter Name="Index" ParamId="0" ParamValue="51" />
+         <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+      </Parameters>
+   </RsiObject>
+      <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_51">
+      <Inputs>
+         <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="7" />
+      </Inputs>
+      <Parameters>
+         <Parameter Name="Index" ParamId="0" ParamValue="51" />
+         <Parameter Name="DataType" ParamId="1" ParamValue="0" />
+      </Parameters>
+   </RsiObject>
+   </RsiObjects>
+   <Editor><Toolboxes><Toolbox Name="RSI" Version="1.1.0" /></Toolboxes><Links><Link From="GearTorque_1" FromPort="A1" To="Ethernet_1" ToPort="In1" /><Link From="GearTorque_1" FromPort="A2" To="Ethernet_1" ToPort="In2" /><Link From="GearTorque_1" FromPort="A3" To="Ethernet_1" ToPort="In3" /><Link From="GearTorque_1" FromPort="A4" To="Ethernet_1" ToPort="In4" /><Link From="GearTorque_1" FromPort="A5" To="Ethernet_1" ToPort="In5" /><Link From="GearTorque_1" FromPort="A6" To="Ethernet_1" ToPort="In6" /><Link From="DigIn_51" FromPort="Out1" To="Ethernet_1" ToPort="In7" /><Link From="Status_1" FromPort="Stat" To="Ethernet_1" ToPort="In8" /><Link From="OV_PRO_1" FromPort="Out1" To="Ethernet_1" ToPort="In9" /><Link From="Ethernet_1" FromPort="Out2" To="AxisCorr_1" ToPort="CorrA1" /><Link From="Ethernet_1" FromPort="Out3" To="AxisCorr_1" ToPort="CorrA2" /><Link From="Ethernet_1" FromPort="Out4" To="AxisCorr_1" ToPort="CorrA3" /><Link From="Ethernet_1" FromPort="Out5" To="AxisCorr_1" ToPort="CorrA4" /><Link From="Ethernet_1" FromPort="Out6" To="AxisCorr_1" ToPort="CorrA5" /><Link From="Ethernet_1" FromPort="Out7" To="AxisCorr_1" ToPort="CorrA6" /><Link From="Ethernet_1" FromPort="Out1" To="Stop_1" ToPort="In1" /><Link From="AxisCorrMon_1" FromPort="A1" To="Monitor_1" ToPort="In1" /><Link From="AxisCorrMon_1" FromPort="A2" To="Monitor_1" ToPort="In2" /><Link From="AxisCorrMon_1" FromPort="A3" To="Monitor_1" ToPort="In3" /><Link From="AxisCorrMon_1" FromPort="A4" To="Monitor_1" ToPort="In4" /><Link From="AxisCorrMon_1" FromPort="A5" To="Monitor_1" ToPort="In5" /><Link From="AxisCorrMon_1" FromPort="A6" To="Monitor_1" ToPort="In6" /><Link From="AxisCorrMon_1" FromPort="E1" To="Monitor_1" ToPort="In7" /><Link From="AxisCorrMon_1" FromPort="E2" To="Monitor_1" ToPort="In8" /><Link From="AxisCorrMon_1" FromPort="E3" To="Monitor_1" ToPort="In9" /><Link From="AxisCorrMon_1" FromPort="E4" To="Monitor_1" ToPort="In10" /><Link From="AxisCorrMon_1" FromPort="E5" To="Monitor_1" ToPort="In11" /><Link From="AxisCorrMon_1" FromPort="E6" To="Monitor_1" ToPort="In12" /><Link From="Ethernet_1" FromPort="Out8" To="Map2DigOut_51" ToPort="In1" /></Links><Nodes><Node Location="400,0" Name="Ethernet_1" Type="Ethernet" /><Node Location="800,0" Name="AxisCorr_1" Type="AxisCorr" /><Node Location="800,270" Name="Stop_1" Type="Stop" /><Node Location="0,0" Name="AxisCorrMon_1" Type="AxisCorrMon" /><Node Location="800,360" Name="Monitor_1" Type="Monitor" /><Node Location="0,420" Name="GearTorque_1" Type="GearTorque" /><Node Location="0,660" Name="Status_1" Type="Status" /><Node Location="0,750" Name="OV_PRO_1" Type="OV_PRO" /><Node Location="0,840" Name="DigIn_51" Type="DigIn" /><Node Location="800,780" Name="Map2DigOut_51" Type="Map2DigOut" /></Nodes><Comments /></Editor></RsiContext>

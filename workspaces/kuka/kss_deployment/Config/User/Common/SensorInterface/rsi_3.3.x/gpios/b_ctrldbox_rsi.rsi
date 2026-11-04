@@ -172,7 +172,7 @@
         <rSIParameter name="Channel" value="0" paramType="System.Int32" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
       </rSIParameters>
     </rSIElement>
-    <!-- DigIn elements: reed contact feedback $IN[132..139] -->
+    <!-- DigIn elements: digital inputs $IN[132..139] -->
     <rSIElement name="DigIn_132" objType="DIGIN" objTypeID="29" maxInputs="0" maxOutputs="0">
       <rSIOutPorts>
         <rSIOutPort name="Out1" signalType="Bool" />
@@ -245,7 +245,7 @@
         <rSIParameter name="DataType" value="0" paramType="System.Int32" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
       </rSIParameters>
     </rSIElement>
-    <!-- Map2DigOut elements: ejectors $OUT[33..36] -->
+    <!-- Map2DigOut elements: digital outputs $OUT[33..36] -->
     <rSIElement name="Map2DigOut_33" objType="MAP2DIGOUT" objTypeID="14" maxInputs="0" maxOutputs="0">
       <rSIInPorts>
         <rSIInPort name="In1" mandatory="false" signalType="Bool">
@@ -298,7 +298,7 @@
         <rSIParameter name="DataType" value="0" paramType="System.Int32" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
       </rSIParameters>
     </rSIElement>
-    <!-- Map2DigOut elements: cylinder valves $OUT[39..46] -->
+    <!-- Map2DigOut elements: digital outputs $OUT[39..46] -->
     <rSIElement name="Map2DigOut_39" objType="MAP2DIGOUT" objTypeID="14" maxInputs="0" maxOutputs="0">
       <rSIInPorts>
         <rSIInPort name="In1" mandatory="false" signalType="Bool">

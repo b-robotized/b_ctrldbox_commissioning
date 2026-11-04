@@ -5,6 +5,17 @@
 <RsiContext xsi:schemaLocation="RsiContext RsiContext.xsd" SchemaVersion="2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="RsiContext">
    <RsiObjects xmlns="RsiDriver">
       <RsiObject ObjTypeId="64" ObjType="Ethernet" ObjId="Ethernet_1">
+         <Inputs>
+            <Input InIdx="0" OutObjId="GearTorque_1" OutIdx="0" />
+            <Input InIdx="1" OutObjId="GearTorque_1" OutIdx="1" />
+            <Input InIdx="2" OutObjId="GearTorque_1" OutIdx="2" />
+            <Input InIdx="3" OutObjId="GearTorque_1" OutIdx="3" />
+            <Input InIdx="4" OutObjId="GearTorque_1" OutIdx="4" />
+            <Input InIdx="5" OutObjId="GearTorque_1" OutIdx="5" />
+            <Input InIdx="6" OutObjId="GearTorqueExt_1" OutIdx="0" />
+            <Input InIdx="7" OutObjId="Status_1" OutIdx="0" />
+            <Input InIdx="8" OutObjId="OV_PRO_1" OutIdx="0" />
+         </Inputs>
          <Parameters>
             <Parameter IsRuntime="false" Name="ConfigFile" ParamId="0" ParamValue="b_ctrldbox_rsi_eth.xml" />
             <Parameter Name="Timeout" ParamId="0" ParamValue="100" />
@@ -82,6 +93,24 @@
             <Parameter Name="ReqTimeZero" ParamId="2" ParamValue="1" />
             <Parameter IsRuntime="false" Name="IP" ParamId="0" ParamValue="192.168.28.201" />
             <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="46" ObjType="GearTorque" ObjId="GearTorque_1">
+         <Parameters>
+            <Parameter Name="TorqueSource" ParamId="0" ParamValue="0" />
+            <Parameter Name="LocationOnJoint" ParamId="1" ParamValue="0" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="62" ObjType="Status" ObjId="Status_1">
+         <Parameters>
+            <Parameter Name="Type" ParamId="0" ParamValue="2" />
+         </Parameters>
+      </RsiObject>
+      <RsiObject ObjTypeId="63" ObjType="OV_PRO" ObjId="OV_PRO_1" />
+      <RsiObject ObjTypeId="89" ObjType="GearTorqueExt" ObjId="GearTorqueExt_1">
+         <Parameters>
+            <Parameter Name="TorqueSource" ParamId="0" ParamValue="0" />
+            <Parameter Name="LocationOnJoint" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>
       <RsiObject ObjTypeId="87" ObjType="AxisCorrExt" ObjId="AxisCorrExt_1">
@@ -2415,7 +2444,18 @@
       </BlueprintCollection>
    </BlueprintCollections>
    <Constructs xmlns="RsiConstruct">
-      <Construct Name="Ethernet_1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="0,0">
+      <Construct Name="Ethernet_1" BlueprintName="Ethernet" BlueprintCollection="RSI" Location="400,0">
+         <Inputs>
+            <Input Name="In1" SourceObject="GearTorque_1" SourcePort="A1" Points="169,19.5;217,19.5;265,19.5;265,19.5;366,19.5;382,19.5" />
+            <Input Name="In2" SourceObject="GearTorque_1" SourcePort="A2" Points="169,49.5;217,49.5;265,49.5;265,49.5;366,49.5;382,49.5" />
+            <Input Name="In3" SourceObject="GearTorque_1" SourcePort="A3" Points="169,79.5;217,79.5;265,79.5;265,79.5;366,79.5;382,79.5" />
+            <Input Name="In4" SourceObject="GearTorque_1" SourcePort="A4" Points="169,109.5;217,109.5;265,109.5;265,109.5;366,109.5;382,109.5" />
+            <Input Name="In5" SourceObject="GearTorque_1" SourcePort="A5" Points="169,139.5;217,139.5;265,139.5;265,139.5;366,139.5;382,139.5" />
+            <Input Name="In6" SourceObject="GearTorque_1" SourcePort="A6" Points="169,169.5;217,169.5;265,169.5;265,169.5;366,169.5;382,169.5" />
+            <Input Name="In7" SourceObject="GearTorqueExt_1" SourcePort="E1" Points="169,246.1;181,246.1;193,246.1;193,199.5;366,199.5;382,199.5" />
+            <Input Name="In8" SourceObject="Status_1" SourcePort="Stat" Points="189.576666666667,319.5;201.576666666667,319.5;213.576666666667,319.5;213.576666666667,229.5;366,229.5;382,229.5" />
+            <Input Name="In9" SourceObject="OV_PRO_1" SourcePort="Out1" Points="107.08,389.5;119.08,389.5;131.08,389.5;131.08,259.5;366,259.5;382,259.5" />
+         </Inputs>
          <Parameters>
             <StringParameter Name="ConfigFile" Value="b_ctrldbox_rsi_eth.xml" />
             <IntParameter Name="Timeout" Value="100" />
@@ -2423,14 +2463,14 @@
             <IntParameter Name="Precision" Value="4" />
          </Parameters>
       </Construct>
-      <Construct Name="AxisCorr_1" BlueprintName="AxisCorr" BlueprintCollection="RSI" Location="400,0">
+      <Construct Name="AxisCorr_1" BlueprintName="AxisCorr" BlueprintCollection="RSI" Location="800,113.3">
          <Inputs>
-            <Input Name="CorrA1" SourceObject="Ethernet_1" SourcePort="Out2" Points="178.516666666667,49.5;198.516666666667,49.5;218.516666666667,49.5;218.516666666667,19.5;366,19.5;382,19.5" />
-            <Input Name="CorrA2" SourceObject="Ethernet_1" SourcePort="Out3" Points="178.516666666667,79.5;206.516666666667,79.5;234.516666666667,79.5;234.516666666667,49.5;366,49.5;382,49.5" />
-            <Input Name="CorrA3" SourceObject="Ethernet_1" SourcePort="Out4" Points="178.516666666667,109.5;214.516666666667,109.5;250.516666666667,109.5;250.516666666667,79.5;366,79.5;382,79.5" />
-            <Input Name="CorrA4" SourceObject="Ethernet_1" SourcePort="Out5" Points="178.516666666667,139.5;222.516666666667,139.5;266.516666666667,139.5;266.516666666667,109.5;366,109.5;382,109.5" />
-            <Input Name="CorrA5" SourceObject="Ethernet_1" SourcePort="Out6" Points="178.516666666667,169.5;230.516666666667,169.5;282.516666666667,169.5;282.516666666667,139.5;366,139.5;382,139.5" />
-            <Input Name="CorrA6" SourceObject="Ethernet_1" SourcePort="Out7" Points="178.516666666667,199.5;238.516666666667,199.5;298.516666666667,199.5;298.516666666667,169.5;366,169.5;382,169.5" />
+            <Input Name="CorrA1" SourceObject="Ethernet_1" SourcePort="Out2" Points="578.516666666667,49.5;626.516666666667,49.5;674.516666666667,49.5;674.516666666667,132.8;766,132.8;782,132.8" />
+            <Input Name="CorrA2" SourceObject="Ethernet_1" SourcePort="Out3" Points="578.516666666667,79.5;618.516666666667,79.5;658.516666666667,79.5;658.516666666667,162.8;766,162.8;782,162.8" />
+            <Input Name="CorrA3" SourceObject="Ethernet_1" SourcePort="Out4" Points="578.516666666667,109.5;610.516666666667,109.5;642.516666666667,109.5;642.516666666667,192.8;766,192.8;782,192.8" />
+            <Input Name="CorrA4" SourceObject="Ethernet_1" SourcePort="Out5" Points="578.516666666667,139.5;602.516666666667,139.5;626.516666666667,139.5;626.516666666667,222.8;766,222.8;782,222.8" />
+            <Input Name="CorrA5" SourceObject="Ethernet_1" SourcePort="Out6" Points="578.516666666667,169.5;594.516666666667,169.5;610.516666666667,169.5;610.516666666667,252.8;766,252.8;782,252.8" />
+            <Input Name="CorrA6" SourceObject="Ethernet_1" SourcePort="Out7" Points="578.516666666667,199.5;586.516666666667,199.5;594.516666666667,199.5;594.516666666667,282.8;766,282.8;782,282.8" />
          </Inputs>
          <Parameters>
             <DoubleParameter Name="LowerLimA1" CanBeSetFromKrl="true" Value="-180" />
@@ -2447,12 +2487,12 @@
             <DoubleParameter Name="UpperLimA6" CanBeSetFromKrl="true" Value="180" />
          </Parameters>
       </Construct>
-      <Construct Name="Stop_1" BlueprintName="Stop" BlueprintCollection="RSI" Location="400,339.8">
+      <Construct Name="Stop_1" BlueprintName="Stop" BlueprintCollection="RSI" Location="800,0">
          <Inputs>
-            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out1" Points="178.516666666667,19.5;242.516666666667,19.5;306.516666666667,19.5;306.516666666667,359.3;366,359.3;382,359.3" />
+            <Input Name="In1" SourceObject="Ethernet_1" SourcePort="Out1" Points="578.516666666667,19.5;634.516666666667,19.5;690.516666666667,19.5;690.516666666667,19.5;766,19.5;782,19.5" />
          </Inputs>
       </Construct>
-      <Construct Name="AxisCorrMon_1" BlueprintName="AxisCorrMon" BlueprintCollection="RSI" Location="0,792.9">
+      <Construct Name="AxisCorrMon_1" BlueprintName="AxisCorrMon" BlueprintCollection="RSI" Location="400,453.1">
          <Parameters>
             <DoubleParameter Name="MaxA1" CanBeSetFromKrl="true" Value="180" />
             <DoubleParameter Name="MaxA2" CanBeSetFromKrl="true" Value="180" />
@@ -2468,25 +2508,33 @@
             <DoubleParameter Name="MaxE6" CanBeSetFromKrl="true" Value="2000" />
          </Parameters>
       </Construct>
-      <Construct Name="Monitor_1" BlueprintName="Monitor" BlueprintCollection="RSI" Location="400,792.9">
+      <Construct Name="Monitor_1" BlueprintName="Monitor" BlueprintCollection="RSI" Location="800,453.1">
          <Inputs>
-            <Input Name="In1" SourceObject="AxisCorrMon_1" SourcePort="A1" Points="169,812.4;225,812.4;281,812.4;281,812.4;366,812.4;382,812.4" />
-            <Input Name="In2" SourceObject="AxisCorrMon_1" SourcePort="A2" Points="169,842.4;217,842.4;265,842.4;265,842.4;366,842.4;382,842.4" />
-            <Input Name="In3" SourceObject="AxisCorrMon_1" SourcePort="A3" Points="169,872.4;209,872.4;249,872.4;249,872.4;366,872.4;382,872.4" />
-            <Input Name="In4" SourceObject="AxisCorrMon_1" SourcePort="A4" Points="169,902.4;201,902.4;233,902.4;233,902.4;366,902.4;382,902.4" />
-            <Input Name="In5" SourceObject="AxisCorrMon_1" SourcePort="A5" Points="169,932.4;193,932.4;217,932.4;217,932.4;366,932.4;382,932.4" />
-            <Input Name="In6" SourceObject="AxisCorrMon_1" SourcePort="A6" Points="169,962.4;185,962.4;201,962.4;201,962.4;366,962.4;382,962.4" />
-            <Input Name="In7" SourceObject="AxisCorrMon_1" SourcePort="E1" Points="169,992.4;177,992.4;185,992.4;185,992.4;366,992.4;382,992.4" />
-            <Input Name="In8" SourceObject="AxisCorrMon_1" SourcePort="E2" Points="169,1022.4;177,1022.4;185,1022.4;185,1022.4;366,1022.4;382,1022.4" />
-            <Input Name="In9" SourceObject="AxisCorrMon_1" SourcePort="E3" Points="169,1052.4;177,1052.4;185,1052.4;185,1052.4;366,1052.4;382,1052.4" />
-            <Input Name="In10" SourceObject="AxisCorrMon_1" SourcePort="E4" Points="169,1082.4;177,1082.4;185,1082.4;185,1082.4;366,1082.4;382,1082.4" />
-            <Input Name="In11" SourceObject="AxisCorrMon_1" SourcePort="E5" Points="169,1112.4;177,1112.4;185,1112.4;185,1112.4;366,1112.4;382,1112.4" />
-            <Input Name="In12" SourceObject="AxisCorrMon_1" SourcePort="E6" Points="169,1142.4;177,1142.4;185,1142.4;185,1142.4;366,1142.4;382,1142.4" />
+            <Input Name="In1" SourceObject="AxisCorrMon_1" SourcePort="A1" Points="569,472.6;617,472.6;665,472.6;665,472.6;766,472.6;782,472.6" />
+            <Input Name="In2" SourceObject="AxisCorrMon_1" SourcePort="A2" Points="569,502.6;609,502.6;649,502.6;649,502.6;766,502.6;782,502.6" />
+            <Input Name="In3" SourceObject="AxisCorrMon_1" SourcePort="A3" Points="569,532.6;601,532.6;633,532.6;633,532.6;766,532.6;782,532.6" />
+            <Input Name="In4" SourceObject="AxisCorrMon_1" SourcePort="A4" Points="569,562.6;593,562.6;617,562.6;617,562.6;766,562.6;782,562.6" />
+            <Input Name="In5" SourceObject="AxisCorrMon_1" SourcePort="A5" Points="569,592.6;585,592.6;601,592.6;601,592.6;766,592.6;782,592.6" />
+            <Input Name="In6" SourceObject="AxisCorrMon_1" SourcePort="A6" Points="569,622.6;577,622.6;585,622.6;585,622.6;766,622.6;782,622.6" />
+            <Input Name="In7" SourceObject="AxisCorrMon_1" SourcePort="E1" Points="569,652.6;569,652.6;569,652.6;569,652.6;766,652.6;782,652.6" />
+            <Input Name="In8" SourceObject="AxisCorrMon_1" SourcePort="E2" Points="569,682.6;561,682.6;553,682.6;553,682.6;766,682.6;782,682.6" />
+            <Input Name="In9" SourceObject="AxisCorrMon_1" SourcePort="E3" Points="569,712.6;553,712.6;537,712.6;537,712.6;766,712.6;782,712.6" />
+            <Input Name="In10" SourceObject="AxisCorrMon_1" SourcePort="E4" Points="569,742.6;545,742.6;521,742.6;521,742.6;766,742.6;782,742.6" />
+            <Input Name="In11" SourceObject="AxisCorrMon_1" SourcePort="E5" Points="569,772.6;537,772.6;505,772.6;505,772.6;766,772.6;782,772.6" />
+            <Input Name="In12" SourceObject="AxisCorrMon_1" SourcePort="E6" Points="569,802.6;529,802.6;489,802.6;489,802.6;766,802.6;782,802.6" />
          </Inputs>
       </Construct>
-      <Construct Name="AxisCorrExt_1" BlueprintName="AxisCorrExt" BlueprintCollection="RSI" Location="400,453.1">
+      <Construct Name="GearTorque_1" BlueprintName="GearTorque" BlueprintCollection="RSI" Location="0,0" />
+      <Construct Name="Status_1" BlueprintName="Status" BlueprintCollection="RSI" Location="0,300">
+         <Parameters>
+            <EnumParameter Name="Type" Value="ProState_R" />
+         </Parameters>
+      </Construct>
+      <Construct Name="OV_PRO_1" BlueprintName="OV_PRO" BlueprintCollection="RSI" Location="0,370" />
+      <Construct Name="GearTorqueExt_1" BlueprintName="GearTorqueExt" BlueprintCollection="RSI" Location="0,226.6" />
+      <Construct Name="AxisCorrExt_1" BlueprintName="AxisCorrExt" BlueprintCollection="RSI" Location="1200,0">
          <Inputs>
-            <Input Name="CorrE1" SourceObject="Ethernet_1" SourcePort="Out8" Points="178.516666666667,229.5;186.516666666667,229.5;194.516666666667,229.5;194.516666666667,472.6;366,472.6;382,472.6" />
+            <Input Name="CorrE1" SourceObject="Ethernet_1" SourcePort="Out8" Points="578.516666666667,229.5;590.516666666667,229.5;602.516666666667,229.5;602.516666666667,19.5;1166,19.5;1182,19.5" />
          </Inputs>
          <Parameters>
             <DoubleParameter Name="LowerLimE1" CanBeSetFromKrl="true" Value="-1000" />

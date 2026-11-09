@@ -1,80 +1,20 @@
 # UR Robot Setup
 
-This guide covers the UR-specific steps for configuring the RTDE communication. This configuration is essential for enabling real-time communication between the robot controller and the b»Controlled Box.
+This guide covers the steps for configuring real-time communication with UR robot. In their case it is called `RTDE`.
+This configuration is essential for enabling smooth and jerk free movement of the robot when using the b»controlled box.
 
-This guide is split between **Polyscope 5** and **Polyscope X**, as they have different UI.
+First is important to know the **exact version** of robot control software.
+You can check this under in the menu in info section.
+There are two major versions (systems) used in UR robots *PolyScope 5* and *PolyScopeX*.
+Each of them has also major and minor version that are important.
 
-# [Polyscope 5](https://www.universal-robots.com/products/polyscope-5/)
+Before doing anything else, make sure that you have updated your software to the newest version.
+The best place to find it, is to look for the `Release Notes` on the [*Support Resources* page](https://www.universal-robots.com/articles/) of UR.
 
-### 1. Power on and start the robot
-
-![home-pos](../assets/ur/ur_power_on.png)
-![home-pos](../assets/ur/ur_start.png)
-
-### 2. Set up Remote Control
-
-To set up remote control, we first need to enable it by navigating to the hamburger menu in the top right corner and selecting `System -> Remote Control`
-
-![home-pos](../assets/ur/ur_remote_control.png)
-
-### 3. Robot network IP
-
-Here we set the IP address where the robot responds to, this is the designated robot ethernet port on the CtrlX device.
-
-In this image, we're connecting to UR sim at `192.168.56.10`, but you put in your CtrlX IP for the robot.
-![home-pos](../assets/ur/ur_network_settings.png)
-
-Lastly, exit the menu and toggle remote control ON
-
-![home-pos](../assets/ur/ur_remote_control_toggle.png)
+After that follow the [official manual for the robot setup](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_client_library/doc/setup.html) with `ur_client_library`.
 
 
-
-
-
-
-# [Polyscope X](https://www.universal-robots.com/products/polyscope-5/)
-
-### 1. Power on and start the robot
-
-![home-pos](../assets/ur/ur_polyscope_power_on.png)
-![home-pos](../assets/ur/ur_polyscope_unlock.png)
-
-### 2. Set up RTDE communication
-
-To set up remote control, we first need to enable it by navigating to the hamburger menu in the top left corner and selecting `Settings -> Security -> Services`.
-
-There we enable three services:
-- Primary Client Interface
-- Secondary Client Interface
-- Real-Time Data Exchange (RTDE)
-
-![home-pos](../assets/ur/ur_polyscope_RTDE_easybot_ursafe.png)
-
-### 3. Robot network IP
-
-> ***Note:** If you're using Polyscope X UrSim for simulation testing, you don't need to adjust this IP. Just note that the IP of your simulated robot will be the IP address of the container itself.* 
-
-Here we set the IP address on which the robot can be reached
-
-![home-pos](../assets/ur/ur_polyscope_network.png)
-
-Additionally, we have to configure on which IP address will the robot respond to. This will **be the address of our CtrlX device!**.
-
-You can find this setting in the top left corner by clicking `Application -> UR+ -> External Control`.
-
-![home-pos](../assets/ur/ur_polyscope_external_control.png)
-
-![home-pos](../assets/ur/ur_polyscope_RTDE_address.png)
-
-### 4. Set the robot in automatic mode
-
-Lastly, when the network is configured and the robot is powered on and unlocked, set it to **AUTOMATIC** mode.
-
-![home-pos](../assets/ur/ur_polyscope_automatic.png)
-
-
-# Next Steps
+# After configuring the robot
 
 The UR robot is now configured. Proceed to the [Commissioning PC Setup](../SETUP_COMMMISSIONING.md) to launch the ROS 2 environment and start controlling the robot.
 

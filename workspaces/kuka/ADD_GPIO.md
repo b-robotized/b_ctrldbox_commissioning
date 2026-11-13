@@ -106,8 +106,7 @@ Result (only the changed part):
 > declares the GPIOs as `double` (see 2.4), and the driver then sends output values as
 > `1.0000` / `0.0000`. The `gpio_51` configuration in this repository therefore uses
 > `TYPE="DOUBLE"` for its GPIO elements. After regenerating, change every `GPIO.` element to
-> `TYPE="DOUBLE"` by hand. This combination is still being verified on the real controller -
-> see section 4.
+> `TYPE="DOUBLE"` by hand. This combination runs on a real controller, see section 4.
 
 Inputs come before the robot status fields (`ProgStatus.R`, `OvPro.R`), so every new input moves
 the status fields by one index. The RSI context must be rewired for this (2.3).
@@ -258,6 +257,9 @@ configured".
 | RSI stops right after activation ("Failed to receive motion state", "External control stopped") | the KUKA rejects the reply, e.g. ethernet config on the KUKA not updated, or `BOOL`/`DOUBLE` mismatch | message window on the pendant, file 2 on the KUKA |
 | Input/output values never change | wrong `$IN`/`$OUT` index or wiring in the `.rsix`, or a simulated signal still active | file 3, pendant I/O display |
 
-Status: the `gpio_51` configuration activates on a KR 210 R3100-2 (KSS 8.6, RSI 4.1). With the GPIO
-elements as `TYPE="DOUBLE"`, RSI stopped right after activation in the first test; the reason is
-still being checked on the pendant. Update this section once it is confirmed.
+Status: GPIO elements as `TYPE="DOUBLE"` on the KUKA with `double` GPIO interfaces in the robot
+description run on a KR 10 cell (Bosch gripper, digital outputs for suction and cylinders, sensor
+inputs). The `gpio_51` configuration activates on a KR 210 R3100-2 (KSS 8.6, RSI 4.1); there, RSI
+stopped right after activation in the first test with `TYPE="DOUBLE"`. If this happens, check the
+message window on the pendant and that the ethernet config on the KUKA was updated (row "RSI stops
+right after activation" above).

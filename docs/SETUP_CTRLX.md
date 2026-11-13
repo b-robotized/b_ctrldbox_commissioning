@@ -2,6 +2,9 @@
 
 For help with issues, refer to [Troubleshooting](#troubleshooting) at the end of this file.
 
+> You can also do all steps of this guide from your PC over the REST API, including the system app update: see [SETUP_CTRLX_REMOTE.md](SETUP_CTRLX_REMOTE.md).
+> The apps and versions that every box needs are in [REQUIRED_SNAPS.md](REQUIRED_SNAPS.md).
+
 ## 1. Network Connection
 
 1. Power on the ctrlX CORE device.
@@ -58,7 +61,8 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 ### Install Zenoh app
 
-If using **zenoh** as ROS 2 middleware, make sure to install the **zenoh router app** as well. The `jazzy` snap is [available here](https://cloud.b-robotized.com/s/XBSLmK3Cms9sW85).
+b»controlled box uses **zenoh** as ROS 2 middleware, so install the **zenoh router app** as well. The `jazzy` snap is [available here](https://cloud.b-robotized.com/s/XBSLmK3Cms9sW85).
+Install the apps in this order: `ros2-base-jazzy`, `zenohd-router-jazzy-binary`, `b-controlled-box-rt-jazzy`, `b-controlled-box-ui-jazzy` (see [REQUIRED_SNAPS.md](REQUIRED_SNAPS.md)).
 
 b»controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
 
@@ -98,9 +102,22 @@ You can configure the cycle time of this callable to match your robot's communic
 ***Important: Any changes made to the scheduler settings will only be applied to the control bundle after the device transitions from SERVICE mode to SETUP mode.***
 
 
-## 6. Add app License - TBA
+## 6. Set time and NTP
+
+1. Navigate to `Settings > Date & Time`.
+2. Select the time zone of the site.
+3. Switch on time synchronization and add the NTP servers: the ROS 2 PC and the commissioning container on the `XF10` network (default `192.168.28.201` and `192.168.28.202`, see [SETUP_NTP_SERVER.md](SETUP_NTP_SERVER.md)), and a public server (for example `ntp.ubuntu.com`) as fallback.
+4. Check that the device shows the time as synchronized.
+
+## 7. Add app License - TBA
 
 For now, official licensing is to be implemented
+
+## 8. Backup
+
+Make a full backup after commissioning and after every change, and keep it in a folder that you control.
+See [BACKUP_AND_TRANSFER.md](BACKUP_AND_TRANSFER.md).
+To move the application to another ctrlX CORE, see [MOVE_TO_ANOTHER_BOX.md](MOVE_TO_ANOTHER_BOX.md).
 
 # Troubleshooting
 

@@ -144,16 +144,45 @@ e.g. `AIPos.A1` → `joint_1/position`, `GearTorque.A1` → `joint_1/effort`, `M
 
 #### ctrlX CORE (b»Controlled Box)
 
-> ⚠️ The split launch files below (`publish_description.launch.py`, `spawn_controllers.launch.py`)
-> don't expose `rsi_xml_config_file` and the `read_*` arguments yet. Without the driver YAML, the
-> driver can't read the current telegram layout, so the configurations in this repository can't be
-> used on the ctrlX CORE until the driver supports these arguments there. Use the Linux PC setup
-> below in the meantime.
-
 > **Note:** On the ctrlX CORE we currently support only the `eki_rsi` driver version.
 
-> **Test steps:** for a step-by-step test on the ctrlX CORE with the single scenario launch file
-> (`scenario_eki_rsi.launch.xml`, with and without external axis), see [`TEST_CTRLX.md`](TEST_CTRLX.md).
+Upload the driver YAML to the ctrlX first, see [`TEST_CTRLX.md`](TEST_CTRLX.md), section 1.1.
+Then start everything with one launch file. It publishes the robot description, spawns the
+controllers (inactive) on the ctrlX controller manager and starts the `robot_manager` node:
+
+```bash
+ros2 launch kuka_rsi_driver scenario_eki_rsi.launch.xml \
+  robot_family:=agilus robot_model:=kr10_r900_2 controller_ip:=10.28.23.240 \
+  rsi_xml_config:=b_ctrldbox_rsi_xml_config.yaml \
+  read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true \
+  is_async:=true
+```
+
+Adjust `robot_family`/`robot_model` and `controller_ip` (KLI IP of the KUKA controller) to your
+setup. `client_ip` and `client_port` default to `10.23.23.28` and `28283`. All arguments, the
+external axis and the GPIO variant are described in [`TEST_CTRLX.md`](TEST_CTRLX.md), sections 2, 7
+and 8.
+
+⚠️ ***IMPORTANT:*** For real-time performance, switch the ctrlX controller to **OPERATIONAL** mode
+before activating.
+
+Wait about 10 seconds until the controllers are spawned, set the pendant to `EXT` mode (required
+for `eki_rsi`, no program selected), then:
+
+```bash
+ros2 lifecycle set /robot_manager configure
+ros2 lifecycle set /robot_manager activate
+```
+
+With `eki_rsi`, the EKI server selects and starts the RSI program automatically.
+
+<details>
+<summary><b>Advanced: separate launch files</b></summary>
+
+The same setup in separate steps, e.g. to restart only the robot manager or to publish the robot
+description on its own. To use the driver YAML here, add
+`rsi_xml_config_file:=/var/snap/rexroth-automationcore/common/solutions/activeConfiguration/b-controlled-box/<file name>`
+(the path on the ctrlX) and the `read_*` arguments to Step 1.
 
 **Step 1: Launch the robot driver.** This loads the robot description (URDF) and starts the RSI
 hardware interface. The arguments have the same meaning as in the Linux PC table below.
@@ -199,6 +228,8 @@ ros2 lifecycle set /robot_manager activate
 ```
 
 With `eki_rsi`, the EKI server selects and starts the RSI program automatically.
+
+</details>
 
 #### Linux PC (single launch file)
 

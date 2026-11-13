@@ -115,7 +115,22 @@ REST:
 
 The App Storage calls are not in the public OpenAPI description (Apps Management API 1.15.0); they are used by the ctrlX OS 4.6 web UI.
 
-## 5. Install the b»controlled box apps
+## 5. Set time and NTP
+
+Every b»controlled box uses NTP servers in the local network.
+Use the ROS 2 PC and the commissioning container on the `XF10` network (see [SETUP_NTP_SERVER.md](SETUP_NTP_SERVER.md)), and a public server as fallback if the device has internet access.
+Set the time zone of the site.
+
+```bash
+ctrlx-remote time set --servers 192.168.28.201 192.168.28.202 ntp.ubuntu.com --timezone Europe/Berlin
+ctrlx-remote time get    # "in sync: True"
+```
+
+REST: `PUT /system/api/v1/time/settings` with `{"timezone": "Europe/Berlin", "timeSynchronization": true, "ntpServers": ["192.168.28.201", "192.168.28.202"]}` (response `204`, no body).
+Read with `GET` on the same path.
+Sync state: `GET /automation/api/v2/nodes/system/time/synchronization/status/in-sync`.
+
+## 6. Install the b»controlled box apps
 
 Apps that are not signed by Bosch Rexroth need the setting "Allow installation from unknown sources".
 Set it in `Settings > Apps > Settings`, or with `PUT /package-manager/api/v1/settings` and `{"allowUnknownApps": true}`.
@@ -134,7 +149,7 @@ The tool checks that each file matches the architecture of the device.
 
 REST: `POST /package-manager/api/v1/packages` (multipart, field `file`) uploads and installs one app.
 
-## 6. Operation mode
+## 7. Operation mode
 
 ```bash
 ctrlx-remote mode get
@@ -148,7 +163,17 @@ Before OPERATING it always asks for confirmation, because then controllers can c
 REST: `PUT /automation/api/v2/nodes/scheduler/admin/state` with `{"type": "object", "value": {"state": "SETUP"}}`.
 Read the mode with `GET` on the same node.
 
-## 7. Other REST calls
+## 8. Check the setup
+
+```bash
+ctrlx-remote check <apps-folder>
+```
+
+The command compares the device with the [reference setup](REFERENCE_SETUP.md): versions, standard apps, RT bundle, NTP, time zone, free disk space, real-time cores and tasks, and network subnets.
+It only reads from the device.
+Fix every `FAIL` before operation.
+
+## 9. Other REST calls
 
 `ctrlx-remote raw <METHOD> <path> [--body '<json>']` sends one request with a valid token.
 Use it for diagnosis, for example:

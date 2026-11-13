@@ -11,6 +11,7 @@ Documentation and tools to commission b»controlled box: ROS 2 `ros2_control` in
 | `README.md` | Overview, compatibility, getting started |
 | `docs/SETUP_CTRLX.md` | ctrlX CORE setup with the web UI |
 | `docs/SETUP_CTRLX_REMOTE.md` | ctrlX CORE setup over the REST API (`ctrlx-remote`) |
+| `docs/REFERENCE_SETUP.md` | Definition of a good setup; `ctrlx-remote check` compares a device with it |
 | `docs/REQUIRED_SNAPS.md` | Apps and versions every box needs |
 | `docs/BACKUP_AND_TRANSFER.md` | Backup, restore, and the backup format |
 | `docs/MOVE_TO_ANOTHER_BOX.md` | Move the application from one ctrlX CORE to another |
@@ -26,9 +27,12 @@ Documentation and tools to commission b»controlled box: ROS 2 `ros2_control` in
 2. Device check and backup: `ctrlx-remote info`, `ctrlx-remote backup <dir>`.
 3. System app update: `ctrlx-remote system-apps update <apps-folder>` ([SETUP_CTRLX_REMOTE.md](docs/SETUP_CTRLX_REMOTE.md#4-update-the-system-apps)).
 4. b»controlled box apps: `ros2-base-jazzy`, `zenohd-router-jazzy-binary`, `b-controlled-box-rt-jazzy`, `b-controlled-box-ui-jazzy` ([REQUIRED_SNAPS.md](docs/REQUIRED_SNAPS.md)).
-5. Robot setup ([supported_robots/](docs/supported_robots/)).
-6. Scheduler, operation mode SETUP, check the controllers.
-7. Backup after commissioning; keep it in a folder that the customer controls.
+5. Time: NTP servers in the local network and the time zone of the site: `ctrlx-remote time set --servers <servers> --timezone <zone>`.
+6. Robot setup ([supported_robots/](docs/supported_robots/)).
+7. Scheduler: the b»controlled box task alone on one real-time core, other real-time tasks on the other one ([REFERENCE_SETUP.md](docs/REFERENCE_SETUP.md#3-real-time-cores-and-tasks)).
+8. Operation mode SETUP, check the controllers.
+9. `ctrlx-remote check <apps-folder>`: no `FAIL` ([REFERENCE_SETUP.md](docs/REFERENCE_SETUP.md)).
+10. Backup after commissioning; keep it in a folder that the customer controls.
 
 To move an existing application to a new box, follow [MOVE_TO_ANOTHER_BOX.md](docs/MOVE_TO_ANOTHER_BOX.md).
 

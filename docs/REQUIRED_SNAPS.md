@@ -42,7 +42,7 @@ These apps are installed on every b»controlled box and kept in the App Storage 
 | EtherCAT Master | `rexroth-ethercatmaster` | 4.6.0 | EtherCAT robots and I/O |
 | Firewall | `rexroth-firewall` | 4.6.4 | Engineering access to the robot, see [SETUP_ENGINEERING_ACCESS.md](SETUP_ENGINEERING_ACCESS.md) |
 | IXON Cloud Connector | `ctrlx-ixon-ixagent` | 0.1.21 | Remote support |
-| Base 22 | `core22` | 20260410 | Required by the IXON agent |
+| Base 22 | `core22` | 20260824 | Required by the IXON agent; not part of the ctrlX OS 4.6.6 system apps |
 
 ## b»controlled box apps
 

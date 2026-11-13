@@ -50,6 +50,19 @@ App Storage keeps only the part of a `.app` file for the device architecture.
 - Change one step at a time: OPERATING ↔ SETUP ↔ SERVICE (as the web UI does).
 - After a restart, the device starts in its startup mode (usually OPERATING), also during an update.
 
+## Time and NTP
+
+- Read: `GET /system/api/v1/time/settings` (`timezone`, `timeSynchronization`, `ntpServers`, `rtcOk`, poll intervals).
+- Write: `PUT` on the same path; response `204` with no body. Without `timestamp` the device does not change its clock by hand.
+- Sync state: `GET /automation/api/v2/nodes/system/time/synchronization/status/in-sync` (`true` a few seconds after a valid server is set).
+- A new device has time synchronization off, no NTP servers, and time zone UTC.
+
+## Real-time cores and scheduler tasks
+
+- Real-time cores: `GET /system/api/v1/settings/cpu` (`cores.coreN.realtime`).
+- Tasks: browse `scheduler/tasks` in the Data Layer; `scheduler/tasks/<name>/properties` has `cycletime` (µs), `priority`, and `affinity` (core).
+- The b»controlled box task is `bCtrldBox`; the EtherCAT I/O task is `ECATExtIOs`; `schedBackground` is not real-time.
+
 ## Backup and restore (Setup app, `/setup/api/v1`)
 
 - `POST /create` returns `201` with **no body**; the task ID is in the `Location` header (`/tasks/create_<id>`).

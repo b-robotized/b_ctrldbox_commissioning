@@ -87,6 +87,8 @@ Then continue with steps 7 to 10 of section 2.
 - [ ] The configuration is the same as on A: `configurations/active/b-controlled-box/` in a new backup of B has the same files as the backup of A.
 - [ ] The ROS 2 PC connects to the Zenoh router of B (see [SETUP_ZENOH.md](SETUP_ZENOH.md)).
 - [ ] The robot is reachable from B (`Settings > Network Diagnostics`).
+- [ ] NTP is on and in sync, time zone of the site (`ctrlx-remote time get`).
+- [ ] `ctrlx-remote check` shows no `FAIL` ([REFERENCE_SETUP.md](REFERENCE_SETUP.md)).
 - [ ] The controllers are active in SETUP; switch to OPERATING only when the cell is ready.
 - [ ] Make a full backup of B and store it with the backup of A.
 

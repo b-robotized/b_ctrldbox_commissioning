@@ -15,6 +15,7 @@ Details are in the docs; read the one you need, do not guess:
 | Backup format, restore, transfer | `docs/BACKUP_AND_TRANSFER.md` |
 | Move to another device | `docs/MOVE_TO_ANOTHER_BOX.md` |
 | API facts and known issues | `docs/CTRLX_REST_API_NOTES.md` |
+| Definition of a good setup | `docs/REFERENCE_SETUP.md` |
 | Commands | `tools/ctrlx_remote/README.md` |
 
 ## Setup
@@ -31,7 +32,8 @@ If the device does not answer but the web UI works in a browser: check `ip route
 
 ## Rules
 
-- Start read-only: `$CR info`, `$CR apps list`, `$CR system-apps check <apps-folder>`. Report, then ask.
+- Start read-only: `$CR check <apps-folder>` (reference setup), `$CR info`, `$CR apps list`. Report, then ask.
+- A device that runs a robot: only read. No backup either (it writes a file on the device), unless the user asks.
 - Ask the user before every change: install, update, remove, mode change, apply a backup, remove from App Storage, restart. An approval covers the plan you showed, not extra steps.
 - Never switch to OPERATING unless the user asks for that device. Leave devices in SERVICE and say so.
 - Make a backup before a change. Never commit backups, app files, or licenses.
@@ -59,6 +61,21 @@ $CR -y system-apps update <apps-folder> [--extra <core22.app>]   # after approva
 - IXON needs `core22`; pass it with `--extra` if it is not installed.
 - Automation Core update fails with "no space left" when b»controlled box RT is installed: backup → uninstall RT → update → install the same RT file again → compare `configurations/` of a new backup with the old one. Prefer: update system apps before installing RT.
 
+## Time and NTP (part of every commissioning)
+
+```bash
+$CR -y time set --servers <PC .201> <container .202> [ntp.ubuntu.com] --timezone <site zone>   # after approval
+$CR time get   # "in sync: True"
+```
+
+Default servers: `192.168.28.201`, `192.168.28.202` on the `XF10` network (`docs/SETUP_NTP_SERVER.md`); use the servers of the site network if it is different.
+A new device has NTP off and time zone UTC.
+
+## Real-time tasks
+
+The b»controlled box task `bCtrldBox` must have its real-time core alone; other real-time tasks (`ECATExtIOs`, PLC) go to the other real-time core.
+`$CR check` shows it (`RT task separation`). The tool does not change scheduler settings; tell the user the fix (`Settings > Scheduler > Configuration`, active at the next SERVICE → SETUP).
+
 ## Install b»controlled box apps
 
 ```bash
@@ -79,6 +96,10 @@ $CR_B -y transfer apply <clean.zip>
 
 Then check: bundle `framework/bundles/b»Controlled Box/state` is `Active`; `$CR_B info` shows B's own IP and host name; `configurations/active/b-controlled-box/` in a new backup of B equals A.
 Expected differences: `configuration.json`, `scheduler/autoconfig.json`, `trace/enablingstates_*.json`.
+
+## Finish
+
+Run `$CR check <apps-folder>`. No `FAIL` before operation; report each `warn`.
 
 ## After the work
 

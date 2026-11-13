@@ -158,6 +158,7 @@ ctrlx-remote raw GET /automation/api/v2/nodes/scheduler/admin/state
 ```
 
 The REST API descriptions are at <https://boschrexroth.github.io/rest-api-description/ctrlx-automation/ctrlx-core>.
+Facts that are not in these descriptions, and known issues, are in [CTRLX_REST_API_NOTES.md](CTRLX_REST_API_NOTES.md).
 
 ## Troubleshooting
 

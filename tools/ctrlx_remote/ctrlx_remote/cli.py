@@ -18,6 +18,7 @@ from .apps import STANDARD_APPS, plan_updates, read_app_file
 from .client import CtrlxClient, CtrlxError, Credentials, read_env_file
 from .transfer import plan as transfer_plan
 from .transfer import read_setup, sanitize
+from .reference import FAIL, WARN, check_device
 
 # Install order from the ctrlX OS 4.6.6 release notes; other apps follow.
 UPDATE_ORDER = (
@@ -281,6 +282,32 @@ def cmd_transfer(args: argparse.Namespace) -> None:
         _log("applied")
 
 
+def cmd_check(args: argparse.Namespace) -> None:
+    client = _client(args)
+    results = check_device(client, Path(args.apps_dir) if args.apps_dir else None)
+    for result in results:
+        print(f"  {result.status:5s} {result.item:24s} {result.detail}")
+    fails = sum(r.status == FAIL for r in results)
+    warns = sum(r.status == WARN for r in results)
+    print(f"{fails} failed, {warns} warning(s). Reference: docs/REFERENCE_SETUP.md")
+
+
+def cmd_time(args: argparse.Namespace) -> None:
+    client = _client(args)
+    if args.action == "set":
+        _confirm(args, f"Set NTP servers {args.servers} and time zone {args.timezone} on {client.credentials.host}?")
+        client.set_time_settings(args.servers, args.timezone)
+        for _ in range(30):  # first sync takes a few seconds
+            if client.ntp_in_sync():
+                break
+            time.sleep(2)
+    settings = client.time_settings()
+    print(f"time:         {settings.get('timestamp')} {settings.get('timezone')}")
+    print(f"NTP:          {'on' if settings.get('timeSynchronization') else 'off'}, servers: {', '.join(settings.get('ntpServers') or []) or '-'}")
+    print(f"in sync:      {client.ntp_in_sync()}")
+    print(f"RTC OK:       {settings.get('rtcOk')}")
+
+
 def cmd_raw(args: argparse.Namespace) -> None:
     client = _client(args)
     body = json.loads(args.body) if args.body else None
@@ -351,6 +378,19 @@ def build_parser() -> argparse.ArgumentParser:
     apply.add_argument("backup")
     apply.add_argument("--mode", choices=["merge", "restore"], default="merge")
     apply.set_defaults(func=cmd_transfer)
+
+    check = sub.add_parser("check", help="compare the device with the reference setup (read-only)")
+    check.add_argument("apps_dir", nargs="?", help="apps folder, to check the system app versions")
+    check.set_defaults(func=cmd_check)
+
+    time_cmd = sub.add_parser("time", help="time zone and NTP")
+    time_sub = time_cmd.add_subparsers(dest="action", required=True)
+    time_sub.add_parser("get").set_defaults(func=cmd_time)
+    time_set = time_sub.add_parser("set")
+    time_set.add_argument("--servers", nargs="+", required=True,
+                          help="NTP servers, e.g. 192.168.28.201 192.168.28.202")
+    time_set.add_argument("--timezone", required=True, help="IANA name, e.g. Europe/Berlin")
+    time_set.set_defaults(func=cmd_time)
 
     raw = sub.add_parser("raw", help="send one REST request (for diagnosis)")
     raw.add_argument("method")

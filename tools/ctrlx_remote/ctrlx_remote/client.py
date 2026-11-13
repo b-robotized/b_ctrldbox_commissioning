@@ -169,6 +169,49 @@ class CtrlxClient:
         result = self.get_json(f"{SYSTEM}/hostname")
         return result["hostname"] if isinstance(result, dict) else str(result)
 
+    def time_settings(self) -> dict[str, Any]:
+        return self.get_json(f"{SYSTEM}/time/settings")
+
+    def set_time_settings(
+        self, ntp_servers: list[str], timezone: str, synchronization: bool = True
+    ) -> dict[str, Any]:
+        """Set NTP servers, time synchronization, and time zone (no manual time)."""
+        current = self.time_settings()
+        body = {
+            "timezone": timezone,
+            "timeSynchronization": synchronization,
+            "ntpServers": ntp_servers,
+            "ntpMinPollInterval": current.get("ntpMinPollInterval", 5),
+            "ntpMaxPollInterval": current.get("ntpMaxPollInterval", 11),
+            "persistenceInterval": current.get("persistenceInterval", 360),
+        }
+        self.request("PUT", f"{SYSTEM}/time/settings", json=body)  # 204, no body
+        return self.time_settings()
+
+    def ntp_in_sync(self) -> bool | None:
+        try:
+            return bool(self.datalayer_read("system/time/synchronization/status/in-sync")["value"])
+        except CtrlxError:
+            return None
+
+    def data_disk(self) -> dict[str, Any] | None:
+        """The data partition (`ubuntu-data` or `ubuntu-data-enc`) with size and used bytes."""
+        media = self.get_json("/storage/api/v1/media")
+        return next((m for m in media if str(m.get("label", "")).startswith("ubuntu-data")), None)
+
+    def network_addresses(self) -> dict[str, list[dict[str, Any]]]:
+        return self.get_json("/network-manager/api/v1/addresses")
+
+    def cpu_settings(self) -> dict[str, Any]:
+        return self.get_json(f"{SYSTEM}/settings/cpu")
+
+    def scheduler_tasks(self) -> dict[str, dict[str, Any]]:
+        """Real-time tasks of the scheduler with their properties (cycle time, priority, core)."""
+        tasks = {}
+        for name in self.datalayer_browse("scheduler/tasks"):
+            tasks[name] = self.datalayer_read(f"scheduler/tasks/{name}/properties")["value"]
+        return tasks
+
     # -- Data Layer ----------------------------------------------------------
 
     def datalayer_read(self, node: str) -> Any:

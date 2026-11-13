@@ -20,6 +20,7 @@ from mcp.server.fastmcp import FastMCP
 from .apps import STANDARD_APPS, plan_updates, read_app_file
 from .cli import UPDATE_ORDER
 from .client import CtrlxClient, CtrlxError, Credentials, read_env_file
+from .reference import check_device
 
 server = FastMCP("ctrlx")
 _config: dict[str, Any] = {"devices_dir": Path("~/.config/b-ctrldbox").expanduser(), "allow_write": False}
@@ -91,6 +92,23 @@ def check_updates(device: str, apps_dir: str) -> dict[str, Any]:
                      "file": str(i.app.path)}
     return {"deviceType": dtype, "systemApps": [row(i) for i in system],
             "standardApps": [row(i) for i in standard], "standardAppNames": list(STANDARD_APPS)}
+
+
+@server.tool()
+def check_setup(device: str, apps_dir: str | None = None) -> list[dict[str, str]]:
+    """Compare the device with the reference setup (docs/REFERENCE_SETUP.md). Read-only.
+    status: ok, warn, FAIL, info."""
+    results = check_device(_client(device), Path(apps_dir) if apps_dir else None)
+    return [{"status": r.status, "item": r.item, "detail": r.detail} for r in results]
+
+
+@server.tool()
+def set_time(device: str, ntp_servers: list[str], timezone: str) -> dict[str, Any]:
+    """Set NTP servers and time zone, switch on time synchronization. Needs --allow-write."""
+    _require_write()
+    client = _client(device)
+    settings = client.set_time_settings(ntp_servers, timezone)
+    return {**settings, "inSync": client.ntp_in_sync()}
 
 
 @server.tool()

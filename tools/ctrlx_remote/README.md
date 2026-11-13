@@ -34,6 +34,8 @@ ctrlx-remote --env-file ~/.config/b-ctrldbox/box1.env <command>
 | Command | Action | Changes the device |
 |---|---|---|
 | `info` | ctrlX OS version, architecture, mode, free disk space | no |
+| `check [<apps-folder>]` | compare the device with the reference setup (`docs/REFERENCE_SETUP.md`) | no |
+| `time get` / `time set --servers <s>... --timezone <zone>` | time zone and NTP | `set`: yes |
 | `apps list` | installed apps and App Storage content | no |
 | `system-apps check <apps-folder>` | outdated system apps and missing standard apps | no |
 | `system-apps stage <apps-folder>` | upload them to App Storage | yes |
@@ -61,8 +63,8 @@ Each `<name>.env` file in the devices folder is one device; tools take the devic
 
 | Tool | Write |
 |---|---|
-| `list_devices`, `device_info`, `list_apps`, `check_updates`, `read_datalayer` | no |
-| `set_mode`, `update_apps`, `create_backup` | only with `--allow-write` |
+| `list_devices`, `device_info`, `list_apps`, `check_updates`, `check_setup`, `read_datalayer` | no |
+| `set_mode`, `set_time`, `update_apps`, `create_backup` | only with `--allow-write` |
 
 Add it to Claude Code:
 

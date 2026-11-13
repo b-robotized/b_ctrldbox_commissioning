@@ -83,7 +83,7 @@ manager `/b_controlled_box_cm` and starts the `robot_manager` lifecycle node.
 | :------- | :------ |
 | `robot_family`, `robot_model` | robot description to load, e.g. `quantec` / `kr210_r3100_2` |
 | `controller_ip` | KLI IP of the KUKA controller (EKI server, TCP port `54600`) |
-| `rsi_xml_config` | file name of the driver YAML on the ctrlX. Empty = driver defaults (joint positions and Cartesian pose only) |
+| `rsi_xml_config` | file name of the driver YAML on the ctrlX. Empty = default layout: joint positions, Cartesian pose and GPIOs only (see [`LAUNCH.md`](LAUNCH.md), section 1) |
 | `read_robot_status` | adds the `robot_status` sensor (program state, speed scaling) |
 | `read_cartesian_pose` | adds the actual TCP pose and spawns `cartesian_pose_broadcaster` |
 | `read_cartesian_setpoint` | adds the setpoint TCP pose and spawns `cartesian_setpoint_broadcaster` |

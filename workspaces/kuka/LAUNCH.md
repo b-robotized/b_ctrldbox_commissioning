@@ -26,7 +26,7 @@ match each other:
 | **Ethernet config** `b_ctrldbox_rsi_eth.xml` | robot controller, `C:\KRC\ROBOTER\Config\User\Common\SensorInterface\` (source: `kss_deployment/.../SensorInterface/common/<config>/`) | RSI on the controller | IP/port of the driver and the **telegram layout**: which XML tags are sent (`SEND`) and received (`RECEIVE`), and the Ethernet port (`INDX`) each tag is connected to |
 | **RSI context** `b_ctrldbox_rsi.rsix` | robot controller, same folder (source: `kss_deployment/.../SensorInterface/rsi_<version>/<config>/`) | RSI on the controller | the **signal flow** on the controller: RSI objects (joint corrections, stop, I/O, torque, ...) and which Ethernet port each object reads from or writes to. Tags with `INDX="INTERNAL"` (`DEF_*`) are built-ins and need no wiring |
 | **RSI program** `rsi_joint_pos_4ms.src` | robot controller, `KRC:\R1\Program\b_ctrldbox\` (source: `kss_deployment/KRC/R1/Program/RSI_kss/`) | KRL interpreter | loads the context (`RSI_CREATE("b_ctrldbox_rsi", ...)`) and starts the sensor-guided motion (`RSI_MOVECORR()`) |
-| **Driver YAML** | ROS side, `workspaces/kuka/rsi_xml_config/<config>.yaml` | `kuka_rsi_driver` (`rsi_xml_config_file:=...`) | the telegram layout as seen by the driver, and which ROS interface each value goes to. **Required for all configurations** - it is also the source the ethernet config is generated from (section 5) |
+| **Driver YAML** | ROS side, `workspaces/kuka/rsi_xml_config/<config>.yaml` | `kuka_rsi_driver` (`rsi_xml_config_file:=...`) | the telegram layout as seen by the driver, and which ROS interface each value goes to. **Required for all configurations in this repository**, because they send more than the default layout (see below) - it is also the source the ethernet config is generated from (section 5) |
 | **Robot description** (URDF, `ros2_control` part) | ROS side, `kuka_robot_descriptions` + `kuka_rsi_driver/config/gpio_config.xacro` | `ros2_control` | the state/command interfaces the driver exports (joints, GPIOs, sensors) |
 
 How the files work together, for one value:
@@ -39,6 +39,21 @@ DigIn $IN[132] --(.rsix)--> Ethernet port 7 --(eth.xml: INDX="7")--> <GPIO input
 The ethernet config, the context and the driver must always describe the **same** layout -
 always deploy the `.rsix` and the ethernet config from the same configuration, and use the
 matching driver settings.
+
+**Without a driver YAML** (`rsi_xml_config_file` / `rsi_xml_config` empty), the driver expects the
+default layout:
+
+| Direction | Default telegram |
+| :-------- | :--------------- |
+| controller → driver | `<RIst …/>` (Cartesian pose), `<AIPos A1..A6/>`, `<EIPos E1..E6/>`, `<GPIO …/>`, `<Delay D/>`, `<IPOC>` |
+| driver → controller | `<Stop>`, `<AK A1..A6/>`, `<EK E1..E6/>`, `<GPIO …/>`, `<IPOC>` |
+
+The `<GPIO>` attribute names are the GPIO interface names from the robot description, in the same
+order. So a controller-side config that sends exactly these tags, with GPIOs named like the
+`gpio_config.xacro` interfaces, works without a driver YAML. The YAML is needed for anything else:
+torques, motor currents, setpoint positions, program status, the setpoint pose (`RSol`), velocity
+or torque commands, other tag names or another field order. The driver warns at startup ("... is
+not configured in RSI XML") when the robot description exports such an interface without it.
 
 ---
 
@@ -255,7 +270,7 @@ ros2 launch kuka_rsi_driver startup.launch.py \
 | `client_port` [`59152`] | UDP port for RSI. Must match `PORT` in the ethernet config (`28283` in this repository) |
 | `controller_ip` [`0.0.0.0`] | KLI IP of the robot controller - only used with `eki_rsi`/`mxa_rsi` |
 | `verify_robot_model` [`true`] | with `eki_rsi`/`mxa_rsi`: check that the robot model reported by the controller matches `robot_model` |
-| `rsi_xml_config_file` [empty] | **absolute** path to `rsi_xml_config/b_ctrldbox_rsi_xml_config.yaml`, with the lines of the deployed configuration uncommented (section 5). Empty = driver defaults (basic layout only) |
+| `rsi_xml_config_file` [empty] | **absolute** path to `rsi_xml_config/b_ctrldbox_rsi_xml_config.yaml`, with the lines of the deployed configuration uncommented (section 5). Empty = default layout: joint positions, Cartesian pose and GPIOs only (section 1) |
 | `use_gpio` [`false`] | `true` adds the GPIO interfaces (`gpio_config.xacro`) and the `gpio_controller` - required for the GPIO configuration |
 | `use_external_axis` [`false`] | `true` composes the robot with a KUKA linear unit at launch time and adds the external joint - required for the External Axis configuration |
 | `kl_model` [`kl100_2`] | linear unit model used with `use_external_axis:=true` |

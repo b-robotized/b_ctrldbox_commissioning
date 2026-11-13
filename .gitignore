@@ -1,0 +1,14 @@
+# ctrlX backups contain password hashes and keys
+*ctrlx-backup*.zip
+# App and license files are distributed separately
+*.snap
+*.app
+*.bin
+# Device settings with passwords
+*.env
+!comissioning.env.example
+# Python
+__pycache__/
+*.egg-info/
+build/
+.pytest_cache/

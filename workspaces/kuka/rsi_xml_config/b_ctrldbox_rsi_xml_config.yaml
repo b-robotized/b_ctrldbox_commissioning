@@ -1,0 +1,114 @@
+# RSI XML message configuration for kuka_rsi_driver (RSI 4.1.x / KSS 8.6).
+#
+# Describes which values the RSI telegram contains and which ROS 2 interface each one goes to.
+# Pass it to the driver with `rsi_xml_config_file:=<absolute path to this file>`.
+#
+# One file for all three configurations. The Standard configuration is active; the lines for
+# the External Axis and GPIO configurations are commented out and tagged with EXT_AXIS or GPIO
+# in square brackets at the end of the line. Enable at most one of them - there is no .rsix
+# shipped for External Axis + GPIO together.
+#
+#  Configuration   Uncomment tag   Deploy to the controller (kss_deployment/Config/User/Common/SensorInterface/)   Extra launch arguments
+#  -------------   -------------   ------------------------------------------------------------------------------   --------------------------------------------------------
+#  Standard        nothing         common/b_ctrldbox_rsi_eth.xml           + rsi_4.1.x/b_ctrldbox_rsi.rsix           -
+#  External Axis   EXT_AXIS        common/ext_axis/b_ctrldbox_rsi_eth.xml  + rsi_4.1.x/ext_axis/b_ctrldbox_rsi.rsix  use_external_axis:=true kl_model:=kl100_2 kl_prefix:=rail_
+#  GPIO            GPIO            common/gpios/b_ctrldbox_rsi_eth.xml     + rsi_4.1.x/gpios/b_ctrldbox_rsi.rsix     use_gpio:=true (GPIO names must match gpio_config.xacro)
+#
+# To uncomment a tagged line, remove the first "# " (keep the indentation), e.g. with
+#   sed -i '/\[EXT_AXIS\]/s/# //' b_ctrldbox_rsi_xml_config.yaml
+# deploy.bat options 1/2/3 copy exactly these file pairs.
+#
+# This file is also the single source of truth for the ethernet config. After changing it,
+# regenerate the matching file instead of editing it by hand, e.g. for the Standard configuration:
+#
+#   ros2 run kuka_rsi_driver generate_krc_rsi_config.py --config b_ctrldbox_rsi_xml_config.yaml \
+#     --client-ip 10.23.23.28 --client-port 28283 \
+#     --output ../kss_deployment/Config/User/Common/SensorInterface/common/b_ctrldbox_rsi_eth.xml
+#
+# Elements without an INDX in the generated file ("DEF_*") are KRC built-ins. Elements with an
+# INDX must be wired to that Ethernet_1 port in the .rsix - if the indices change, rewire the
+# context in RSI Visual.
+
+rsi_xml_config:
+  motion_state:                    # robot -> PC
+    cartesian:                     # actual TCP pose (active $TOOL in active $BASE) -> read_cartesian_pose:=true
+      enabled: true
+      xml_element: RIst            # DEF_RIst, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    cartesian_setpoint:            # setpoint pose -> read_cartesian_setpoint:=true
+      enabled: true                # disabled by default, must be set explicitly
+      xml_element: RSol            # DEF_RSol, built-in
+      xml_attributes: [X, Y, Z, A, B, C]
+    joints:
+      # One entry per joint in every list. The external joint is named rail_joint_1
+      # (use_external_axis:=true with kl_prefix:=rail_) - adapt it if you change kl_prefix.
+      positions:                   # DEF_AIPos / DEF_EIPos, built-in -> joint "position" state interface
+        - {joint_identifier: joint_1, xml_element: AIPos, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: AIPos, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: AIPos, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: AIPos, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: AIPos, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: AIPos, xml_attribute: A6}
+        # - {joint_identifier: rail_joint_1, xml_element: EIPos, xml_attribute: E1}            # [EXT_AXIS] DEF_EIPos
+      currents:                    # motor currents, DEF_MACur / DEF_MECur, built-in -> joint "current" state interface
+        - {joint_identifier: joint_1, xml_element: MACur, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: MACur, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: MACur, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: MACur, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: MACur, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: MACur, xml_attribute: A6}
+        # - {joint_identifier: rail_joint_1, xml_element: MECur, xml_attribute: E1}            # [EXT_AXIS] DEF_MECur
+      torques:                     # GearTorque_1 (Measured, Gear) -> INDX 1-6 -> joint "effort" state interface
+        - {joint_identifier: joint_1, xml_element: GearTorque, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: GearTorque, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: GearTorque, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: GearTorque, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: GearTorque, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: GearTorque, xml_attribute: A6}
+        # - {joint_identifier: rail_joint_1, xml_element: GearTorqueExt, xml_attribute: E1}    # [EXT_AXIS] GearTorqueExt_1 -> INDX 7
+      setpoint_positions:          # axis-specific setpoints, DEF_ASPos / DEF_ESPos, built-in -> joint "position_setpoint" state interface
+        - {joint_identifier: joint_1, xml_element: ASPos, xml_attribute: A1}
+        - {joint_identifier: joint_2, xml_element: ASPos, xml_attribute: A2}
+        - {joint_identifier: joint_3, xml_element: ASPos, xml_attribute: A3}
+        - {joint_identifier: joint_4, xml_element: ASPos, xml_attribute: A4}
+        - {joint_identifier: joint_5, xml_element: ASPos, xml_attribute: A5}
+        - {joint_identifier: joint_6, xml_element: ASPos, xml_attribute: A6}
+        # - {joint_identifier: rail_joint_1, xml_element: ESPos, xml_attribute: E1}            # [EXT_AXIS] DEF_ESPos
+    robot_status:                  # Status_1 (ProState_R) / OV_PRO_1 -> read_robot_status:=true
+      # INDX in the generated file: 7/8 (Standard), 8/9 (External Axis), 15/16 (GPIO)
+      program_state: {xml_element: ProgStatus, xml_attribute: R, type: LONG}  # $PRO_STATE1
+      speed_scaling: {xml_element: OvPro, xml_attribute: R}                   # $OV_PRO
+    # gpio:                        # [GPIO] digital inputs -> INDX 7-14 (DigIn $IN[132..139])
+    #   xml_element: GPIO          # [GPIO]
+    #   xml_attributes:            # [GPIO] names = gpio state interfaces in gpio_config.xacro
+    #     - input_01               # [GPIO] $IN[132]
+    #     - input_02               # [GPIO] $IN[133]
+    #     - input_03               # [GPIO] $IN[134]
+    #     - input_04               # [GPIO] $IN[135]
+    #     - input_05               # [GPIO] $IN[136]
+    #     - input_06               # [GPIO] $IN[137]
+    #     - input_07               # [GPIO] $IN[138]
+    #     - input_08               # [GPIO] $IN[139]
+
+  control_signal:                  # PC -> robot
+    joints:                        # joint corrections AK.A1-A6 -> AxisCorr_1 (INDX 2-7, INDX 1 = Stop)
+      xml_element: AK
+      xml_attributes: [A1, A2, A3, A4, A5, A6]
+    # ext_joints:                  # [EXT_AXIS] external axis correction EK.E1 -> AxisCorrExt_1 (INDX 8)
+    #   xml_element: EK            # [EXT_AXIS]
+    #   xml_attributes: [E1]       # [EXT_AXIS]
+    # gpio:                        # [GPIO] digital outputs -> INDX 8-19 (Map2DigOut)
+    #   xml_element: GPIO          # [GPIO]
+    #   xml_attributes:            # [GPIO] names = gpio command interfaces in gpio_config.xacro
+    #     - output_01              # [GPIO] $OUT[33]
+    #     - output_02              # [GPIO] $OUT[34]
+    #     - output_03              # [GPIO] $OUT[35]
+    #     - output_04              # [GPIO] $OUT[36]
+    #     - output_05              # [GPIO] $OUT[39]
+    #     - output_06              # [GPIO] $OUT[40]
+    #     - output_07              # [GPIO] $OUT[41]
+    #     - output_08              # [GPIO] $OUT[42]
+    #     - output_09              # [GPIO] $OUT[43]
+    #     - output_10              # [GPIO] $OUT[44]
+    #     - output_11              # [GPIO] $OUT[45]
+    #     - output_12              # [GPIO] $OUT[46]

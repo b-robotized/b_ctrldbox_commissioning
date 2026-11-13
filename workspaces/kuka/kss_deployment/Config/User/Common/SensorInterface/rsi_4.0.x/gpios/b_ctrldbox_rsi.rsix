@@ -91,7 +91,7 @@
             <Parameter IsRuntime="false" Name="Channel" ParamId="1" ParamValue="1" />
          </Parameters>
       </RsiObject>
-      <!-- DigIn objects: reed contact feedback $IN[132..139] -->
+      <!-- DigIn objects: digital inputs $IN[132..139] -->
       <RsiObject ObjTypeId="29" ObjType="DigIn" ObjId="DigIn_132">
          <Parameters>
             <Parameter Name="Index" ParamId="0" ParamValue="132" />
@@ -140,7 +140,7 @@
             <Parameter Name="DataType" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>
-      <!-- Map2DigOut objects: ejectors $OUT[33..36] -->
+      <!-- Map2DigOut objects: digital outputs $OUT[33..36] -->
       <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_33">
          <Inputs>
             <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="7" />
@@ -177,7 +177,7 @@
             <Parameter Name="DataType" ParamId="1" ParamValue="0" />
          </Parameters>
       </RsiObject>
-      <!-- Map2DigOut objects: cylinder valves $OUT[39..46] -->
+      <!-- Map2DigOut objects: digital outputs $OUT[39..46] -->
       <RsiObject ObjTypeId="14" ObjType="Map2DigOut" ObjId="Map2DigOut_39">
          <Inputs>
             <Input InIdx="0" OutObjId="Ethernet_1" OutIdx="11" />

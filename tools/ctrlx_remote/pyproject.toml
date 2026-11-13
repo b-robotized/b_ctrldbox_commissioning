@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ctrlx-remote"
+version = "0.1.0"
+description = "Remote commissioning of b»controlled boxes on ctrlX OS devices over the REST API"
+requires-python = ">=3.10"
+dependencies = ["requests>=2.28"]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.2"]
+
+[project.scripts]
+ctrlx-remote = "ctrlx_remote.cli:main"
+ctrlx-mcp = "ctrlx_remote.mcp_server:main"

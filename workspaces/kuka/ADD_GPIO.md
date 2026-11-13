@@ -43,7 +43,7 @@ $IN[52] --(.rsix: DigIn_52)--> Ethernet input 8 --(eth.xml: INDX="8")--> <GPIO i
 
 ## 2. Step by step
 
-Make the changes in this order. The ethernet config is generated from the driver YAML, and the
+Make the changes in this order. The ethernet config follows the order of the driver YAML, and the
 `.rsix` wiring depends on the indices in the ethernet config.
 
 ### 2.1 Driver YAML (file 1)
@@ -72,58 +72,82 @@ rsi_xml_config:
 The order of `motion_state.gpio.xml_attributes` must be the order of the state interfaces in
 `gpio_config.xacro` (2.4).
 
-### 2.2 Ethernet config (file 2)
+### 2.2 Ethernet config and RSI context with an AI agent (files 2 and 3)
 
-Regenerate it from the YAML rather than editing it by hand. The generator assigns the indices:
+Both files are plain XML. Let a coding agent (e.g. Claude Code) update them from the driver YAML,
+using the existing `gpio_51` files as the template. No WorkVisual / RSI Visual is needed to edit
+them. Start the agent in the `b_ctrldbox_commissioning` folder and give it this prompt (adjust the
+names and signals):
 
-```bash
-cd b_ctrldbox_commissioning/workspaces/kuka
-ros2 run kuka_rsi_driver generate_krc_rsi_config.py \
-  --config rsi_xml_config/b_ctrldbox_rsi_xml_config_gpio_51.yaml \
-  --client-ip 10.23.23.28 --client-port 28283 \
-  --output kss_deployment/Config/User/Common/SensorInterface/common/gpio_51/b_ctrldbox_rsi_eth.xml
+```text
+In workspaces/kuka, I added input_02 ($IN[52]) and output_02 ($OUT[52]) to
+rsi_xml_config/b_ctrldbox_rsi_xml_config_gpio_51.yaml. Update the two KUKA RSI files of the
+gpio_51 configuration in kss_deployment/Config/User/Common/SensorInterface/ to match it:
+
+1. common/gpio_51/b_ctrldbox_rsi_eth.xml (ethernet config):
+   - add one ELEMENT per new GPIO: inputs in <SEND>, outputs in <RECEIVE> with HOLDON="1",
+     TAG="GPIO.<name>" and TYPE="DOUBLE" like the existing GPIO elements;
+   - keep the order of the driver YAML: GPIO inputs come before ProgStatus.R and OvPro.R, so
+     renumber the INDX of every element after them.
+2. rsi_4.1.x/gpio_51/b_ctrldbox_rsi.rsix (RSI context):
+   - add a DigIn object (Index = 52) connected to the Ethernet_1 input of the new input, and a
+     Map2DigOut object (Index = 52) fed from the Ethernet_1 output of the new output;
+   - reconnect every existing object whose INDX moved (Status_1, OV_PRO_1);
+   - Ethernet_1 ports in the .rsix are 0-based: INDX n in the ethernet config = InIdx/OutIdx n-1;
+   - copy the structure of DigIn_51 / Map2DigOut_51, use unique ObjIds, keep the UTF-8 BOM and
+     the CRLF line endings.
+Don't change anything else. Then show me a table of every Ethernet element with its old INDX,
+new INDX and the .rsix object it is connected to.
 ```
 
-Result (only the changed part):
+Expected ethernet config (only the changed part):
 
 ```xml
 <SEND>
   ...
-  <ELEMENT TAG="GPIO.input_01" TYPE="BOOL"   INDX="7"/>
-  <ELEMENT TAG="GPIO.input_02" TYPE="BOOL"   INDX="8"/>              <!-- new -->
+  <ELEMENT TAG="GPIO.input_01" TYPE="DOUBLE" INDX="7"/>
+  <ELEMENT TAG="GPIO.input_02" TYPE="DOUBLE" INDX="8"/>              <!-- new -->
   <ELEMENT TAG="ProgStatus.R"  TYPE="LONG"   INDX="9"/>              <!-- moved from 8 -->
   <ELEMENT TAG="OvPro.R"       TYPE="DOUBLE" INDX="10"/>             <!-- moved from 9 -->
   ...
 </SEND>
 <RECEIVE>
   ...
-  <ELEMENT TAG="GPIO.output_01" TYPE="BOOL" INDX="8" HOLDON="1"/>
-  <ELEMENT TAG="GPIO.output_02" TYPE="BOOL" INDX="9" HOLDON="1"/>    <!-- new -->
+  <ELEMENT TAG="GPIO.output_01" TYPE="DOUBLE" INDX="8" HOLDON="1"/>
+  <ELEMENT TAG="GPIO.output_02" TYPE="DOUBLE" INDX="9" HOLDON="1"/>    <!-- new -->
 </RECEIVE>
 ```
 
-> ⚠️ **GPIO data type.** The generator writes `TYPE="BOOL"` for GPIOs. The robot description
-> declares the GPIOs as `double` (see 2.4), and the driver then sends output values as
-> `1.0000` / `0.0000`. The `gpio_51` configuration in this repository therefore uses
-> `TYPE="DOUBLE"` for its GPIO elements. After regenerating, change every `GPIO.` element to
-> `TYPE="DOUBLE"` by hand. This combination runs on a real controller, see section 4.
-
 Inputs come before the robot status fields (`ProgStatus.R`, `OvPro.R`), so every new input moves
-the status fields by one index. The RSI context must be rewired for this (2.3).
+the status fields by one index, and the RSI context must be reconnected for them too.
 
-### 2.3 RSI context (file 3)
+> ⚠️ **GPIO data type.** Use `TYPE="DOUBLE"` for the GPIO elements. The robot description declares
+> the GPIOs as `double` (see 2.4), and the driver sends output values as `1.0000` / `0.0000`. This
+> combination runs on a real controller, see section 4.
 
-Open `rsi_4.1.x/gpio_51/b_ctrldbox_rsi.rsix` in WorkVisual / RSI Visual and:
+### 2.3 Check the agent's result (files 2 and 3)
 
-- **input:** add a `DigIn` object with `Index = 52` and connect its output to `Ethernet_1`
-  **input 8**;
-- **status:** move `Status_1` to `Ethernet_1` **input 9** and `OV_PRO_1` to **input 10** (they moved
-  in 2.2);
-- **output:** add a `Map2DigOut` object with `Index = 52` and connect `Ethernet_1` **output 9** to
-  its input.
+The agent can make mistakes, and a wrong index switches the wrong output or makes the KUKA reject
+the telegram. Check before deploying:
 
-The Ethernet port numbers are the `INDX` values from the regenerated ethernet config. Save the
-context and keep both files in the `gpio_51` folders.
+- **Ethernet config:** the order of the `GPIO.` elements is the order in the driver YAML, and the
+  `INDX` values have no gaps or duplicates.
+- **RSI context:** for this example, `Ethernet_1` must be connected like this (`.rsix` index =
+  `INDX` - 1):
+
+  | Object | Ethernet config | `.rsix` connection |
+  | :----- | :-------------- | :----------------- |
+  | `DigIn_52` (`Index = 52`) | `GPIO.input_02`, `INDX="8"` | `Ethernet_1` `InIdx="7"` |
+  | `Status_1` | `ProgStatus.R`, `INDX="9"` | `Ethernet_1` `InIdx="8"` |
+  | `OV_PRO_1` | `OvPro.R`, `INDX="10"` | `Ethernet_1` `InIdx="9"` |
+  | `Map2DigOut_52` (`Index = 52`) | `GPIO.output_02`, `INDX="9"` | `OutIdx="8"` from `Ethernet_1` |
+
+- **Only these two files changed:** `git diff --stat`.
+- **Opens in RSI Visual:** recommended. Open the `.rsix` once in WorkVisual / RSI Visual and check
+  that it loads and shows the new connections.
+
+Keep both files in the `gpio_51` folders. For RSI 3.3.x, the RSI context consists of three files
+(`.rsi`, `.rsi.xml`, `.rsi.diagram`): name all three in the prompt.
 
 ### 2.4 Robot description (file 4)
 

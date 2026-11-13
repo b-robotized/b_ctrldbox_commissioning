@@ -48,7 +48,7 @@ echo Select RSI configuration:
 echo   1. Standard (6 robot axes only)
 echo   2. External Axis (6 robot axes + external axes support)
 echo   3. GPIO (6 robot axes + GPIO support)
-echo   4. GPIO 51 test (6 robot axes + $IN[51] and $OUT[51], RSI 4.1.x only)
+echo   4. GPIO 51 test (6 robot axes + $IN[51] and $OUT[51], RSI 3.3.x and 4.1.x)
 echo.
 set /p rsi_config="Enter selection (1/2/3/4): "
 
@@ -70,12 +70,19 @@ if "!rsi_config!"=="2" (
     echo Selected: Standard configuration
 )
 
-REM The shared ethernet configs (common\) match the RSI 4.1.x contexts only.
-REM The RSI 3.3.x / 4.0.x contexts have not been updated to the current message layout yet.
-if not "!KSS_VERSION_DIR!"=="rsi_4.1.x" (
+REM Status of the RSI contexts against the shared ethernet configs (common\):
+REM   RSI 4.1.x: matches, tested on a real controller.
+REM   RSI 3.3.x: ported from the 4.1.x contexts, matches, not yet tested on a real controller.
+REM   RSI 4.0.x: not updated to the current message layout yet.
+if "!KSS_VERSION_DIR!"=="rsi_3.3.x" (
     echo.
-    echo WARNING: The ethernet configuration in common\ matches the RSI 4.1.x contexts only.
-    echo          The !KSS_VERSION_DIR! context does not contain the objects it expects
+    echo NOTE: The RSI 3.3.x contexts were ported from the RSI 4.1.x contexts and are not yet
+    echo       tested on a real controller - see RSI_CONFIGURATIONS.md.
+)
+if "!KSS_VERSION_DIR!"=="rsi_4.0.x" (
+    echo.
+    echo WARNING: The ethernet configuration in common\ doesn't match the RSI 4.0.x contexts.
+    echo          They don't contain the objects it expects
     echo          ^(GearTorque, Status, OV_PRO^) - see RSI_CONFIGURATIONS.md.
     set /p old_confirm="Deploy anyway? (Y/N): "
     if /i not "!old_confirm!"=="Y" (
@@ -102,6 +109,15 @@ if "!RSI_VARIANT!"=="" (
     set "SRC_RSI_CONFIG=Config\User\Common\SensorInterface\!KSS_VERSION_DIR!\!RSI_VARIANT!"
 )
 set "DST_RSI_CONFIG=C:\KRC\ROBOTER\Config\User\Common\SensorInterface"
+
+REM Not every configuration exists for every RSI version (e.g. GPIO 51 test for RSI 4.0.x)
+if not exist "!SRC_RSI_CONFIG!\" (
+    echo.
+    echo ERROR: !SRC_RSI_CONFIG! does not exist.
+    echo        This configuration is not available for !KSS_VERSION_DIR! - see RSI_CONFIGURATIONS.md.
+    pause
+    exit /b 1
+)
 
 set "SRC_RSI_PROGRAM=KRC\R1\Program\RSI_kss"
 

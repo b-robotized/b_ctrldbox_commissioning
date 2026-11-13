@@ -65,14 +65,16 @@ is used.
 
 ## 2. Launch
 
-Adjust `robot_family`, `robot_model`, `controller_ip` (KLI IP of the KUKA controller) and
-`rsi_xml_config` (file name on the ctrlX) to your setup:
+Run the launch in the commissioning container. `controllers_dir` points to the
+`scenario_controllers.yaml` you uploaded to the ctrlX. Adjust `robot_family`, `robot_model`, `controller_ip` (KLI IP of the KUKA controller)
+and `rsi_xml_config` (file name on the ctrlX) to your setup:
 
 ```bash
 ros2 launch kuka_rsi_driver scenario_eki_rsi.launch.xml \
   robot_family:=quantec robot_model:=kr210_r3100_2 controller_ip:=172.31.1.178 \
   rsi_xml_config:=b_ctrldbox_rsi_xml_config2.yaml \
   read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true \
+  controllers_dir:=/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning \
   is_async:=true
 ```
 
@@ -84,6 +86,7 @@ manager `/b_controlled_box_cm` and starts the `robot_manager` lifecycle node.
 | `robot_family`, `robot_model` | robot description to load, e.g. `quantec` / `kr210_r3100_2` |
 | `controller_ip` | KLI IP of the KUKA controller (EKI server, TCP port `54600`) |
 | `rsi_xml_config` | file name of the driver YAML on the ctrlX. Empty = default layout: joint positions, Cartesian pose and GPIOs only (see [`LAUNCH.md`](LAUNCH.md), section 1) |
+| `controllers_dir` | local folder with `scenario_controllers.yaml`, the same file as on the ctrlX: `/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning` in the commissioning container, `workspaces/kuka` in your checkout otherwise. The default (`kuka_rsi_driver/config/ctrlx`) has no such file |
 | `read_robot_status` | adds the `robot_status` sensor (program state, speed scaling) |
 | `read_cartesian_pose` | adds the actual TCP pose and spawns `cartesian_pose_broadcaster` |
 | `read_cartesian_setpoint` | adds the setpoint TCP pose and spawns `cartesian_setpoint_broadcaster` |
@@ -145,6 +148,7 @@ ros2 launch kuka_rsi_driver scenario_eki_rsi.launch.xml \
   rsi_xml_config:=b_ctrldbox_rsi_xml_config2.yaml \
   use_external_axis:=true kl_model:=kl100_2 kl_prefix:=rail_ \
   read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true \
+  controllers_dir:=/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning \
   is_async:=true
 ```
 

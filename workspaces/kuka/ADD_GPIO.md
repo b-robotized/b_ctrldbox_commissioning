@@ -207,13 +207,15 @@ configured".
    restart the ctrlX app. How to upload through the ctrlX OS web interface:
    [`TEST_CTRLX.md`](TEST_CTRLX.md), section 1.1.
 3. **KUKA pendant:** EXT mode, no program selected, no simulated inputs/outputs left on.
-4. **PC:** launch, wait 10 seconds, then configure and activate:
+4. **PC:** launch in the commissioning container (`controllers_dir` = same
+   `scenario_controllers.yaml` as on the ctrlX), wait 10 seconds, then configure and activate:
 
    ```bash
    ros2 launch kuka_rsi_driver scenario_eki_rsi.launch.xml \
      robot_family:=quantec robot_model:=kr210_r3100_2 controller_ip:=172.31.1.178 \
      rsi_xml_config:=b_ctrldbox_rsi_xml_config_gpio_51.yaml use_gpio:=true \
      read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true \
+     controllers_dir:=/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning \
      is_async:=true
 
    ros2 lifecycle set /robot_manager configure

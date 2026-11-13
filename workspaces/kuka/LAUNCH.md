@@ -161,15 +161,17 @@ e.g. `AIPos.A1` → `joint_1/position`, `GearTorque.A1` → `joint_1/effort`, `M
 
 > **Note:** On the ctrlX CORE we currently support only the `eki_rsi` driver version.
 
-Upload the driver YAML to the ctrlX first, see [`TEST_CTRLX.md`](TEST_CTRLX.md), section 1.1.
-Then start everything with one launch file. It publishes the robot description, spawns the
-controllers (inactive) on the ctrlX controller manager and starts the `robot_manager` node:
+Upload the driver YAML and `scenario_controllers.yaml` from this folder to the ctrlX first, see
+[`TEST_CTRLX.md`](TEST_CTRLX.md), section 1.1. Then start everything with one launch file in the
+commissioning container. It publishes the robot description, spawns the controllers (inactive) on
+the ctrlX controller manager and starts the `robot_manager` node:
 
 ```bash
 ros2 launch kuka_rsi_driver scenario_eki_rsi.launch.xml \
   robot_family:=agilus robot_model:=kr10_r900_2 controller_ip:=10.28.23.240 \
   rsi_xml_config:=b_ctrldbox_rsi_xml_config.yaml \
   read_robot_status:=true read_cartesian_pose:=true read_cartesian_setpoint:=true \
+  controllers_dir:=/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning \
   is_async:=true
 ```
 
@@ -177,6 +179,27 @@ Adjust `robot_family`/`robot_model` and `controller_ip` (KLI IP of the KUKA cont
 setup. `client_ip` and `client_port` default to `10.23.23.28` and `28283`. All arguments, the
 external axis and the GPIO variant are described in [`TEST_CTRLX.md`](TEST_CTRLX.md), sections 2, 7
 and 8.
+
+> **Controller parameter file:** `workspaces/kuka/scenario_controllers.yaml` is the single source.
+> The spawners pass `-p scenario_controllers.yaml` as a **relative** file name, and the same file
+> is read on both sides:
+> - **ctrlX:** the controller manager reads the uploaded copy from its config folder
+>   (`/var/snap/rexroth-automationcore/common/solutions/activeConfiguration/b-controlled-box/`).
+>   It removes the root of the path and resolves it in that folder.
+> - **PC:** the spawner checks that the file exists relative to its working directory and sets
+>   parameters such as the controller type from it. `controllers_dir` sets that working directory.
+>   In the commissioning container, this folder is at
+>   `/home/b-robotized/comissioning/ros2_jazzy/src/b_ctrldbox_commissioning`. Outside the container, use the path of
+>   `workspaces/kuka` in your checkout. Without it, the launch file's default
+>   (`kuka_rsi_driver/config/ctrlx`) has no `scenario_controllers.yaml` and the spawners fail with
+>   `FileNotFoundError`.
+>
+> After changing the file, upload it to the ctrlX again so both sides stay the same.
+>
+> Don't pass an absolute PC path. It doesn't exist on the ctrlX. A local controller manager built
+> from the b»controlled box `ros2_control` fork has no config folder and resolves the path relative
+> to its own working directory: an absolute path loses its leading `/` and fails with "Error
+> opening YAML file". Use a relative file name and set the working directory (`cwd`) instead.
 
 ⚠️ ***IMPORTANT:*** For real-time performance, switch the ctrlX controller to **OPERATIONAL** mode
 before activating.
@@ -220,7 +243,8 @@ verify_robot_model:=false
 ```
 
 **Step 2: Spawn the controllers.** ⚠️ ***IMPORTANT:*** for now, this must be launched from the same
-directory as this `LAUNCH.md` file (it reads `scenario_controllers.yaml`).
+directory as this `LAUNCH.md` file (it reads `scenario_controllers.yaml`, see "Controller
+parameter file" above).
 
 ```bash
 ros2 launch kuka_rsi_driver spawn_controllers.launch.py driver_version:=eki_rsi use_gpio:=false

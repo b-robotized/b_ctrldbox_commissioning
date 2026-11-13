@@ -16,7 +16,9 @@ Documentation and tools to commission b»controlled box: ROS 2 `ros2_control` in
 | `docs/MOVE_TO_ANOTHER_BOX.md` | Move the application from one ctrlX CORE to another |
 | `docs/supported_robots/<ROBOT>.md` | Robot-side setup per manufacturer |
 | `docs/SETUP_COMMMISSIONING.md`, `start.sh`, `workspaces/` | ROS 2 commissioning container and robot workspaces |
+| `docs/CTRLX_REST_API_NOTES.md` | ctrlX REST API facts and known issues that are not in the public description |
 | `tools/ctrlx_remote/` | CLI, Python library, and MCP server for the ctrlX REST API |
+| `.claude/skills/ctrlx_box_operations/` | Agent skill: check, update, back up, and transfer devices with `ctrlx-remote` |
 
 ## Commissioning order
 
@@ -39,6 +41,7 @@ ctrlx-mcp --devices-dir ~/.config/b-ctrldbox            # read-only MCP server
 ```
 
 See [tools/ctrlx_remote/README.md](tools/ctrlx_remote/README.md) for all commands.
+Claude Code loads the skill `ctrlx_box_operations` for updates, backups, and transfers; other agents read `.claude/skills/ctrlx_box_operations/SKILL.md` directly.
 
 ## Safety rules for agents
 

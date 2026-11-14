@@ -37,7 +37,7 @@
        default="192.168.0.100"
        description="IP address of the robot controller."/>
   <arg name="robot_model"
-       default="m20_35-18d"
+       default="m20_35_18d"
        description="Exact robot model."/>
   <arg name="robot_series"
        default="m20"

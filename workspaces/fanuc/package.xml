@@ -9,6 +9,9 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <exec_depend>fanuc_hardware_interface</exec_depend>
+  <exec_depend>fanuc_m20_description</exec_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

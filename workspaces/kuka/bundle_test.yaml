@@ -1,0 +1,24 @@
+# Test of this robot in the b»controlled box bundle (test-commissioning.sh in b_controlled_box).
+# description_launch: package, launch file, and arguments that publish the robot description.
+#   Robot address 127.0.0.2: without a robot, an unused local address refuses the connection at once.
+# mock_hardware_arguments: arguments added for mock hardware.
+# controllers_file: package://<package>/<path> or a path in this repository.
+# controllers: controllers to load from controllers_file.
+
+description_launch:
+  - kuka_rsi_driver
+  - publish_description.launch.py
+  - robot_family:=agilus
+  - robot_model:=kr10_r900_2
+  - driver_version:=eki_rsi
+  - use_gpio:=false
+  - verify_robot_model:=false
+  - controller_ip:=127.0.0.2
+mock_hardware_arguments: [mode:=mock]
+controllers_file: workspaces/kuka/scenario_controllers.yaml
+controllers:
+  - joint_state_broadcaster
+  - joint_trajectory_controller
+  - control_mode_handler
+  - event_broadcaster
+  - kss_message_handler

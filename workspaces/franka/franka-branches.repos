@@ -1,0 +1,13 @@
+repositories:
+  franka_description:
+    type: git
+    url: https://github.com/b-robotized-forks/franka_description.git
+    version: b-controlled-box/jazzy
+  franka_ros2:
+    type: git
+    url: https://github.com/b-robotized-forks/franka_ros2.git
+    version: b-controlled-box/jazzy
+  libfranka:
+    type: git
+    url: https://github.com/b-robotized-forks/libfranka.git
+    version: b-controlled-box/jazzy

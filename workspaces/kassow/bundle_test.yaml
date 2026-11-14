@@ -1,0 +1,13 @@
+# Test of this robot in the b»controlled box bundle (test-commissioning.sh in b_controlled_box).
+# description_launch: package, launch file, and arguments that publish the robot description.
+#   Robot address 127.0.0.2: without a robot, an unused local address refuses the connection at once.
+# mock_hardware_arguments: arguments added for mock hardware.
+# controllers_file: package://<package>/<path> or a path in this repository.
+# controllers: controllers to load from controllers_file.
+
+description_launch: [kassow_kord_bringup, kassow_kord_description.launch.xml, ip_address:=127.0.0.2]
+mock_hardware_arguments: [use_mock_hardware:=true]
+controllers_file: package://kassow_kord_bringup/config/kassow_kord_controllers.yaml
+controllers:
+  - joint_state_broadcaster
+  - kassow_joint_trajectory_controller

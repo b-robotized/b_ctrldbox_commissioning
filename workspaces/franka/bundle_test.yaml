@@ -4,6 +4,8 @@
 # mock_hardware_arguments: arguments added for mock hardware.
 # controllers_file: package://<package>/<path> or a path in this repository.
 # controllers: controllers to load from controllers_file.
+# not_activated_with_mock_hardware: controllers that cannot be active with mock hardware, with
+#   the reason. The test only loads and configures them.
 # mock_hardware_controllers_file: controllers_file for mock hardware.
 
 description_launch: [b_robotized_franka_demo, franka_description.launch.xml, robot_ip:=127.0.0.2]

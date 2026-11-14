@@ -4,6 +4,8 @@
 # mock_hardware_arguments: arguments added for mock hardware.
 # controllers_file: package://<package>/<path> or a path in this repository.
 # controllers: controllers to load from controllers_file.
+# not_activated_with_mock_hardware: controllers that cannot be active with mock hardware, with
+#   the reason. The test only loads and configures them.
 
 description_launch:
   - b_robotized_ur_demo
@@ -25,3 +27,7 @@ controllers:
   - freedrive_mode_controller
   - tcp_pose_broadcaster
   - tool_contact_controller
+not_activated_with_mock_hardware:
+  joint_trajectory_controller: it follows the read of the async hardware, but the mock hardware is not async
+  gripper_position_controller: the description has no gripper
+  tool_contact_controller: the mock hardware reports a CB3 robot

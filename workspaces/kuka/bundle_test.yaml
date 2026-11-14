@@ -4,6 +4,8 @@
 # mock_hardware_arguments: arguments added for mock hardware.
 # controllers_file: package://<package>/<path> or a path in this repository.
 # controllers: controllers to load from controllers_file.
+# not_activated_with_mock_hardware: controllers that cannot be active with mock hardware, with
+#   the reason. The test only loads and configures them.
 
 description_launch:
   - kuka_rsi_driver
@@ -22,3 +24,5 @@ controllers:
   - control_mode_handler
   - event_broadcaster
   - kss_message_handler
+not_activated_with_mock_hardware:
+  control_mode_handler: the mock hardware reports no control mode

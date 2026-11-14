@@ -1,0 +1,27 @@
+# Test of this robot in the b»controlled box bundle (test-commissioning.sh in b_controlled_box).
+# description_launch: package, launch file, and arguments that publish the robot description.
+#   Robot address 127.0.0.2: without a robot, an unused local address refuses the connection at once.
+# mock_hardware_arguments: arguments added for mock hardware.
+# controllers_file: package://<package>/<path> or a path in this repository.
+# controllers: controllers to load from controllers_file.
+
+description_launch:
+  - b_robotized_ur_demo
+  - description.launch.xml
+  - ur_type:=ur3e
+  - runtime_config_dir:=/tmp
+  - robot_ip:=127.0.0.2
+mock_hardware_arguments: [use_mock_hardware:=true]
+controllers_file: package://b_robotized_ur_demo/config/scenario_controllers.yaml
+controllers:
+  - joint_state_broadcaster
+  - joint_trajectory_controller
+  - io_and_status_controller
+  - ur_configuration_controller
+  - force_torque_sensor_broadcaster
+  - passthrough_trajectory_controller
+  - gripper_position_controller
+  - force_mode_controller
+  - freedrive_mode_controller
+  - tcp_pose_broadcaster
+  - tool_contact_controller

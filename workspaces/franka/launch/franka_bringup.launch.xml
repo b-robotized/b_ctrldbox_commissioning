@@ -34,18 +34,17 @@
   <arg name="scheduling_policy" default="slave" description="Franka Driver scheduling polic. Slave - wait on robot signal to start read/write"/>
 
   <!-- DESCRIPTION -->
-  <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var configuration_package))/urdf/$(var description_file).urdf.xacro \
-                                        robot_prefix:=$(var robot_prefix) \
-                                        ros2_control_hardware_type:=$(var ros2_control_hardware_type) \
-                                        robot_ip:=$(var robot_ip) \
-                                        is_async:=$(var is_async) \
-                                        cpu_affinity:=$(var cpu_affinity) \
-                                        thread_priority:=$(var thread_priority) \
-                                        scheduling_policy:=$(var scheduling_policy)')"/>
-
-  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
-    <param name="robot_description" value="$(var robot_description)"/>
-  </node>
+  <include file="$(find-pkg-share b_robotized_franka_demo)/launch/franka_description.launch.xml">
+    <arg name="robot_prefix" value="$(var robot_prefix)"/>
+    <arg name="robot_ip" value="$(var robot_ip)"/>
+    <arg name="ros2_control_hardware_type" value="$(var ros2_control_hardware_type)"/>
+    <arg name="configuration_package" value="$(var configuration_package)"/>
+    <arg name="description_file" value="$(var description_file)"/>
+    <arg name="is_async" value="$(var is_async)"/>
+    <arg name="cpu_affinity" value="$(var cpu_affinity)"/>
+    <arg name="thread_priority" value="$(var thread_priority)"/>
+    <arg name="scheduling_policy" value="$(var scheduling_policy)"/>
+  </include>
 
   <!-- CONTROLLERS -->
   <let name="controllers_file" value="scenario_controllers.yaml" if="$(equals $(var ros2_control_hardware_type) real)" />

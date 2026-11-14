@@ -1,0 +1,15 @@
+# Test of this robot in the b»controlled box bundle (test-commissioning.sh in b_controlled_box).
+# description_launch: package, launch file, and arguments that publish the robot description.
+# mock_hardware_arguments: arguments added for mock hardware.
+# controllers_file: package://<package>/<path> or a path in this repository.
+# controllers: controllers to load from controllers_file.
+
+description_launch:
+  [pssbl_robot_descriptions, description.launch.xml, robot_model:=2257, hardware:=motion_app]
+mock_hardware_arguments: [hardware:=mock]
+controllers_file: package://b_robotized_pssbl_demo/config/scenario_controllers.yaml
+controllers:
+  - joint_state_broadcaster
+  - joint_trajectory_controller
+  - tool_controller
+  - io_controller

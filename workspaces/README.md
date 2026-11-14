@@ -4,5 +4,5 @@ Each robot folder with ROS 2 driver dependencies has a `<robot>-branches.repos` 
 Import it into the `src` folder of a workspace:
 
 ```bash
-vcs import --input workspaces/<robot>/<robot>-branches.repos <workspace>/src
+vcs import --recursive --input workspaces/<robot>/<robot>-branches.repos <workspace>/src
 ```

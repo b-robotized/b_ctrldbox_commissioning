@@ -33,7 +33,7 @@ fi
 # echo "<deploy-token>" | docker login code.b-robotized.com:5050 -u ctrlx --password-stdin
 #
 # before running start.sh.
-IMAGE_REGISTRY_URL_PUBLIC="code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers"
+IMAGE_REGISTRY_URL_PUBLIC="ghcr.io/b-robotized/b_controlled_box_commissioning_containers"
 IMAGE_REGISTRY_URL_PRIVATE="code.b-robotized.com:5050/b-controlled-box/releases"
 
 if [ "$USE_PRIVATE_REGISTRY" = "true" ]; then

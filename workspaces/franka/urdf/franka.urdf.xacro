@@ -4,7 +4,7 @@
     <xacro:arg name="robot_type" default="fr3"/>
     <xacro:arg name="robot_prefix" default="fr3"/>
     <xacro:arg name="robot_ip" default="10.42.0.203"/>
-    
+
     <xacro:arg name="ros2_control_hardware_type" default="mock"/>
     <xacro:property name="ros2_control_hardware_type" value="$(arg ros2_control_hardware_type)"/>
     <xacro:arg name="mock_sensor_commands" default="true" />

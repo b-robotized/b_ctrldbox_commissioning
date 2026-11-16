@@ -2,7 +2,7 @@
 
 To controller Kassow robot with b»controlled box, you will need install KORD CBun v3.0.1.
 You can download it from the [KORD CBun release page here](https://gitlab.com/kassowrobots/kord-api/-/wikis/Master-CBun), copy it on an USB stick and plug it in the robot controller.
-For details on installing CBun refer to the Kassow official documenation - nevertheless the process is also self explainatory - so you might just try by yourself 😃
+For details on installing CBun refer to the Kassow official documentation - nevertheless the process is also self explanatory - so you might just try by yourself 😃
 
 The rest of the manual assumes that you have setup your ctrlX CORE to the [standard setup for running b»controlled box App explained here](https://github.com/b-robotized/b_ctrldbox_commissioning/blob/docs/kassow_port_guide/docs/SETUP_CTRLX.md).
 
@@ -66,4 +66,3 @@ ros2 topic list
 ```
 
 **For other cases check the troubleshooting in [`kord_kassow_driver` repository](https://github.com/b-robotized/kassow_kord_driver?tab=readme-ov-file#troubleshooting).**
-

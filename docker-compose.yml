@@ -12,7 +12,7 @@ services:
       ctrlx_bridge:
       ctrlx_macvtap:
         ipv4_address: ${CONTAINER_MACVLAN_IP}
-    
+
     # --- X11 Forwarding for GUI Applications (e.g., RViz) ---
     devices:
       - /dev/dri:/dev/dri
@@ -24,11 +24,11 @@ services:
       # Note: You may need to configure xauth on your host for this to work.
       # xhost +local:docker
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
-      
+
     # allow access to kernel clock services
     cap_add:
     - SYS_TIME
-    
+
     # allow container to be interactive
     stdin_open: true
     tty: true

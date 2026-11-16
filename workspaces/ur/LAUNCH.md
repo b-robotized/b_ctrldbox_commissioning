@@ -64,7 +64,7 @@ ros2 launch b_robotized_ur_demo spawn_controllers.launch.xml
 Then, activate controllers:
 ```bash
 ./activate_controllers.sh
-``` 
+```
 
 ### Step 4: Run MoveIt
 
@@ -114,4 +114,3 @@ See [Force and torque control](../../docs/supported_robots/UR.md#force-and-torqu
 - `Variable '..._REPLACE' not found`: the URScript and the `ur_client_library` versions do not match.
 - The arm moves up fast when the controller activates: the controller and the robot both compensate gravity. Disable gravity compensation in the controller.
 - Protective stop or the arm pushes back near a pose: the arm reached a safety limit. Check the safety configuration.
-

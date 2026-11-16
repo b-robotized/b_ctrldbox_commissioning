@@ -19,9 +19,9 @@
 -->
 <launch>
   <arg name="start_rviz" default="false" description="Launch RViz visualization?"/>
-  
+
   <arg name="configuration_package" default="b_robotized_franka_demo" description="The ROS package where we find the configuration files."/>
-  
+
   <let name="controllers_yaml_dir" value="$(find-pkg-share b_robotized_franka_demo)/config"/>
   <node pkg="controller_manager" exec="ros2_control_node" name="b_controlled_box_cm" cwd="$(var controllers_yaml_dir)" output="both">
     <param from="$(var controllers_yaml_dir)/scenario_controllers_mock.yaml"/>

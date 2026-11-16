@@ -144,11 +144,11 @@
 
   <!-- Conditionally get runtime_config_dir if not provided -->
   <group unless="$(eval '\'$(var runtime_config_dir)\' == \'\'')">
-    
+
     <let name="script_filename" value="$(var runtime_config_dir)/external_control.urscript" />
     <let name="input_recipe_filename" value="$(var runtime_config_dir)/rtde_input_recipe.txt" />
     <let name="output_recipe_filename" value="$(var runtime_config_dir)/rtde_output_recipe.txt" />
-  
+
     <let name="robot_description_content"
      value="$(command '
        $(find-exec xacro) $(var description_file) \
@@ -193,7 +193,7 @@
        scheduling_policy:=slave
        ')"
     />
-    
+
     <!-- Robot state publisher -->
     <node pkg="robot_state_publisher" exec="robot_state_publisher" output="both">
       <param name="robot_description" value="$(var robot_description_content)" />

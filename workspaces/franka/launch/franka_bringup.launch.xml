@@ -49,7 +49,7 @@
   <!-- CONTROLLERS -->
   <let name="controllers_file" value="scenario_controllers.yaml" if="$(equals $(var ros2_control_hardware_type) real)" />
   <let name="controllers_file" value="scenario_controllers_mock.yaml" if="$(equals $(var ros2_control_hardware_type) mock)" />
-  <node pkg="controller_manager" exec="spawner" name="jsb_spawner" cwd="$(var controllers_yaml_dir)" output="screen"  
+  <node pkg="controller_manager" exec="spawner" name="jsb_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
         args="joint_state_broadcaster -c $(var cm_name) -p $(var controllers_file) --inactive"/>
   <node pkg="controller_manager" exec="spawner" name="fr3_joint_trajectory_controller_spawner" cwd="$(var controllers_yaml_dir)" output="screen"
         args="fr3_joint_trajectory_controller -c $(var cm_name) -p $(var controllers_file) --inactive"/>

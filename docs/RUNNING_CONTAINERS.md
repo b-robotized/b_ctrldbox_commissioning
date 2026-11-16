@@ -81,7 +81,7 @@ If you have built a custom image locally using the [b_controlled_box_commissioni
 When you run `build-robot-image.sh` in the `b_controlled_box_commissioning_containers` repository, the resulting image is tagged with the **full public registry path** locally:
 
 ```
-code.b-robotized.com:5050/b_public/b_products/b_controlled_box/b-controlled-box-commissioning-containers/ur-commission:1.6.x
+ghcr.io/b-robotized/b_controlled_box_commissioning_containers/ur-commission:1.6.x
 ```
 
 This is the same path that `start.sh` checks for. Since the image already exists locally, the pull step is skipped entirely.

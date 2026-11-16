@@ -5,7 +5,7 @@
     <xacro:arg name="prefix" default=""/>
 
     <!-- Extracted from "fanuc_hardware_interface/robot/6dof_robot.urdf.xacro" file -->
-    <xacro:arg name="robot_model" default="m20_35-18d"/>
+    <xacro:arg name="robot_model" default="m20_35_18d"/>
     <xacro:arg name="robot_series" default="m20"/>
     <xacro:arg name="robot_ip" default="192.168.0.100"/>
     <xacro:arg name="rmi_port" default="16001"/>
@@ -14,6 +14,8 @@
     <xacro:arg name="payload_schedule" default="1"/>
     <xacro:arg name="out_cmd_interp_buff_target" default="8"/>
     <xacro:arg name="force_sensor_type" default="0"/>
+    <xacro:arg name="motion_control" default="1"/>
+    <xacro:arg name="encoding" default="UTF-8"/>
 
     <xacro:property name="robot_description_file" default="fanuc_$(arg robot_series)_description"/>
 

@@ -1,4 +1,4 @@
-# Package for commisioning and testing of b»Controlled Box
+# Package for commissioning and testing of b»Controlled Box
 
 **Your realtime ROS 2 gateway for 24/7 applications!**
 
@@ -42,17 +42,17 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 
 | Hardware                          |  Type       |  Status   |
 | :-------------------------------- | :---------: | :-------: |
-| **UR**                            | Robot       | ✅ | 
-| **KUKA**                          | Robot       | ✅ | 
+| **UR**                            | Robot       | ✅ |
+| **KUKA**                          | Robot       | ✅ |
 | **KASSOW**                        | Robot       | ✅ |
-| **FRANKA**                        | Robot       | ✅ | 
-| **DOBOT**                         | Robot       | ✅ | 
+| **FRANKA**                        | Robot       | ✅ |
+| **DOBOT**                         | Robot       | ✅ |
 | **Pssbl**                         | Robot       | ✅ |
-| **Fanuc**                         | Robot       | 🔬 | 
-| **Yaskawa**                       | Robot       | 🚧 | 
+| **Fanuc**                         | Robot       | 🔬 |
+| **Yaskawa**                       | Robot       | 🚧 |
 | **Ethercat Master (CtrlX App)**   | Robot       | ✅ |
-| **OPCUA client**                  | Robot       | ✅ | 
-| **Beckhoff ADS client**           | Robot       | 🔬 | 
+| **OPCUA client**                  | Robot       | ✅ |
+| **Beckhoff ADS client**           | Robot       | 🔬 |
 | **Modbus server**                 | Robot       | 🔬 |
 
 #### Legend:

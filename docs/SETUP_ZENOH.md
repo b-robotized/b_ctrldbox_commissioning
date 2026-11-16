@@ -60,7 +60,7 @@ export RMW_IMPLEMENTATION=rmw_zenoh_cpp
 
 <details>
   <summary>Snippet for automatic append.</summary>
-  
+
   **Trigger Conditions:**
 
   * The environment variable ``RMW_IMPLEMENTATION`` is set to ``rmw_zenoh_cpp``.
@@ -110,7 +110,7 @@ export RMW_IMPLEMENTATION=rmw_zenoh_cpp
       command $base_cmd "$@"
     fi
   }
-  
+
   ```
 </details>
 

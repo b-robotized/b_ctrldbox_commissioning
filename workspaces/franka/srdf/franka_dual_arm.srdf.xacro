@@ -3,13 +3,13 @@
 <robot name="franka_dual_arm" xmlns:xacro="http://wiki.ros.org/xacro">
 
     <xacro:include filename="$(find franka_description)/robots/common/franka_arm.srdf.xacro"/>
-    <xacro:franka_arm_srdf 
+    <xacro:franka_arm_srdf
             robot_type="fr3"
             hand="false"
             no_prefix="false"
             arm_prefix="fr3_left"/>
 
-    <xacro:franka_arm_srdf 
+    <xacro:franka_arm_srdf
             robot_type="fr3"
             hand="false"
             no_prefix="false"

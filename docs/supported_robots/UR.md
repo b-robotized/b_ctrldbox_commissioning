@@ -78,7 +78,7 @@ Here are some notes and guidelines for setting up **UR simulator** to control it
 curl -O https://raw.githubusercontent.com/UniversalRobots/Universal_Robots_Client_Library/refs/heads/master/scripts/start_ursim.sh
 chmod +x start_ursim.sh
 # -v 10+ for polyscope X, version 5+ for polyscope 5
-./start_ursim.sh -m ur3e -v 10.8.0 
+./start_ursim.sh -m ur3e -v 10.8.0
 ```
 
 ### Passwords:
@@ -106,13 +106,13 @@ Here are some notes that helped us, and might point you in the right direction:
 
 ```bash
 # 1. Force traffic to CtrlX out the physical port
-# Tells the host that traffic destined for the CtrlX must exit the physical 
+# Tells the host that traffic destined for the CtrlX must exit the physical
 # ethernet interface immediately, bypassing the internal Docker bridge.
 sudo ip route add <CTRL_IP>/32 dev <PHYSICAL_INTERFACE>
 
 # 2. Enable routing and proxy ARP
-# When CtrlX asks the network "who has <CONTAINER_IP>?", the container cannot 
-# hear it. This allows the host machine to intercept the request, reply "I do!", 
+# When CtrlX asks the network "who has <CONTAINER_IP>?", the container cannot
+# hear it. This allows the host machine to intercept the request, reply "I do!",
 # and route the traffic internally to the container.
 sudo sysctl -w net.ipv4.ip_forward=1
 sudo sysctl -w net.ipv4.conf.all.proxy_arp=1
@@ -121,12 +121,12 @@ sudo sysctl -w net.ipv4.conf.all.proxy_arp=1
 sudo iptables-save
 
 # 3. Allow traffic into the container via DOCKER-USER chain
-# Docker actively prevents external traffic from being forwarded into containers. 
+# Docker actively prevents external traffic from being forwarded into containers.
 # This inserts a rule to explicitly accept traffic heading toward the simulator.
 sudo iptables -I DOCKER-USER 1 -d <CONTAINER_IP> -j ACCEPT
 
 # 4. Remove Docker's strict RAW drop rules
-# The container automatically adds strict DROP rules for packets destined for RTDE 
+# The container automatically adds strict DROP rules for packets destined for RTDE
 # ports that didn't originate from the Docker bridge. This deletes that blockade.
 sudo iptables -t raw -D PREROUTING -d <CONTAINER_IP>/32 ! -i <DOCKER_BRIDGE> -j DROP
 ```

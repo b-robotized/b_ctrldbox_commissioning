@@ -51,7 +51,7 @@ In third terminal activate the hardware interface. For this, make sure you're in
 Then, activate controllers:
 ```bash
 ./activate_controllers.sh
-``` 
+```
 
 ### Step 4: Run MoveIt
 
@@ -78,4 +78,3 @@ It is possible to activate/deactivate more than one controllers in the same comm
 ### Connection issues when trying to set the robot to `inactive` state.
 Make sure that the IP addresses are set correctly and you can ping the robot.
 To ping it choose `Setting` » `Network Diagnostics` » `Ping` on the ctrlX CORE and enter the address of the robot controller in the `Address` filed.
-

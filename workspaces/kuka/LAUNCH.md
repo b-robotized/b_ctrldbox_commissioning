@@ -65,4 +65,3 @@ ros2 lifecycle set /robot_manager configure
 ```bash
 ros2 lifecycle set /robot_manager activate
 ```
-

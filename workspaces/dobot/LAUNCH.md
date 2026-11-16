@@ -21,7 +21,7 @@ ros2 launch cr_robot_ros2 dobot_bringup.launch.xml use_mock_hardware:=true robot
 Send the gripper action command. For this gripper, closed/open positions are `[-0.037, 0.01]`
 
 ```bash
-ros2 action send_goal /feetech_gripper_controller/gripper_cmd control_msgs/action/ParallelGripperCommand "{command: {position: [-0.037]}}" 
+ros2 action send_goal /feetech_gripper_controller/gripper_cmd control_msgs/action/ParallelGripperCommand "{command: {position: [-0.037]}}"
 ```
 
 ### Step 3: Launch real robot:

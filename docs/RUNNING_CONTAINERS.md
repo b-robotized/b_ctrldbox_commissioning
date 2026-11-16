@@ -76,7 +76,7 @@ If b-robotized has built a custom image specifically for your project, it will b
 
 If you have built a custom image locally using the [b_controlled_box_commissioning_containers](https://github.com/b-robotized/b_controlled_box_commissioning_containers) repository, `start.sh` will automatically detect and use it without pulling from any remote registry.
 
-### How it works 
+### How it works
 
 When you run `build-robot-image.sh` in the `b_controlled_box_commissioning_containers` repository, the resulting image is tagged with the **full public registry path** locally:
 

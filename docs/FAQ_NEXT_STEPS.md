@@ -77,12 +77,12 @@ Because a `humble` node expects a 24-byte identifier and a `jazzy` node sends a 
 
 ### Ok, what do I do then?
 
-These are not changes one can "hack" around, and are important architectural choices to advance ROS 2 as a framework. 
+These are not changes one can "hack" around, and are important architectural choices to advance ROS 2 as a framework.
 
-Our main suggestion is: **Standardize distribution to `jazzy`**. 
+Our main suggestion is: **Standardize distribution to `jazzy`**.
 
 This is the simplest, easiest solution to keep you up to date, and enable you to use the **b»controlled box** application.
-If developing on Ubuntu `22.04`, you can leverage Docker containers to standardize environment accross your projects - just build the container from Ubuntu `24.04`.
+If developing on Ubuntu `22.04`, you can leverage Docker containers to standardize environment across your projects - just build the container from Ubuntu `24.04`.
 
 If you decide to upgrade to `jazzy` and need some support, don't hesitate to contact us for help!
 

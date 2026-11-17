@@ -40,10 +40,20 @@ ROS 2 time stamps, logs, and the logbook of the device can only be compared when
 |---|---|---|---|
 | 3.1 | Two CPU cores are real-time cores (on a 4-core device: cores 2 and 3) | `real-time cores` | `Settings > System > CPU` (needs a restart) |
 | 3.2 | The b»controlled box task (`bCtrldBox`) runs on a real-time core | `RT task core` | `Settings > Scheduler > Configuration` |
-| 3.3 | **The b»controlled box task has its real-time core alone.** Other real-time tasks (for example `ECATExtIOs` for EtherCAT I/O, PLC tasks) run on the other real-time core. | `RT task separation` | `Settings > Scheduler > Configuration`: set the core (affinity) of the other tasks to the free real-time core; the change becomes active at the next change from SERVICE to SETUP |
+| 3.3 | **The b»controlled box task has its real-time core alone.** Other real-time tasks (for example `ECATExtIOs` for EtherCAT I/O, PLC tasks) run on the other real-time core. | `RT task separation` | See 3.6 |
+| 3.4 | `bCtrldBox`: priority **28**, core 3 (second real-time core), cycle time 1 ms | `RT task core`, `RT task priority` | See 3.6 |
+| 3.5 | `ECATExtIOs` (EtherCAT I/O): priority **23**, core 2 (first real-time core), cycle time 2 ms | `EtherCAT task` | See 3.6 |
+| 3.6 | — | — | Web UI: `Settings > Scheduler > Configuration`, set core (affinity) and priority, save. Remote: in SERVICE, write `scheduler/tasks/<task>/properties`, then create `scheduler/admin/cfg/save` (see [CTRLX_REST_API_NOTES.md](CTRLX_REST_API_NOTES.md)). The change becomes active at the next change from SERVICE to SETUP. |
 
+A lower number means a higher priority.
+The scheduler main task `schedMain` (priority 10) also runs on core 2; its load is small.
 If two cyclic tasks share one core, the task with the lower priority must wait for the other.
 This adds jitter to the control loop of the robot.
+The SDK range `mid` gives priority 29.
+The EtherCAT task (23) has a higher priority than `bCtrldBox` (28), so it must not share its core.
+
+The EtherCAT master sets the default core of its task: `coreIndex: "rt/1"` (= core 3) in `configurations/active/comm.ethercat.master/config/<instance>/tasks/default_config.json`.
+After a new EtherCAT instance, check 3.5 again.
 
 ## 4. Disk and network
 
@@ -59,7 +69,3 @@ This adds jitter to the control loop of the robot.
 |---|---|
 | 5.1 | A full backup after commissioning, stored outside the device, in a folder that the customer controls ([BACKUP_AND_TRANSFER.md](BACKUP_AND_TRANSFER.md)) |
 | 5.2 | The app files of the delivery (`.snap`, `.app`) stored with the backup |
-
-## Open points
-
-- The priority of the `bCtrldBox` task is not the same on all devices (15 on a ctrlX CORE X7, 29 on X3 devices). A common value is not defined yet.

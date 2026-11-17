@@ -73,8 +73,8 @@ A new device has NTP off and time zone UTC.
 
 ## Real-time tasks
 
-The b»controlled box task `bCtrldBox` must have its real-time core alone; other real-time tasks (`ECATExtIOs`, PLC) go to the other real-time core.
-`$CR check` shows it (`RT task separation`). The tool does not change scheduler settings; tell the user the fix (`Settings > Scheduler > Configuration`, active at the next SERVICE → SETUP).
+Default: `bCtrldBox` priority 28 alone on core 3; `ECATExtIOs` priority 23 on core 2; other real-time tasks (PLC) not on the core of `bCtrldBox`.
+`$CR check` shows it (`RT task separation`, `RT task priority`, `EtherCAT task`). The tool does not change scheduler settings; after approval, change them as in `docs/REFERENCE_SETUP.md` 3.6 (active at the next SERVICE → SETUP).
 
 ## Install b»controlled box apps
 

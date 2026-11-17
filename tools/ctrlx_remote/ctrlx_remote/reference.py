@@ -22,6 +22,9 @@ BCTRLDBOX_APPS = (
 )
 BCTRLDBOX_BUNDLE = "b»Controlled Box"
 BCTRLDBOX_TASK = "bCtrldBox"
+BCTRLDBOX_PRIORITY = 28  # lower number = higher priority
+ECAT_TASK = "ECATExtIOs"
+ECAT_PRIORITY = 23
 NON_RT_TASKS = ("schedBackground",)
 MIN_FREE_MB = 1000
 
@@ -118,6 +121,21 @@ def check_device(client: CtrlxClient, apps_dir: Path | None = None) -> list[Chec
             add(WARN, "RT task separation", f"{', '.join(shared)} on the same core as {BCTRLDBOX_TASK}{hint}")
         else:
             add(OK, "RT task separation", f"{BCTRLDBOX_TASK} has core {core} alone")
+        priority = box.get("priority")
+        add(
+            OK if priority == BCTRLDBOX_PRIORITY else WARN,
+            "RT task priority",
+            f"{BCTRLDBOX_TASK}: priority {priority}" + ("" if priority == BCTRLDBOX_PRIORITY else f" (use {BCTRLDBOX_PRIORITY})"),
+        )
+        ecat = tasks.get(ECAT_TASK)
+        if ecat:
+            ecat_ok = ecat.get("affinity") in rt_cores and ecat.get("affinity") != core and ecat.get("priority") == ECAT_PRIORITY
+            add(
+                OK if ecat_ok else WARN,
+                "EtherCAT task",
+                f"{ECAT_TASK}: core {ecat.get('affinity')}, priority {ecat.get('priority')}"
+                + ("" if ecat_ok else f" (use the other real-time core, priority {ECAT_PRIORITY})"),
+            )
 
     # Network: two ports with addresses in the same subnet
     seen: dict[ipaddress.IPv4Network, str] = {}

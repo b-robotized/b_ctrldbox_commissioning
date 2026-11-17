@@ -61,6 +61,7 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 5. After an update of `b-controlled-box-rt-jazzy` (a new version over an installed one), restart the device (see [Restarting the ctrlX CORE](#restarting-the-ctrlx-core)).
    Without the restart, the new version can fail to start.
+   An update does not change your configuration files in the active configuration (`b-controlled-box/`); it adds only new default files that are missing.
 
 ### Install Zenoh app
 

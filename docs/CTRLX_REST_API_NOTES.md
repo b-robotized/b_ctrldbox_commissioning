@@ -79,6 +79,7 @@ App Storage keeps only the part of a `.app` file for the device architecture.
 - IP forwarding: `GET`/`PUT /interfaces/<name>` (`ipForwarding`).
 - A `PUT` is applied only after `PUT /changes` with `{"applied": true, "discarded": false}`.
 - Link and routes: `GET /interfaces/<name>/state`; all addresses: `GET /addresses`.
+- Ping from the device: `POST /tasks` with `{"action": "ping", "parameters": {"address": "<ip>", "interval": 1, "count": 3}}`; the result is in the task.
 
 ## Firewall (`/firewall/api/v2`)
 
@@ -92,6 +93,20 @@ App Storage keeps only the part of a `.app` file for the device architecture.
 - Register: `POST /register-ixon-cloud-connector/` with form field `company_id`; the device needs internet access.
 - The page shows the state of API client, configuration, and VPN (`connected` when done).
 - The agent identity is created at registration; do not copy `configurations/active/IXagent/ixagent.conf` to another device.
+
+## Active configuration (Solutions app, `/solutions/api/v1`)
+
+- Path of the active configuration: `solutions/DefaultSolution/configurations/appdata`.
+- Copy a configuration (for example as a safety copy): `POST /tasks` with `{"action": "copy", "parameters": {"source": "<path>", "destination": "<path>"}}`.
+- Download it as a zip: `GET /solutions/DefaultSolution/configurations/appdata/archive`.
+- Upload a changed zip: `PUT` on the same path (`application/octet-stream`).
+- Load it: `POST /tasks` with `{"action": "load_async", "parameters": {"configurationPath": "<path>"}}`; with `"queryOnly": true` first, the device only checks it.
+
+## Restart
+
+- Web UI: `Settings > Shutdown > Restart`.
+- REST: `POST /system/api/v1/tasks` with `{"action": "reboot"}`.
+- After the restart, the device is in its startup mode.
 
 ## Backup and restore (Setup app, `/setup/api/v1`)
 
@@ -116,6 +131,7 @@ See [BACKUP_AND_TRANSFER.md](BACKUP_AND_TRANSFER.md) for the format.
 - A full backup needs up to 1 GB free on the device.
 - An update of Automation Core copies its data folder to the new revision. With b»controlled box RT installed, this folder contains the unpacked RT bundle with all ROS 2 libraries (about 1 GB). With too little space the update fails with "no space left on device", and ctrlX OS keeps the old version.
   Update the system apps before you install b»controlled box RT, or uninstall RT, update, and install RT again.
+- The ROS 2 logs of b»controlled box RT are in the data folder of Automation Core (`.ros/log`). They grow during operation, and an update of Automation Core copies them too.
 - With a full disk, apps cannot save settings (for example `Scheduler settings: ... No space left on device`).
 - snapd keeps the previous revision of an updated app until the next update.
 

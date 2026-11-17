@@ -153,6 +153,7 @@ After an update of `b-controlled-box-rt-jazzy` (a new version over an installed 
 Without the restart, the new version can fail to start.
 Web UI: `Settings > Shutdown > Restart`. REST: `POST /system/api/v1/tasks` with `{"action": "reboot"}`.
 After the restart, the device is in its startup mode.
+An update does not change the configuration files in the active configuration (`b-controlled-box/`); it adds only new default files that are missing.
 
 ## 7. Operation mode
 

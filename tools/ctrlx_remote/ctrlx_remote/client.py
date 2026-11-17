@@ -23,6 +23,7 @@ SETUP = "/setup/api/v1"
 SYSTEM = "/system/api/v1"
 DATALAYER = "/automation/api/v2"
 IDENTITY = "/identity-manager/api/v2"
+SOLUTIONS_WEBDAV = "/solutions/webdav"
 
 MODE_NODE = "scheduler/admin/state"
 MODES = ("SERVICE", "SETUP", "OPERATING")
@@ -225,6 +226,17 @@ class CtrlxClient:
     def datalayer_browse(self, node: str) -> list[str]:
         result = self.get_json(f"{DATALAYER}/nodes/{node}", params={"type": "browse"})
         return result.get("value", [])
+
+    # -- active configuration ------------------------------------------------
+
+    def active_configuration_file(self, path: str) -> str | None:
+        """Text of a file in the active configuration (WebDAV of the Solutions app), None if missing."""
+        try:
+            return self.request("GET", f"{SOLUTIONS_WEBDAV}/appdata/{path}").text
+        except CtrlxError as error:
+            if error.status_code == 404:
+                return None
+            raise
 
     # -- package manager -----------------------------------------------------
 

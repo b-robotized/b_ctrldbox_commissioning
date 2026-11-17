@@ -22,6 +22,7 @@ The check only reads from the device.
 | 1.5 | RT bundle `b»Controlled Box` is `Active` | `RT bundle` | Check the logbook; install the RT app again |
 | 1.6 | "Allow installation from unknown sources" is on | `unknown apps allowed` | `Settings > Apps > Settings` |
 | 1.7 | App Storage active and contains the standard apps and the current system apps | `App Storage` | `system-apps stage <apps-folder>` |
+| 1.8 | Zenoh router logs only warnings: `export RUST_LOG='zenoh=warn,zenoh_transport=warn'` in `zenoh-router/zenoh_router.env` of the active configuration (with `export`). `trace` or `debug` writes hundreds of lines per second to the logbook and loads the non-real-time cores. Router releases up to `1.0` create the file with `trace`, and an update does not change an existing file. | `Zenoh router log level` (also shown after `apps install`, `system-apps update`, and `transfer apply`) | Change the file in `Manage app data` (SERVICE mode), then restart the router app |
 
 ## 2. Time
 

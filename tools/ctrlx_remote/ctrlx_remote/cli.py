@@ -18,7 +18,7 @@ from .apps import STANDARD_APPS, plan_updates, read_app_file
 from .client import CtrlxClient, CtrlxError, Credentials, read_env_file
 from .transfer import plan as transfer_plan
 from .transfer import read_setup, sanitize
-from .reference import FAIL, WARN, check_device
+from .reference import FAIL, WARN, check_device, check_zenoh_log_level
 
 # Install order from the ctrlX OS 4.6.6 release notes; other apps follow.
 UPDATE_ORDER = (
@@ -75,6 +75,13 @@ def _confirm(args: argparse.Namespace, question: str) -> None:
 # -- commands ----------------------------------------------------------------
 
 
+def _check_after_install(client: CtrlxClient) -> None:
+    """Settings that an install or update does not change, but that we check each time."""
+    if "zenohd-router-jazzy-binary" in _installed(client):
+        result = check_zenoh_log_level(client)
+        print(f"  {result.status:5s} {result.item}: {result.detail}")
+
+
 def cmd_info(args: argparse.Namespace) -> None:
     client = _client(args)
     info = client.system_info()
@@ -123,6 +130,7 @@ def cmd_apps_install(args: argparse.Namespace) -> None:
         app = read_app_file(path)
         if app:
             print(f"  {'ok' if after.get(app.name) == app.version else 'NOT INSTALLED':14s} {app.name} {after.get(app.name)}")
+    _check_after_install(client)
 
 
 def cmd_system_apps(args: argparse.Namespace) -> None:
@@ -173,6 +181,7 @@ def cmd_system_apps(args: argparse.Namespace) -> None:
     for name in order:
         status = "ok" if after.get(name) == stored[name] else "NOT UPDATED"
         print(f"  {status:12s} {name:30s} {after.get(name)}")
+    _check_after_install(client)
 
 
 def cmd_storage_remove(args: argparse.Namespace) -> None:
@@ -281,6 +290,7 @@ def cmd_transfer(args: argparse.Namespace) -> None:
             if entry.get("severity") in ("WARNING", "ERROR"):
                 print(f"  {entry['severity']}: {entry['message']}")
         _log("applied")
+        _check_after_install(client)
 
 
 def cmd_check(args: argparse.Namespace) -> None:

@@ -6,6 +6,7 @@ All checks only read from the device.
 from __future__ import annotations
 
 import ipaddress
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -27,6 +28,8 @@ ECAT_TASK = "ECATExtIOs"
 ECAT_PRIORITY = 23
 NON_RT_TASKS = ("schedBackground",)
 MIN_FREE_MB = 1000
+ZENOH_ENV_FILE = "zenoh-router/zenoh_router.env"
+ZENOH_LOG_LEVELS = ("error", "warn")  # info and lower write to the logbook for each connection or message
 
 
 @dataclass
@@ -34,6 +37,34 @@ class Check:
     status: str
     item: str
     detail: str
+
+
+def check_zenoh_log_level(client: CtrlxClient) -> Check:
+    """Check RUST_LOG of the Zenoh router: debug and trace load the non-real-time cores with logging."""
+    item = "Zenoh router log level"
+    try:
+        text = client.active_configuration_file(ZENOH_ENV_FILE)
+    except CtrlxError as error:
+        return Check(WARN, item, f"not checked: {error}")
+    if text is None:
+        return Check(INFO, item, f"{ZENOH_ENV_FILE} not found (router not installed or not started yet)")
+    match = None
+    for line in text.splitlines():
+        found = re.match(r"\s*(export\s+)?RUST_LOG\s*=\s*['\"]?([^'\"#]*)", line)
+        if found:
+            match = found
+    if not match:
+        return Check(INFO, item, f"RUST_LOG not set in {ZENOH_ENV_FILE} (zenohd default: info)")
+    value = match.group(2).strip()
+    levels = {part.rpartition("=")[2].strip().lower() for part in value.split(",") if part.strip()}
+    fix = f"set export RUST_LOG='zenoh=warn,zenoh_transport=warn' in {ZENOH_ENV_FILE} and restart the router"
+    if levels & {"trace", "debug"}:
+        return Check(FAIL, item, f"{value}: floods the logbook and loads the non-real-time cores; {fix}")
+    if not match.group(1):
+        return Check(WARN, item, f"{value} without 'export': zenohd does not get it and uses info; {fix}")
+    if not levels <= set(ZENOH_LOG_LEVELS):
+        return Check(WARN, item, f"{value}; {fix}")
+    return Check(OK, item, value)
 
 
 def check_device(client: CtrlxClient, apps_dir: Path | None = None) -> list[Check]:
@@ -73,6 +104,9 @@ def check_device(client: CtrlxClient, apps_dir: Path | None = None) -> list[Chec
         add(OK if state == "Active" else FAIL, "RT bundle", state)
     except CtrlxError:
         add(FAIL, "RT bundle", "not loaded")
+
+    if "zenohd-router-jazzy-binary" in installed:
+        results.append(check_zenoh_log_level(client))
 
     # App settings and App Storage
     add(OK if client.package_settings().get("allowUnknownApps") else FAIL, "unknown apps allowed", "")

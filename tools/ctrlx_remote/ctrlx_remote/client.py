@@ -383,6 +383,17 @@ class CtrlxClient:
     def mode(self) -> str:
         return self.datalayer_read(MODE_NODE)["value"]["state"]
 
+    def wait_mode(self, timeout: float = 600, poll: float = 5.0) -> str:
+        """Read the mode; wait while Automation Core starts (for example after its update)."""
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                return self.mode()
+            except (CtrlxError, requests.RequestException):
+                if time.monotonic() > deadline:
+                    raise
+                time.sleep(poll)
+
     def set_mode(self, target: str, timeout: float = 300, poll: float = 2.0) -> str:
         """Switch to SERVICE, SETUP, or OPERATING, one step at a time.
 

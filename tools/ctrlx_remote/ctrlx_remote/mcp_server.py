@@ -136,12 +136,13 @@ def update_apps(device: str, apps_dir: str, extra_files: list[str] | None = None
     client.activate_app_storage()
     for path in files:
         client.app_storage_upload(path)
-    stored = {p["name"]: p["releases"][0]["version"] for p in client.app_storage_packages()}
-    wanted = {a.name for a in (read_app_file(p) for p in files) if a}
+    # App Storage can hold older versions too: install the version of the uploaded file.
+    stored = {a.name: a.version for a in (read_app_file(p) for p in files) if a}
+    wanted = set(stored)
     order = [n for n in UPDATE_ORDER if n in wanted] + sorted(wanted - set(UPDATE_ORDER))
     for name in order:
         # A restart (core24, kernel) puts the device back in its startup mode.
-        if client.mode() != "SERVICE":
+        if client.wait_mode() != "SERVICE":
             client.set_mode("SERVICE")
         client.install_from_app_storage(f"snap_{name}", stored[name], update=name in installed,
                                         timeout=1800, poll=5)

@@ -151,16 +151,17 @@ def cmd_system_apps(args: argparse.Namespace) -> None:
     if args.action == "stage":
         return
 
-    stored = {p["name"]: p["releases"][0]["version"] for p in client.app_storage_packages()}
-    wanted = {item.app.name for item in items} | {
-        a.name for a in (read_app_file(p) for p in extra) if a
+    # App Storage can hold older versions too: install the version of the uploaded file.
+    stored = {item.app.name: item.app.version for item in items} | {
+        a.name: a.version for a in (read_app_file(p) for p in extra) if a
     }
+    wanted = set(stored)
     order = [n for n in UPDATE_ORDER if n in wanted] + sorted(wanted - set(UPDATE_ORDER))
     _confirm(args, f"Switch {client.credentials.host} to SERVICE and install {', '.join(order)}?")
     mode_before = client.mode()
     _log(f"mode {mode_before} -> {client.set_mode('SERVICE')}")
     for name in order:
-        if client.mode() != "SERVICE":
+        if client.wait_mode() != "SERVICE":
             # A restart (core24, kernel) puts the device back in its startup mode.
             _log(f"device is in {client.mode()} after restart -> {client.set_mode('SERVICE')}")
         _log(f"{'update' if name in installed else 'install'} {name} {stored[name]}")

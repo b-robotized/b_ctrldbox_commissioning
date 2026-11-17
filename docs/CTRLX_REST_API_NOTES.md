@@ -62,6 +62,36 @@ App Storage keeps only the part of a `.app` file for the device architecture.
 - Real-time cores: `GET /system/api/v1/settings/cpu` (`cores.coreN.realtime`).
 - Tasks: browse `scheduler/tasks` in the Data Layer; `scheduler/tasks/<name>/properties` has `cycletime` (µs), `priority`, and `affinity` (core).
 - The b»controlled box task is `bCtrldBox`; the EtherCAT I/O task is `ECATExtIOs`; `schedBackground` is not real-time.
+- The scheduler main task is in `scheduler/admin/properties` (`schedMain`, priority 10).
+- Change a task (SERVICE mode): `PUT /automation/api/v2/nodes/scheduler/tasks/<name>/properties` with `{"type": "object", "value": {<all properties>}}`, then `POST /automation/api/v2/nodes/scheduler/admin/cfg/save` with `{"type": "object", "value": {}}` (response `201`). The saved values are in `configurations/active/scheduler/autoconfig.json` (tasks from apps) or `programs.json`.
+- The EtherCAT master sets the default core of its task in `fieldbuses/ethercat/master/instances/<instance>/admin/task_config/task_default_info` (`coreIndex: "rt/1"` = second real-time core; read-only).
+
+## Licenses (`/license-manager/api/v1`)
+
+- Installed licenses: `GET /capabilities` (`name`, for example `SWL-XCx-FRW-FIREWALLxxxxx-BANN`).
+- Upload a license file (`<serial>.bin`, bound to the serial number of the device): `PUT /capabilities`, multipart field `file`.
+- An app without its license answers `402 Payment Required` (Firewall: `SWL-XCx-FRW-FIREWALL...`; IXON: `SWL-W-XCx-IXAGxIXONxREMOT...`).
+- The serial number is in `typePlate.serialNumber` of `ctrlx-setup.json` in a backup.
+
+## Network interfaces (`/network-manager/api/v1`)
+
+- Addresses and DHCP: `GET`/`PUT /interfaces/<name>/configuration` (`dhcp4`, `dhcp6`, `ipv4Address`).
+- IP forwarding: `GET`/`PUT /interfaces/<name>` (`ipForwarding`).
+- A `PUT` is applied only after `PUT /changes` with `{"applied": true, "discarded": false}`.
+- Link and routes: `GET /interfaces/<name>/state`; all addresses: `GET /addresses`.
+
+## Firewall (`/firewall/api/v2`)
+
+- Routing (NAT) rules as in the web UI: `GET`/`POST /routing-rules` (`description`, `destinationAddress`, `natType: masquerade`, `enabled`, ...).
+  This path is not in the public description (Firewall API 1.2.3).
+- Changes are active but not saved until `POST /tasks` with `{"action": "persist"}`; `GET /status` shows `dirty: true` before.
+
+## IXON Cloud Connector
+
+- Registration page: `/register-ixon-cloud-connector/` (HTML).
+- Register: `POST /register-ixon-cloud-connector/` with form field `company_id`; the device needs internet access.
+- The page shows the state of API client, configuration, and VPN (`connected` when done).
+- The agent identity is created at registration; do not copy `configurations/active/IXagent/ixagent.conf` to another device.
 
 ## Backup and restore (Setup app, `/setup/api/v1`)
 

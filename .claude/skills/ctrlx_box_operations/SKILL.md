@@ -83,6 +83,7 @@ $CR -y apps install <ros2-base.snap> <zenoh.snap> <rt.snap> <ui.snap>   # in thi
 ```
 
 The tool checks the architecture from the snap metadata and updates apps that are already installed.
+After an update of `b-controlled-box-rt-jazzy`, restart the device (after approval), then run `$CR check` (`RT bundle` must be `Active`).
 
 ## Transfer device A → device B
 

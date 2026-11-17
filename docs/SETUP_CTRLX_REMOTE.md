@@ -149,6 +149,11 @@ The tool checks that each file matches the architecture of the device.
 
 REST: `POST /package-manager/api/v1/packages` (multipart, field `file`) uploads and installs one app.
 
+After an update of `b-controlled-box-rt-jazzy` (a new version over an installed one), restart the device.
+Without the restart, the new version can fail to start.
+Web UI: `Settings > Shutdown > Restart`. REST: `POST /system/api/v1/tasks` with `{"action": "reboot"}`.
+After the restart, the device is in its startup mode.
+
 ## 7. Operation mode
 
 ```bash

@@ -59,6 +59,9 @@ To validate either robot or PC connection, navigate to `Settings > Network Diagn
 
 4. Upload the Snap file and click `Install`. The app will start automatically.
 
+5. After an update of `b-controlled-box-rt-jazzy` (a new version over an installed one), restart the device (see [Restarting the ctrlX CORE](#restarting-the-ctrlx-core)).
+   Without the restart, the new version can fail to start.
+
 ### Install Zenoh app
 
 b»controlled box uses **zenoh** as ROS 2 middleware, so install the **zenoh router app** as well. The `jazzy` snap is [available here](https://cloud.b-robotized.com/s/XBSLmK3Cms9sW85).

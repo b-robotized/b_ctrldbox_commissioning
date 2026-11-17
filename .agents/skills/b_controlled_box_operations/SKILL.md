@@ -1,9 +1,9 @@
 ---
-name: ctrlx_box_operations
+name: b_controlled_box_operations
 description: Check, update, back up, restore, and transfer b»controlled boxes (ctrlX CORE) over the ctrlX REST API with the ctrlx-remote tool of this repository — system app updates via App Storage, backups, moving a setup to another device, installing b»controlled box apps. Load when asked to update, back up, restore, transfer, clone, check, or commission a ctrlX CORE / b»controlled box.
 ---
 
-# ctrlX box operations
+# b»controlled box operations
 
 Use the `ctrlx-remote` tool in `tools/ctrlx_remote/`.
 Details are in the docs; read the one you need, do not guess:

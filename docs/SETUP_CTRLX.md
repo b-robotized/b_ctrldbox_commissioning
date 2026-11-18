@@ -43,7 +43,7 @@ Ensure the robot is powered on and connected. Then:
 2. Select the Ethernet port connected to your robot. (Recommended: `XF12`)
 3. Go to the `IPv4` tab and set a static IP address that is on the same subnet as your robot.
 
-Recommened and default address is `10.23.23.28` with subnet mask `255.255.255.0`. _Note that if you got the device from b»robotized, there is a dedicated IP address for it - check the manual for more informations._
+Recommended and default address is `10.23.23.28` with subnet mask `255.255.255.0`. _Note that if you got the device from b»robotized, there is a dedicated IP address for it - check the manual for more information._
 
 ### 1.3 Validate connections
 To validate either robot or PC connection, navigate to `Settings > Network Diagnostics` and ping your robot.
@@ -70,7 +70,7 @@ Install the apps in this order: `ros2-base-jazzy`, `zenohd-router-jazzy-binary`,
 
 b»controlled box uses **zenoh** as the middleware of choice due problems which DDS introduces with UDP multicast for discovery and transport, as well as its opaque and arcane configuration options.
 
-We encourage you to try out zenoh for your workspace. 
+We encourage you to try out zenoh for your workspace.
 To easily transition to zenoh, check out our [zenoh setup guide](./SETUP_ZENOH.md).
 
 ## 4. Understanding Operation Modes
@@ -87,7 +87,7 @@ b»Controlled Box controller manager responds to these modes to ensure safe oper
 * **SETUP**: A real-time guaranteed mode for setting up the robot scenario.
   * all hardware interfaces can be active. Controllers that do not claim command interfaces can be active
 
-* **OPERATIONAL**: The full real-time production mode. 
+* **OPERATIONAL**: The full real-time production mode.
   * all hardware interfaces and controllers can be active and the system is ready to control the robot.
 
 

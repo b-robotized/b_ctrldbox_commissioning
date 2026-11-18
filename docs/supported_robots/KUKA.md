@@ -4,9 +4,9 @@ This guide covers the KUKA-specific steps for configuring the Robot Sensor Inter
 
 ## 1. Configure the RSI Network Interface
 
-You'll need to set up a dedicated network interface on the robot controller for RSI communication. 
+You'll need to set up a dedicated network interface on the robot controller for RSI communication.
 
-SmartHMI on the teach pad runs ontop of Windows. Ensure that the Windows interface of the controller is connected to the same subnet as the configuration PC (e.g. `192.168.28.x`).
+SmartHMI on the teach pad runs on top of Windows. Ensure that the Windows interface of the controller is connected to the same subnet as the configuration PC (e.g. `192.168.28.x`).
 
 Log in as **Expert** or **Administrator** on the teach pad and navigate to **Network configuration** (`Start-up -> Network configuration -> Activate advanced configuration`).
 There should already exist an interface named Windows interface. For example:

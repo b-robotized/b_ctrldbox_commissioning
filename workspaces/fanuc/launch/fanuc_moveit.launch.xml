@@ -37,7 +37,7 @@
        default="192.168.0.100"
        description="IP address of the robot controller."/>
   <arg name="robot_model"
-       default="m20_35-18d"
+       default="m20_35_18d"
        description="Exact robot model."/>
   <arg name="robot_series"
        default="m20"
@@ -49,7 +49,7 @@
   <arg name="semantic_description_file"
        default="fanuc_test.srdf.xacro"
        description="URDF/XACRO semantic description file with the robot."/>
-  
+
 
   <!-- moveit -->
   <arg name="move_group_config_file_path"
@@ -75,7 +75,7 @@
        description="YAML file with the Pilz cartesian limits configuration."/>
 
   <arg name="default_planning_pipeline"
-       default="ompl" 
+       default="ompl"
        description="Default planning pipeline for MoveIt2.">
    <choice value="ompl"/>
    <choice value="pilz"/>

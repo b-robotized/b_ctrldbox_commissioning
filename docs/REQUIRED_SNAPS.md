@@ -49,7 +49,7 @@ These apps are installed on every b»controlled box and kept in the App Storage 
 | App | Snap name | Version | Required |
 |---|---|---|---|
 | ROS 2 Jazzy runtime | `ros2-base-jazzy` | 3.1.0 | Yes |
-| Zenoh router | `zenohd-router-jazzy-binary` | 1.0 | Yes; b»controlled box uses Zenoh, see [SETUP_ZENOH.md](SETUP_ZENOH.md) |
+| Zenoh router | `zenohd-router-jazzy-binary` | 1.8.0 (same Zenoh version as `rmw_zenoh_cpp`) | Yes; b»controlled box uses Zenoh, see [SETUP_ZENOH.md](SETUP_ZENOH.md) |
 | b»controlled box RT | `b-controlled-box-rt-jazzy` | project build | Yes |
 | b»controlled box UI | `b-controlled-box-ui-jazzy` | 1.3.0 (newest build) | Yes |
 | Robot-specific apps | e.g. `ur-tool-communication-node`, `b-controlled-box-franka-gripper` | per robot | Only for that robot |
@@ -65,5 +65,5 @@ The RT app is built for your project and robot; its version contains the project
 | App | arm64 | amd64 |
 |---|---|---|
 | `ros2-base-jazzy` 3.1.0 | link from b»robotized | link from b»robotized |
-| `zenohd-router-jazzy-binary` 1.0 | link from b»robotized | link from b»robotized |
+| `zenohd-router-jazzy-binary` 1.8.0 | link from b»robotized | link from b»robotized |
 | `b-controlled-box-ui-jazzy` 1.3.0 | link from b»robotized | link from b»robotized |

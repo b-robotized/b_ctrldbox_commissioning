@@ -85,6 +85,7 @@ $CR -y apps install <ros2-base.snap> <zenoh.snap> <rt.snap> <ui.snap>   # in thi
 The tool checks the architecture from the snap metadata and updates apps that are already installed.
 After an update of `b-controlled-box-rt-jazzy`, restart the device (after approval), then run `$CR check` (`RT bundle` must be `Active`).
 After each install, update, or transfer, check `Zenoh router log level` (the tool prints it). `trace` or `debug` must be changed to `warn` (after approval).
+After an update of the Zenoh router from 1.0 to 1.8.0, check the `listen` endpoints in `zenoh-router/ZENOH_ROUTER_CONFIG.json5`: an existing file still listens on all addresses (`docs/SETUP_ZENOH.md`, section 5).
 
 ## Transfer device A → device B
 

@@ -23,6 +23,7 @@ The check only reads from the device.
 | 1.6 | "Allow installation from unknown sources" is on | `unknown apps allowed` | `Settings > Apps > Settings` |
 | 1.7 | App Storage active and contains the standard apps and the current system apps | `App Storage` | `system-apps stage <apps-folder>` |
 | 1.8 | Zenoh router logs only warnings: `export RUST_LOG='zenoh=warn,zenoh_transport=warn'` in `zenoh-router/zenoh_router.env` of the active configuration (with `export`). `trace` or `debug` writes hundreds of lines per second to the logbook and loads the non-real-time cores. Router releases up to `1.0` create the file with `trace`, and an update does not change an existing file. | `Zenoh router log level` (also shown after `apps install`, `system-apps update`, and `transfer apply`) | Change the file in `Manage app data` (SERVICE mode), then restart the router app |
+| 1.9 | Zenoh router listens only on one `XF10` address and on localhost: `tcp/XF10_ADDRESS:7447`, `tcp/127.0.0.1:7447`, `tcp/[::1]:7447` in `zenoh-router/ZENOH_ROUTER_CONFIG.json5` (router 1.8.0 default). Files of router releases up to `1.0` listen on all addresses (`tcp/[::]:7447`). | Port `7447` answers on the `XF10` address only, not on other device addresses | Change the `listen` endpoints as in [SETUP_ZENOH.md](SETUP_ZENOH.md) section 5, then restart the device |
 
 ## 2. Time
 

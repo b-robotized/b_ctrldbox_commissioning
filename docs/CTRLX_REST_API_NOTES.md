@@ -101,6 +101,8 @@ App Storage keeps only the part of a `.app` file for the device architecture.
 - Download it as a zip: `GET /solutions/DefaultSolution/configurations/appdata/archive`.
 - Upload a changed zip: `PUT` on the same path (`application/octet-stream`).
 - Read or write one file: `GET`/`PUT /solutions/webdav/appdata/<path>` (WebDAV of the Solutions app, for example `zenoh-router/zenoh_router.env`). The archive download can answer `400 No downloadable appdata found`; this path still works.
+  `PUT` answers `201` and works in every operation mode. Read the file again to check it.
+  An app reads its files only at its start: after a change, restart the device (or install the app again).
 - Load it: `POST /tasks` with `{"action": "load_async", "parameters": {"configurationPath": "<path>"}}`; with `"queryOnly": true` first, the device only checks it.
 
 ## Restart

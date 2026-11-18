@@ -34,7 +34,8 @@ export ZENOH_CONFIG_OVERRIDE="key/path/to/field1=value1;key/path/to/field2=value
 
 Because Zenoh operates over TCP, you must configure one router to listen for connections, and the other router to reach out and connect.
 
-> **Note: ⚠️** In our case, **b»controlled box** is configured to listen on all interfaces, and the commissioning container is configured to connect. This is done via a separate snap package running the `zenoh` router, which is provided with the app.
+> **Note: ⚠️** In our case, the Zenoh router app on the **b»controlled box** listens, and the commissioning PC or container connects.
+> The router listens only on one `XF10` address (default `192.168.28.28`) and on localhost, see [Zenoh router on the b»controlled box](#5-zenoh-router-on-the-bcontrolled-box).
 
 To connect to the **b»controlled box**, on your commissioning PC, first run the router:
 
@@ -43,7 +44,8 @@ export RMW_IMPLEMENTATION=rmw_zenoh_cpp
 # increase log level to see the connection happening. Try info, debug or trace.
 export RUST_LOG=zenoh=warn,zenoh_transport=warn
 
-# Connect to your CtrlX device IP
+# Connect to the XF10 address of your ctrlX device (default 192.168.28.28).
+# Other addresses of the device, e.g. 10.x.x.x, do not answer on port 7447.
 export ZENOH_CONFIG_OVERRIDE='connect/endpoints=["tcp/192.168.28.28:7447"]'
 
 # Start the router and leave it running.
@@ -129,3 +131,52 @@ From here on, ensure in one terminal that you have `ros2 run rmw_zenoh_cpp rmw_z
 - **Router logs** Keep the rmw_zenohd terminal visible. The `RUST_LOG=zenoh=debug,zenoh_transport=debug` environment variable will print detailed diagnostic information if the TCP handshake is failing.
 
 - **CtrlX zenoh router app active?** Ensure the `zenoh` router app is installed and active on your `CtrlX` device.
+
+- **Connection refused on port `7447`?** Connect to the address the router listens on (see section 5), not to another address of the device.
+  Check the router log in the logbook of the device: `Listening on XF10 address <address>`.
+
+## 5. Zenoh router on the b»controlled box
+
+The app `zenohd-router-jazzy-binary` (from 1.8.0) runs the router on the device.
+Source and details: [`b_controlled_box_support_apps`](https://code.b-robotized.com/b-controlled-box/b_controlled_box_support_apps), README, section "Zenoh router".
+
+### Files
+
+All files are in the active configuration (`Settings > Solutions > Active configuration`, or `Manage app data` in SERVICE mode).
+The apps create them with default values only when they do not exist; an update does not change existing files.
+
+| File | Used by | Content |
+|---|---|---|
+| `zenoh-router/ZENOH_ROUTER_CONFIG.json5` | Zenoh router | Router configuration; `listen` endpoints |
+| `zenoh-router/zenoh_router.env` | Zenoh router | `RUST_LOG`, `ZENOH_LISTEN_SUBNET`, `ZENOH_LISTEN_PREFERRED`, `ZENOH_LISTEN_WAIT_S` |
+| `b-controlled-box/ZENOH_SESSION_CONFIG.json5` | bCtrldBox (RT app) | Session configuration: connects to `tcp/localhost:7447` |
+
+`b-controlled-box/DEFAULT_RMW_ZENOH_SESSION_CONFIG.json5` is not used.
+
+The configurations are the defaults of `rmw_zenoh_cpp` (`DEFAULT_RMW_ZENOH_ROUTER_CONFIG.json5`, `DEFAULT_RMW_ZENOH_SESSION_CONFIG.json5`) of the pinned `rmw_zenoh` version.
+In the router configuration, only the `listen` endpoints are changed.
+
+### Listen addresses
+
+```json5
+endpoints: [
+  "tcp/XF10_ADDRESS:7447",  // XF10 address for the ROS 2 PC, RViz, b»ui
+  "tcp/127.0.0.1:7447",     // localhost IPv4: clients on the device, e.g. bCtrldBox
+  "tcp/[::1]:7447"          // localhost IPv6: the same, if localhost resolves to IPv6
+],
+```
+
+`XF10_ADDRESS` is a placeholder. At each start, the router app replaces it with:
+1. `ZENOH_LISTEN_PREFERRED` (default `192.168.28.28`) if the device has this address,
+2. else the first device address in `ZENOH_LISTEN_SUBNET` (default `192.168.28`), e.g. `192.168.28.13` when more devices are in one network,
+3. else, after `ZENOH_LISTEN_WAIT_S` seconds (default 60), `ZENOH_LISTEN_PREFERRED`. The router then keeps running on localhost.
+
+### Set your own address
+
+Change the files, then restart the device.
+
+- Fixed address: replace `XF10_ADDRESS` in `ZENOH_ROUTER_CONFIG.json5`, e.g. `"tcp/192.168.28.13:7447"`. The app then uses the file unchanged.
+- Other subnet or preferred address: keep `XF10_ADDRESS` and change the variables in `zenoh_router.env`.
+
+Files of router releases up to 1.0 listen on all addresses (`tcp/[::]:7447`).
+After an update to 1.8.0, replace the `listen` endpoints with the ones above, or delete the file before the update.

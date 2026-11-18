@@ -66,7 +66,7 @@ The architecture consists of physical devices: the PC with ROS 2 high-level appl
 Ready to begin? Follow our step-by-step guides to get your system up and running.
 The process is divided into three main parts:
 
-1. setting up [**ctrlX CORE device**](docs/SETUP_CTRLX.md)
+1. setting up [**ctrlX CORE device**](docs/SETUP_CTRLX.md) — with the web UI, or [remotely over the REST API](docs/SETUP_CTRLX_REMOTE.md) with the [`ctrlx-remote`](tools/ctrlx_remote/README.md) tool; required apps: [REQUIRED_SNAPS.md](docs/REQUIRED_SNAPS.md)
 2. setting up the robot itself - refer to **manufacturer-specific instruction**
      * [**KUKA**](docs/supported_robots/KUKA.md)
      * [**UR**](docs/supported_robots/UR.md)
@@ -76,6 +76,12 @@ The process is divided into three main parts:
      * [**FANUC**](docs/supported_robots/FANUC.md)
      * [**DOBOT**](docs/supported_robots/DOBOT.md)
 3. setting up [**b»Controlled Box commissioning environment**](docs/SETUP_COMMMISSIONING.md)
+
+After commissioning:
+
+* make a backup and keep it in a folder that you control — see [BACKUP_AND_TRANSFER.md](docs/BACKUP_AND_TRANSFER.md)
+* move the application to another ctrlX CORE — see [MOVE_TO_ANOTHER_BOX.md](docs/MOVE_TO_ANOTHER_BOX.md)
+* AI agents: read [AGENTS.md](AGENTS.md)
 
 ## How It Works: A Typical Data Flow
 

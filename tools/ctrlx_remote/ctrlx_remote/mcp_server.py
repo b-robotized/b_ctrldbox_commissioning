@@ -1,4 +1,34 @@
-"""MCP server for ctrlX OS devices (stdio).
+# Copyright 2026 b»robotized by Stogl Robotics
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in the
+#      documentation and/or other materials provided with the distribution.
+#
+#    * Neither the name of the b»robotized by Stogl Robotics nor the names of its
+#      contributors may be used to endorse or promote products derived from
+#      this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
+"""
+MCP server for ctrlX OS devices (stdio).
 
 Devices are env files in a folder (default ~/.config/b-ctrldbox/), one per box:
 `<name>.env` with CTRLX_IP, CTRLX_USER, CTRLX_PASSWORD, optional CTRLX_SOURCE_ADDRESS.
@@ -23,7 +53,10 @@ from .client import CtrlxClient, CtrlxError, Credentials, read_env_file
 from .reference import check_device
 
 server = FastMCP("ctrlx")
-_config: dict[str, Any] = {"devices_dir": Path("~/.config/b-ctrldbox").expanduser(), "allow_write": False}
+_config: dict[str, Any] = {
+    "devices_dir": Path("~/.config/b-ctrldbox").expanduser(),
+    "allow_write": False,
+}
 
 
 def _client(device: str) -> CtrlxClient:
@@ -33,7 +66,8 @@ def _client(device: str) -> CtrlxClient:
     values = read_env_file(str(env_file))
     return CtrlxClient(
         Credentials.from_env(str(env_file)),
-        source_address=values.get("CTRLX_SOURCE_ADDRESS") or os.environ.get("CTRLX_SOURCE_ADDRESS"),
+        source_address=values.get("CTRLX_SOURCE_ADDRESS")
+        or os.environ.get("CTRLX_SOURCE_ADDRESS"),
     )
 
 
@@ -78,7 +112,8 @@ def list_apps(device: str) -> dict[str, Any]:
     return {
         "installed": _installed(client),
         "appStorage": {
-            p["name"]: [r["version"] for r in p.get("releases", [])] for p in client.app_storage_packages()
+            p["name"]: [r["version"] for r in p.get("releases", [])]
+            for p in client.app_storage_packages()
         },
     }
 
@@ -88,16 +123,30 @@ def check_updates(device: str, apps_dir: str) -> dict[str, Any]:
     """Compare installed apps with the newest system apps and standard apps in apps_dir."""
     client = _client(device)
     dtype, system, standard = plan_updates(Path(apps_dir), _installed(client))
-    row = lambda i: {"app": i.app.name, "installed": i.installed, "available": i.app.version,
-                     "file": str(i.app.path)}
-    return {"deviceType": dtype, "systemApps": [row(i) for i in system],
-            "standardApps": [row(i) for i in standard], "standardAppNames": list(STANDARD_APPS)}
+
+    def row(i):
+        return {
+            "app": i.app.name,
+            "installed": i.installed,
+            "available": i.app.version,
+            "file": str(i.app.path),
+        }
+
+    return {
+        "deviceType": dtype,
+        "systemApps": [row(i) for i in system],
+        "standardApps": [row(i) for i in standard],
+        "standardAppNames": list(STANDARD_APPS),
+    }
 
 
 @server.tool()
 def check_setup(device: str, apps_dir: str | None = None) -> list[dict[str, str]]:
-    """Compare the device with the reference setup (docs/REFERENCE_SETUP.md). Read-only.
-    status: ok, warn, FAIL, info."""
+    """
+    Compare the device with the reference setup (docs/REFERENCE_SETUP.md).
+
+    Read-only. status: ok, warn, FAIL, info.
+    """
     results = check_device(_client(device), Path(apps_dir) if apps_dir else None)
     return [{"status": r.status, "item": r.item, "detail": r.detail} for r in results]
 
@@ -125,9 +174,15 @@ def set_mode(device: str, mode: str) -> str:
 
 
 @server.tool()
-def update_apps(device: str, apps_dir: str, extra_files: list[str] | None = None) -> dict[str, Any]:
-    """Upload outdated system apps and missing standard apps to App Storage, switch to
-    SERVICE, and install them in the order of the release notes. Needs --allow-write."""
+def update_apps(
+    device: str, apps_dir: str, extra_files: list[str] | None = None
+) -> dict[str, Any]:
+    """
+    Update outdated system apps and install missing standard apps.
+
+    Upload them to App Storage, switch to SERVICE, and install them in the order of the
+    release notes. Needs --allow-write.
+    """
     _require_write()
     client = _client(device)
     installed = _installed(client)
@@ -144,8 +199,9 @@ def update_apps(device: str, apps_dir: str, extra_files: list[str] | None = None
         # A restart (core24, kernel) puts the device back in its startup mode.
         if client.wait_mode() != "SERVICE":
             client.set_mode("SERVICE")
-        client.install_from_app_storage(f"snap_{name}", stored[name], update=name in installed,
-                                        timeout=1800, poll=5)
+        client.install_from_app_storage(
+            f"snap_{name}", stored[name], update=name in installed, timeout=1800, poll=5
+        )
     after = _installed(client)
     return {name: {"before": installed.get(name), "after": after.get(name)} for name in order}
 

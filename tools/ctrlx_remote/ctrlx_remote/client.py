@@ -1,4 +1,34 @@
-"""REST client for ctrlX OS devices.
+# Copyright 2026 b»robotized by Stogl Robotics
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in the
+#      documentation and/or other materials provided with the distribution.
+#
+#    * Neither the name of the b»robotized by Stogl Robotics nor the names of its
+#      contributors may be used to endorse or promote products derived from
+#      this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
+"""
+REST client for ctrlX OS devices.
 
 Covers the APIs that commissioning needs: identity manager (token),
 package manager (apps), setup (backup and restore), system info,
@@ -52,8 +82,9 @@ class Credentials:
     password: str
 
     @classmethod
-    def from_env(cls, env_file: str | None = None) -> "Credentials":
-        """Read CTRLX_IP (or CTRLX_HOST), CTRLX_USER, CTRLX_PASSWORD.
+    def from_env(cls, env_file: str | None = None) -> Credentials:
+        """
+        Read CTRLX_IP (or CTRLX_HOST), CTRLX_USER, CTRLX_PASSWORD.
 
         Values from `env_file` take precedence over the process environment.
         """
@@ -88,7 +119,8 @@ def read_env_file(path: str) -> dict[str, str]:
 
 
 class _CtrlxAdapter(HTTPAdapter):
-    """HTTP adapter for ctrlX devices.
+    """
+    HTTP adapter for ctrlX devices.
 
     - Optional local source IP address. Use it when a VPN route hides
       the local network of the device.
@@ -196,7 +228,7 @@ class CtrlxClient:
             return None
 
     def data_disk(self) -> dict[str, Any] | None:
-        """The data partition (`ubuntu-data` or `ubuntu-data-enc`) with size and used bytes."""
+        """Return the data partition (`ubuntu-data` or `ubuntu-data-enc`) with size and used bytes."""
         media = self.get_json("/storage/api/v1/media")
         return next((m for m in media if str(m.get("label", "")).startswith("ubuntu-data")), None)
 
@@ -281,7 +313,8 @@ class CtrlxClient:
     def install_files(
         self, files: Iterable[Path], installed: Iterable[str], **wait_kwargs: Any
     ) -> list[dict[str, Any]]:
-        """Upload app files as one batch, then install or update each app.
+        """
+        Upload app files as one batch, then install or update each app.
 
         `POST /packages` refuses apps that are already installed; this works for both.
         """
@@ -305,7 +338,9 @@ class CtrlxClient:
                     },
                 },
             )
-            results.append(self.wait_task(f"{PACKAGE_MANAGER}/tasks", _task_id(response), **wait_kwargs))
+            results.append(
+                self.wait_task(f"{PACKAGE_MANAGER}/tasks", _task_id(response), **wait_kwargs)
+            )
         return results
 
     def install_batch(self, batch_id: str, **wait_kwargs: Any) -> dict[str, Any]:
@@ -407,7 +442,8 @@ class CtrlxClient:
                 time.sleep(poll)
 
     def set_mode(self, target: str, timeout: float = 300, poll: float = 2.0) -> str:
-        """Switch to SERVICE, SETUP, or OPERATING, one step at a time.
+        """
+        Switch to SERVICE, SETUP, or OPERATING, one step at a time.
 
         The order is OPERATING <-> SETUP <-> SERVICE, as in the web UI.
         """
@@ -416,7 +452,9 @@ class CtrlxClient:
             raise CtrlxError(f"Unknown mode {target}; use one of {', '.join(MODES)}")
         current = self.mode()
         while current != target:
-            step = MODES[MODES.index(current) + (1 if MODES.index(target) > MODES.index(current) else -1)]
+            step = MODES[
+                MODES.index(current) + (1 if MODES.index(target) > MODES.index(current) else -1)
+            ]
             self.request(
                 "PUT",
                 f"{DATALAYER}/nodes/{MODE_NODE}",
@@ -434,7 +472,8 @@ class CtrlxClient:
     def create_backup(
         self, password: str | None = None, include_apps: bool = True, **wait_kwargs: Any
     ) -> dict[str, Any]:
-        """Create a backup of settings, certificates, and configurations.
+        """
+        Create a backup of settings, certificates, and configurations.
 
         include_apps=False leaves out the app files (only the app list is kept).
         Use it when the data disk has no space for a full backup.
@@ -448,7 +487,11 @@ class CtrlxClient:
         return self.wait_task(f"{SETUP}/tasks", _task_id(response), **wait_kwargs)
 
     def apply_setup(
-        self, setup_file: Path, mode: str = "merge", password: str | None = None, **wait_kwargs: Any
+        self,
+        setup_file: Path,
+        mode: str = "merge",
+        password: str | None = None,
+        **wait_kwargs: Any,
     ) -> dict[str, Any]:
         """Apply a setup/backup file. `merge` keeps settings that are not in the file."""
         data = {"mode": mode}
@@ -485,7 +528,8 @@ class CtrlxClient:
         poll: float = 3.0,
         on_progress: Callable[[dict[str, Any]], None] | None = None,
     ) -> dict[str, Any]:
-        """Poll a task until it is done or failed.
+        """
+        Poll a task until it is done or failed.
 
         The device can restart services during system app updates;
         connection errors and 502/503/504 during polling are retried until the timeout.

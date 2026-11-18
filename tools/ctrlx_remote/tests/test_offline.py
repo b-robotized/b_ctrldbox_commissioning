@@ -1,3 +1,32 @@
+# Copyright 2026 b»robotized by Stogl Robotics
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in the
+#      documentation and/or other materials provided with the distribution.
+#
+#    * Neither the name of the b»robotized by Stogl Robotics nor the names of its
+#      contributors may be used to endorse or promote products derived from
+#      this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
 """Offline tests: no device needed."""
 
 import io
@@ -30,9 +59,15 @@ def test_version_compare():
 
 
 def test_read_app_file(tmp_path):
-    app = read_app_file(make_app(tmp_path / "Device Admin-4.6.6.app", "rexroth-deviceadmin-4.6.6"),
-                        ["rexroth-deviceadmin"])
-    assert (app.name, app.version, app.architectures) == ("rexroth-deviceadmin", "4.6.6", ("amd64", "arm64"))
+    app = read_app_file(
+        make_app(tmp_path / "Device Admin-4.6.6.app", "rexroth-deviceadmin-4.6.6"),
+        ["rexroth-deviceadmin"],
+    )
+    assert (app.name, app.version, app.architectures) == (
+        "rexroth-deviceadmin",
+        "4.6.6",
+        ("amd64", "arm64"),
+    )
     core = read_app_file(make_app(tmp_path / "core22-20260410.app", "core22_20260410", ("arm64",)))
     assert (core.name, core.version, core.architectures) == ("core22", "20260410", ("arm64",))
 
@@ -46,7 +81,11 @@ def test_plan_updates(tmp_path):
     make_app(system / "Device Admin-4.6.6.app", "rexroth-deviceadmin-4.6.6")
     make_app(system / "Setup-4.6.4.app", "rexroth-setup-4.6.4")
     make_app(package / "Firewall-4.6.4.app", "rexroth-firewall-4.6.4")
-    installed = {"rexroth-arch01-hw": "4.6.4", "rexroth-deviceadmin": "4.6.5", "rexroth-setup": "4.6.4"}
+    installed = {
+        "rexroth-arch01-hw": "4.6.4",
+        "rexroth-deviceadmin": "4.6.5",
+        "rexroth-setup": "4.6.4",
+    }
     dtype, sys_items, std_items = plan_updates(tmp_path, installed, ["rexroth-firewall"])
     assert dtype == "X3"
     assert [(i.app.name, i.reason) for i in sys_items] == [("rexroth-deviceadmin", "update")]
@@ -60,7 +99,8 @@ def test_sanitize(tmp_path):
         "identityManagement": {"users": {}},
         "licenseManagement": {},
         "certificateManagement": {"$path": "certificateManagement"},
-        "systemInfo": {}, "typePlate": {},
+        "systemInfo": {},
+        "typePlate": {},
         "system": {"hostname": "box-a", "cpu": {"cores": {}}},
         "packageManagement": {"allowUnknownApps": True, "installedApps": {"x": {"version": "1"}}},
         "configurations": {"active": {"$path": "configurations/active"}},
@@ -78,7 +118,12 @@ def test_sanitize(tmp_path):
         clean = json.loads(z.read("ctrlx-setup.json"))
     assert "configurations/active/b-controlled-box/scenario_controllers.yaml" in names
     assert not any(n.startswith("certificateManagement") for n in names)
-    for key in ("connectivity", "identityManagement", "licenseManagement", "certificateManagement"):
+    for key in (
+        "connectivity",
+        "identityManagement",
+        "licenseManagement",
+        "certificateManagement",
+    ):
         assert key not in clean
     assert "hostname" not in clean["system"]
     assert clean["packageManagement"] == {"allowUnknownApps": True}

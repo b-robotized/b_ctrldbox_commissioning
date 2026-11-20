@@ -5,9 +5,10 @@ starting with the Standard configuration and then extending it with an external 
 All configurations stream joint positions, torques, motor currents, setpoint positions, program
 status and the Cartesian pose to ROS 2.
 
-> ⚠️ The configurations are tested with **RSI 4.1.x (KSS 8.6)** only. The RSI 3.3.x/4.0.x/6.x
-> contexts in this repository don't match the current ethernet configs yet - see
-> [`RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md).
+> ⚠️ The configurations are tested with **RSI 4.1.x (KSS 8.6)** only. The RSI 3.3.x (KSS 8.3/8.4)
+> and RSI 6.x (KSS 9.2.2 / iiQKA.OS2) contexts were ported from the 4.1.x ones and match the current
+> ethernet configs, but are not yet tested on a real controller. The RSI 4.0.x contexts don't match
+> them yet - see [`RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md).
 
 - Controller network setup (RSI and EKI interfaces): [`docs/supported_robots/KUKA.md`](../../docs/supported_robots/KUKA.md)
 - Reference for every RSI configuration (indices, objects, tested versions): [`kss_deployment/RSI_CONFIGURATIONS.md`](kss_deployment/RSI_CONFIGURATIONS.md)
@@ -338,10 +339,16 @@ ros2 lifecycle set robot_manager activate
 After `activate`, spawn the status and pose broadcasters (not spawned automatically):
 
 ```bash
-ros2 run controller_manager spawner robot_status_broadcaster cartesian_pose_broadcaster cartesian_setpoint_broadcaster \
+ros2 run controller_manager spawner cartesian_pose_broadcaster cartesian_setpoint_broadcaster \
   -c controller_manager \
   --param-file $(ros2 pkg prefix --share kuka_rsi_driver)/config/kuka_cartesian_pose_broadcaster_config.yaml
+ros2 run controller_manager spawner robot_status_broadcaster -c controller_manager \
+  --param-file <absolute path>/workspaces/kuka/scenario_controllers.yaml
 ```
+
+The robot status uses the generic `state_interfaces_broadcaster` from `ros2_controllers`
+(type and interfaces are in `scenario_controllers.yaml`). `kuka_drivers` has no own
+broadcaster for it.
 
 What to check:
 
@@ -349,7 +356,7 @@ What to check:
 | :--- | :---- | :------- |
 | Joint positions / torques | `/joint_states` → `position` / `effort` | real values (not `NaN`); torques clearly non-zero on A2/A3 at standstill |
 | Motor currents, setpoint positions | `/dynamic_joint_states` → `current`, `position_setpoint` | real values for every joint |
-| Program state / speed scaling | `/robot_status_broadcaster/program_state`, `/robot_status_broadcaster/speed_scaling` | follows the program state and the override on the pendant |
+| Program state / speed scaling | `/robot_status_broadcaster/values` (order in `/robot_status_broadcaster/names`: `program_state`, `speed_scaling_factor`) | follows the program state and the override on the pendant |
 | Cartesian pose | `/cartesian_pose_broadcaster/pose`, `/cartesian_setpoint_broadcaster/pose` | position in **metres**, TCP of the active tool in the active base |
 
 The driver log must not contain "... is not configured in RSI XML" warnings for this data.

@@ -60,7 +60,46 @@
     </rSIElement>
     <rSIElement name="ETHERNET1" objType="ETHERNET" objTypeID="64" maxInputs="64" maxOutputs="64">
       <rSIInPorts>
-        <rSIInPort name="In1" mandatory="false" />
+        <rSIInPort name="In1" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A1" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In2" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A2" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In3" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A3" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In4" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A4" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In5" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A5" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In6" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//GearTorque_1/A6" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In7" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//Status_1/Stat" />
+          </source>
+        </rSIInPort>
+        <rSIInPort name="In8" mandatory="false">
+          <source>
+            <rSIOutPortMoniker name="//OV_PRO_1/Out1" />
+          </source>
+        </rSIInPort>
       </rSIInPorts>
       <rSIOutPorts>
         <rSIOutPort name="Out1" />
@@ -70,7 +109,6 @@
         <rSIOutPort name="Out5" />
         <rSIOutPort name="Out6" />
         <rSIOutPort name="Out7" />
-        <rSIOutPort name="Out8" />
       </rSIOutPorts>
       <rSIParameters>
         <rSIParameter name="ConfigFile" value="b_ctrldbox_rsi_eth.xml" paramType="System.FileName" minVal="-2147483648" maxVal="2147483647" isEnum="false" isRuntime="false" index="1" />
@@ -121,6 +159,29 @@
         <rSIParameter name="Mode" value="ExitMoveCorr" paramType="KUKA.RSIVisual.RSI_StopType" minVal="-2147483648" maxVal="2147483647" isEnum="true" index="1" />
         <rSIParameter name="Channel" value="0" paramType="System.Int32" minVal="0" maxVal="2147483647" isEnum="false" index="2" />
       </rSIParameters>
+    </rSIElement>
+    <rSIElement name="GearTorque_1" objType="GEARTORQUE" objTypeID="46" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="A1" />
+        <rSIOutPort name="A2" />
+        <rSIOutPort name="A3" />
+        <rSIOutPort name="A4" />
+        <rSIOutPort name="A5" />
+        <rSIOutPort name="A6" />
+      </rSIOutPorts>
+    </rSIElement>
+    <rSIElement name="Status_1" objType="STATUS" objTypeID="62" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="Stat" signalType="Int" />
+      </rSIOutPorts>
+      <rSIParameters>
+        <rSIParameter name="Type" value="ProState_R" paramType="KUKA.RSIVisual.RSI_StatusType" minVal="-2147483648" maxVal="2147483647" isEnum="true" index="1" />
+      </rSIParameters>
+    </rSIElement>
+    <rSIElement name="OV_PRO_1" objType="OV_PRO" objTypeID="63" maxInputs="0" maxOutputs="0">
+      <rSIOutPorts>
+        <rSIOutPort name="Out1" />
+      </rSIOutPorts>
     </rSIElement>
   </rSIObjects>
 </rSIModel>

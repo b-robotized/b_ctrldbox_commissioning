@@ -64,9 +64,12 @@ kss_message_handler:
 
 # Robot status and Cartesian pose broadcasters (see kss_deployment/RSI_CONFIGURATIONS.md).
 # Not spawned by default - spawn them explicitly, see LAUNCH.md.
-robot_status_broadcaster:
+robot_status_broadcaster:          # program state ($PRO_STATE1) and speed scaling ($OV_PRO), needs read_robot_status:=true
   ros__parameters:
-    type: kuka_controllers/RobotStatusBroadcaster
+    type: state_interfaces_broadcaster/StateInterfacesBroadcaster
+    interfaces:
+      - robot_status/program_state
+      - robot_status/speed_scaling_factor
 
 cartesian_pose_broadcaster:
   ros__parameters:

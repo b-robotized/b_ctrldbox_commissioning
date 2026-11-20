@@ -269,10 +269,16 @@ ros2 lifecycle set robot_manager activate
 After `activate`, spawn the status and pose broadcasters (not spawned automatically):
 
 ```bash
-ros2 run controller_manager spawner robot_status_broadcaster cartesian_pose_broadcaster cartesian_setpoint_broadcaster \
+ros2 run controller_manager spawner cartesian_pose_broadcaster cartesian_setpoint_broadcaster \
   -c controller_manager \
   --param-file $(ros2 pkg prefix --share kuka_rsi_driver)/config/kuka_cartesian_pose_broadcaster_config.yaml
+ros2 run controller_manager spawner robot_status_broadcaster -c controller_manager \
+  --param-file <absolute path>/workspaces/kuka/scenario_controllers.yaml
 ```
+
+The robot status uses the generic `state_interfaces_broadcaster` from `ros2_controllers`
+(type and interfaces are in `scenario_controllers.yaml`). `kuka_drivers` has no own
+broadcaster for it.
 
 What to check:
 
@@ -280,7 +286,7 @@ What to check:
 | :--- | :---- | :------- |
 | Joint positions / torques | `/joint_states` → `position` / `effort` | real values (not `NaN`); torques clearly non-zero on A2/A3 at standstill |
 | Motor currents, setpoint positions | `/dynamic_joint_states` → `current`, `position_setpoint` | real values for every joint |
-| Program state / speed scaling | `/robot_status_broadcaster/program_state`, `/robot_status_broadcaster/speed_scaling` | follows the program state and the override on the pendant |
+| Program state / speed scaling | `/robot_status_broadcaster/values` (order in `/robot_status_broadcaster/names`: `program_state`, `speed_scaling_factor`) | follows the program state and the override on the pendant |
 | Cartesian pose | `/cartesian_pose_broadcaster/pose`, `/cartesian_setpoint_broadcaster/pose` | position in **metres**, TCP of the active tool in the active base |
 
 The driver log must not contain "... is not configured in RSI XML" warnings for this data.

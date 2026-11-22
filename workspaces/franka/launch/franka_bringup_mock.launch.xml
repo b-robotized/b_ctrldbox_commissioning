@@ -29,7 +29,7 @@
 
   <include file="$(find-pkg-share $(var configuration_package))/launch/franka_bringup.launch.xml">
     <arg name="ros2_control_hardware_type" value="mock"/>
-    <arg name="arm_prefix" value="fr3"/>
+    <arg name="arm_prefix" value=""/>
     <arg name="is_async" value="false"/>
   </include>
 

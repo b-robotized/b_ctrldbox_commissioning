@@ -19,7 +19,7 @@
 -->
 
 <launch>
-  <arg name="robot_prefix" default="fr3" description="Arm ID of the robot."/>
+  <arg name="arm_prefix" default="" description="Prefix before the robot type: names &lt;arm_prefix&gt;fr3_joint1."/>
   <arg name="robot_ip" default="10.42.0.203" description="IP address of the robot."/>
   <arg name="ros2_control_hardware_type" default="real" description="mock/real"/>
 
@@ -33,7 +33,7 @@
 
   <!-- DESCRIPTION -->
   <let name="robot_description" value="$(command '$(find-exec xacro) $(find-pkg-share $(var configuration_package))/urdf/$(var description_file).urdf.xacro \
-                                        robot_prefix:=$(var robot_prefix) \
+                                        arm_prefix:=$(var arm_prefix) \
                                         ros2_control_hardware_type:=$(var ros2_control_hardware_type) \
                                         robot_ip:=$(var robot_ip) \
                                         is_async:=$(var is_async) \

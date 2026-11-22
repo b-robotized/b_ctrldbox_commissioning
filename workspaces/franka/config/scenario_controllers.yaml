@@ -42,21 +42,21 @@ fr3_left_joint_trajectory_controller:
       - position
       - velocity
     joints:
-      - fr3_left_joint1
-      - fr3_left_joint2
-      - fr3_left_joint3
-      - fr3_left_joint4
-      - fr3_left_joint5
-      - fr3_left_joint6
-      - fr3_left_joint7
+      - left_fr3_joint1
+      - left_fr3_joint2
+      - left_fr3_joint3
+      - left_fr3_joint4
+      - left_fr3_joint5
+      - left_fr3_joint6
+      - left_fr3_joint7
     gains:
-      fr3_left_joint1: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_left_joint2: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_left_joint3: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_left_joint4: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_left_joint5: { p: 250., d: 10., i: 0., i_clamp: 1. }
-      fr3_left_joint6: { p: 150., d: 10., i: 0., i_clamp: 1. }
-      fr3_left_joint7: { p: 50., d: 5., i: 0., i_clamp: 1. }
+      left_fr3_joint1: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      left_fr3_joint2: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      left_fr3_joint3: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      left_fr3_joint4: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      left_fr3_joint5: { p: 250., d: 10., i: 0., i_clamp: 1. }
+      left_fr3_joint6: { p: 150., d: 10., i: 0., i_clamp: 1. }
+      left_fr3_joint7: { p: 50., d: 5., i: 0., i_clamp: 1. }
 
     state_publish_rate: 50.0
     action_monitor_rate: 20.0
@@ -77,21 +77,21 @@ fr3_right_joint_trajectory_controller:
       - position
       - velocity
     joints:
-      - fr3_right_joint1
-      - fr3_right_joint2
-      - fr3_right_joint3
-      - fr3_right_joint4
-      - fr3_right_joint5
-      - fr3_right_joint6
-      - fr3_right_joint7
+      - right_fr3_joint1
+      - right_fr3_joint2
+      - right_fr3_joint3
+      - right_fr3_joint4
+      - right_fr3_joint5
+      - right_fr3_joint6
+      - right_fr3_joint7
     gains:
-      fr3_right_joint1: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_right_joint2: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_right_joint3: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_right_joint4: { p: 600., d: 30., i: 0., i_clamp: 1. }
-      fr3_right_joint5: { p: 250., d: 10., i: 0., i_clamp: 1. }
-      fr3_right_joint6: { p: 150., d: 10., i: 0., i_clamp: 1. }
-      fr3_right_joint7: { p: 50., d: 5., i: 0., i_clamp: 1. }
+      right_fr3_joint1: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      right_fr3_joint2: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      right_fr3_joint3: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      right_fr3_joint4: { p: 600., d: 30., i: 0., i_clamp: 1. }
+      right_fr3_joint5: { p: 250., d: 10., i: 0., i_clamp: 1. }
+      right_fr3_joint6: { p: 150., d: 10., i: 0., i_clamp: 1. }
+      right_fr3_joint7: { p: 50., d: 5., i: 0., i_clamp: 1. }
 
     state_publish_rate: 50.0
     action_monitor_rate: 20.0

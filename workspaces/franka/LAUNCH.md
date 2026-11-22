@@ -63,7 +63,8 @@ ros2 topic echo /b_controlled_box_cm/activity
 
 First, launch the description for the Franka robots. This command loads the robot's description (URDF) to CtrlX and starts the Franka hardware drivers.
 
-Here, we differentiate between "`fr3_left`" and "`fr3_right`" robot.
+Here, we differentiate between the "`left_`" and "`right_`" robot (arm prefix): joints `left_fr3_joint1`, hardware `left_FrankaHardwareInterface`. The controller names stay `fr3_left_...` and `fr3_right_...`.
+The names need `franka_description` of [b-robotized-forks](https://github.com/b-robotized-forks/franka_description), branch `fix/upstream-arm-prefix` (upstream rule: `<arm_prefix><robot_type>_joint1`). One arm: arm prefix `""`, joints `fr3_joint1`, hardware `FrankaHardwareInterface`.
 
 ```bash
 ros2 launch b_robotized_franka_demo franka_dual_arm_bringup_mock.launch.xml

@@ -13,7 +13,7 @@
         - default_planning_response_adapters/DisplayMotionPath
       start_state_max_bounds_error: 0.1
 
-      fr3_left_arm:
+      left_fr3_arm:
         planner_configs:
           - SBL
           - EST
@@ -40,7 +40,7 @@
           - SPARStwo
         longest_valid_segment_fraction: 0.005
 
-      fr3_right_arm:
+      right_fr3_arm:
         planner_configs:
           - SBL
           - EST

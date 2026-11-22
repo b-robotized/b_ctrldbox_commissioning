@@ -67,83 +67,83 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        fr3_left_link0:
+        left_fr3_link0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link1:
+        left_fr3_link1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link2:
+        left_fr3_link2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link3:
+        left_fr3_link3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link4:
+        left_fr3_link4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link5:
+        left_fr3_link5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link6:
+        left_fr3_link6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link7:
+        left_fr3_link7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_link8:
+        left_fr3_link8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_left_tool0:
+        left_fr3_tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link0:
+        right_fr3_link0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link1:
+        right_fr3_link1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link2:
+        right_fr3_link2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link3:
+        right_fr3_link3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link4:
+        right_fr3_link4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link5:
+        right_fr3_link5:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link6:
+        right_fr3_link6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link7:
+        right_fr3_link7:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_link8:
+        right_fr3_link8:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        fr3_right_tool0:
+        right_fr3_tool0:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -191,83 +191,83 @@ Visualization Manager:
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
-          fr3_left_link0:
+          left_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link1:
+          left_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link2:
+          left_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link3:
+          left_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link4:
+          left_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link5:
+          left_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link6:
+          left_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link7:
+          left_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link8:
+          left_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_tool0:
+          left_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link0:
+          right_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link1:
+          right_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link2:
+          right_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link3:
+          right_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link4:
+          right_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link5:
+          right_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link6:
+          right_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link7:
+          right_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link8:
+          right_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_tool0:
+          right_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -322,83 +322,83 @@ Visualization Manager:
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
-          fr3_left_link0:
+          left_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link1:
+          left_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link2:
+          left_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link3:
+          left_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link4:
+          left_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link5:
+          left_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link6:
+          left_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link7:
+          left_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link8:
+          left_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_tool0:
+          left_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link0:
+          right_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link1:
+          right_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link2:
+          right_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link3:
+          right_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link4:
+          right_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link5:
+          right_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link6:
+          right_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link7:
+          right_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link8:
+          right_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_tool0:
+          right_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -433,83 +433,83 @@ Visualization Manager:
           Expand Link Details: false
           Expand Tree: false
           Link Tree Style: Links in Alphabetic Order
-          fr3_left_link0:
+          left_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link1:
+          left_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link2:
+          left_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link3:
+          left_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link4:
+          left_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link5:
+          left_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link6:
+          left_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link7:
+          left_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_link8:
+          left_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_left_tool0:
+          left_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link0:
+          right_fr3_link0:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link1:
+          right_fr3_link1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link2:
+          right_fr3_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link3:
+          right_fr3_link3:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link4:
+          right_fr3_link4:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link5:
+          right_fr3_link5:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link6:
+          right_fr3_link6:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link7:
+          right_fr3_link7:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_link8:
+          right_fr3_link8:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          fr3_right_tool0:
+          right_fr3_tool0:
             Alpha: 1
             Show Axes: false
             Show Trail: false

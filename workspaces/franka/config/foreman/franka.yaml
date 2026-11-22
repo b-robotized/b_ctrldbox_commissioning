@@ -4,13 +4,13 @@
 #
 
 hardware:
-  - fr3_FrankaHardwareInterface
+  - FrankaHardwareInterface
 
 controllers:
   fr3_joint_trajectory_controller:
-    requires: [fr3_FrankaHardwareInterface, active]
+    requires: [FrankaHardwareInterface, active]
   joint_state_broadcaster:
-    requires: [fr3_FrankaHardwareInterface, inactive]
+    requires: [FrankaHardwareInterface, inactive]
 
 profiles:
 
@@ -19,18 +19,18 @@ profiles:
       fr3_joint_trajectory_controller: unconfigured
       joint_state_broadcaster: unconfigured
     hardware:
-      fr3_FrankaHardwareInterface: unconfigured
+      FrankaHardwareInterface: unconfigured
 
   inactive:
     controllers:
       fr3_joint_trajectory_controller: inactive
       joint_state_broadcaster: active
     hardware:
-      fr3_FrankaHardwareInterface: inactive
+      FrankaHardwareInterface: inactive
 
   active:
     controllers:
       fr3_joint_trajectory_controller: active
       joint_state_broadcaster: active
     hardware:
-      fr3_FrankaHardwareInterface: active
+      FrankaHardwareInterface: active

@@ -3,16 +3,16 @@
 # ros2 action send_goal --feedback /foreman/set_profile foreman_msgs/action/SetProfile "{profile: 'inactive'}"
 #
 hardware:
-  - fr3_left_FrankaHardwareInterface
-  - fr3_right_FrankaHardwareInterface
+  - left_FrankaHardwareInterface
+  - right_FrankaHardwareInterface
 
 controllers:
   fr3_left_joint_trajectory_controller:
-    requires: [fr3_left_FrankaHardwareInterface, active]
+    requires: [left_FrankaHardwareInterface, active]
   fr3_right_joint_trajectory_controller:
-    requires: [fr3_right_FrankaHardwareInterface, active]
+    requires: [right_FrankaHardwareInterface, active]
   joint_state_broadcaster:
-    requires: [fr3_left_FrankaHardwareInterface, inactive]
+    requires: [left_FrankaHardwareInterface, inactive]
 
 profiles:
 
@@ -22,8 +22,8 @@ profiles:
       fr3_right_joint_trajectory_controller: unconfigured
       joint_state_broadcaster: unconfigured
     hardware:
-      fr3_left_FrankaHardwareInterface: unconfigured
-      fr3_right_FrankaHardwareInterface: unconfigured
+      left_FrankaHardwareInterface: unconfigured
+      right_FrankaHardwareInterface: unconfigured
 
   inactive:
     controllers:
@@ -31,8 +31,8 @@ profiles:
       fr3_right_joint_trajectory_controller: inactive
       joint_state_broadcaster: active
     hardware:
-      fr3_left_FrankaHardwareInterface: inactive
-      fr3_right_FrankaHardwareInterface: inactive
+      left_FrankaHardwareInterface: inactive
+      right_FrankaHardwareInterface: inactive
 
   active:
     controllers:
@@ -40,5 +40,5 @@ profiles:
       fr3_right_joint_trajectory_controller: active
       joint_state_broadcaster: active
     hardware:
-      fr3_left_FrankaHardwareInterface: active
-      fr3_right_FrankaHardwareInterface: active
+      left_FrankaHardwareInterface: active
+      right_FrankaHardwareInterface: active

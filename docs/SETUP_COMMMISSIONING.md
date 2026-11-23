@@ -64,7 +64,7 @@ If encountering NTP connection issues, refer to [NTP server setup](./SETUP_NTP_S
   ```
   cp comissioning.env.example commissioning.env
   ```
-  * `ROBOT_TYPE`: Set to your robot model (e.g., `kuka`). Supported: `ur`, `kuka`, `kassow`, `pssbl`, `dobot`, `fanuc`.
+  * `ROBOT_TYPE`: Set to your robot model (e.g., `kuka`). Supported: `ur`, `kuka`, `kassow`, `pssbl`, `dobot`, `fanuc`, `yaskawa`.
 
   * `VERSION_TAG`: Image version tag. Should match your b-controlled-box app version (e.g., `1.6.x`).
 

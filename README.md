@@ -75,6 +75,7 @@ The process is divided into three main parts:
      * [**Pssbl**](docs/supported_robots/PSSBL.md)
      * [**FANUC**](docs/supported_robots/FANUC.md)
      * [**DOBOT**](docs/supported_robots/DOBOT.md)
+     * [**YASKAWA**](docs/supported_robots/YASKAWA.md)
 3. setting up [**b»Controlled Box commissioning environment**](docs/SETUP_COMMMISSIONING.md)
 
 After commissioning:

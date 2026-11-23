@@ -23,7 +23,7 @@ All configuration is done through a single `.env` file. Copy `comissioning.env.e
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `ROBOT_TYPE` | Yes | `ur` | Which robot image to use. Supported: `ur`, `kuka`, `kassow`, `pssbl`, `dobot`, `fanuc`. |
+| `ROBOT_TYPE` | Yes | `ur` | Which robot image to use. Supported: `ur`, `kuka`, `kassow`, `pssbl`, `dobot`, `fanuc`, `yaskawa`. |
 | `VERSION_TAG` | Yes | `1.6.x` | Image version tag. Should match your b-controlled-box app version. |
 | `HOST_NETWORK_INTERFACE` | Yes | _(empty)_ | The network interface on your PC connected to the `192.168.28.x` network. Use `ip addr` to find it. |
 | `CONTAINER_MACVLAN_IP` | Yes | `192.168.28.202` | Static IP assigned to the container on the macvlan network. |
